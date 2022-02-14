@@ -2,10 +2,14 @@ package Game;
 
 public class Game {
     PageState pageState;
+    Player player;
 
     public Game() {
-
+        player = null;
+        pageState = PageState.GAMEROOM;
     }
+
+    //              <게임 흐름>               //
 
     //게임 로그인 화면//
         /*
@@ -27,13 +31,15 @@ public class Game {
     //게임 화면//
 
     //게임 방 화면
+
+    /////////////////////////////////////////////////
     public void start() {
         switch (pageState)
         {
-            case MAIN:
+            case LOGIN:
                 break;
 
-            case LOGIN:
+            case MAIN:
                 break;
 
             case INGAME:
@@ -48,14 +54,40 @@ public class Game {
     }
 
     public void LogIn() {
-
+        String name = " ";
+        String ip;
+        //이름, ip, 포트번호 입력받기
+        player = new Player(name);
     }
 
     public void Main() {
+        /*
+        방 목록 띄우기
+        방 만들기 or 방 입장
+         */
 
+        //방 목록 볼 수 있는 함수 -> 네트워크 필요
+
+        //방 만들기 선택 시 자동적으로 방에 입장
+
+        //방 입장 시 방에 입장함수로 전환
+
+        pageState = PageState.GAMEROOM;
     }
 
     public void GameRoom() {
+        /*
+        1.캐릭터 선택
+        2.준비완료
+        3.모두 준비완료 되면 방장이 게임 시작 선택 가능
+         */
 
+        pageState = PageState.INGAME;
+    }
+
+    public void InGame() {
+        //게임 종류 후 다시 게임 방으로 이동
+
+        pageState = PageState.GAMEROOM;
     }
 }

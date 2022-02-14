@@ -7,7 +7,7 @@ tcp/ip를 사용하여 연결하는 주체
 public class Player {
     private String name;
 
-    public Player() {
-
+    public Player(String name) {
+        this.name = name;
     }
 }
