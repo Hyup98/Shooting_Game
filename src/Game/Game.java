@@ -11,7 +11,7 @@ public class Game {
         pageState = PageState.GAMEROOM;
     }
 
-    //              <게임 흐름>               //
+    /////////////////<게임 흐름>//////////////////
 
     //게임 로그인 화면//
         /*
