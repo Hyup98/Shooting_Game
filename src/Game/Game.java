@@ -1,8 +1,10 @@
 package Game;
+import java.util.Scanner;
 
 public class Game {
     PageState pageState;
     Player player;
+    String ip;
 
     public Game() {
         player = null;
@@ -37,27 +39,37 @@ public class Game {
         switch (pageState)
         {
             case LOGIN:
+                LogIn();
                 break;
 
             case MAIN:
+                Main();
                 break;
 
             case INGAME:
+                InGame();
                 break;
 
             case GAMEROOM:
+                GameRoom();
                 break;
 
             default:
+                //에러 출력
                 break;
         }
     }
 
     public void LogIn() {
-        String name = " ";
-        String ip;
+        Scanner sc = new Scanner(System.in);
+        String name;
+
+        ip = sc.next();
+        name = sc.next();
+
         //이름, ip, 포트번호 입력받기
         player = new Player(name);
+        pageState = PageState.MAIN;
     }
 
     public void Main() {
@@ -65,6 +77,7 @@ public class Game {
         방 목록 띄우기
         방 만들기 or 방 입장
          */
+        //서버에서 방 목록을 가져오는 함수 -> uuid로 방에 입장한다.
 
         //방 목록 볼 수 있는 함수 -> 네트워크 필요
 
