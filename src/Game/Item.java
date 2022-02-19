@@ -1,7 +1,7 @@
 package Game;
 
 public enum Item {
-    MAGAZINE,
+    Gun,
     POWER,
     SPEED,
     HEALTH,
