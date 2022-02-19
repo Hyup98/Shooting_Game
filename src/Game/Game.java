@@ -66,9 +66,10 @@ public class Game {
 
         ip = sc.next();
         name = sc.next();
+        Language lag = Language.KOR;
 
         //이름, ip, 포트번호 입력받기
-        player = new Player(name);
+        player = new Player(name, lag);
         pageState = PageState.MAIN;
     }
 

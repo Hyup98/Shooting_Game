@@ -6,8 +6,11 @@ tcp/ip를 사용하여 연결하는 주체
  */
 public class Player {
     private String name;
+    private Language lag;
+    private Character character;
 
-    public Player(String name) {
+    public Player(String name, Language lag) {
         this.name = name;
+        this.lag = lag;
     }
 }
