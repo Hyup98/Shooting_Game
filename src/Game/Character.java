@@ -32,6 +32,9 @@ public class Character {
     private int gun;
     private double x;
     private double y;
+    private double radian;
+    
+    private int bulletIndex;
 
     //총알 사용법//
     /*
@@ -39,8 +42,7 @@ public class Character {
     2.총알을 발사하면 해당 맵 밖의 총알을 가지고 사용한다.
     3.일정 범위 이상 총알이 날아가면 그 뒤로 총알이 다시 맵 밖의 특정 위치로 이동 -> 사라지게 표현
      */
-
-
+    private ArrayList<Bullet> bullets;
 
     public Character() {
         powerItemCount = 0;
@@ -55,23 +57,62 @@ public class Character {
         speed = initialSpeed;
         gun = initialGun;
 
-
+        bullets = new ArrayList<Bullet>(200);
+        bulletIndex = 0;
         //맵에 랜덤으로 생성
         x = 10;
         y = 10;
+        radian = 0;
     }
 
     public void reload() {
         bulletCount = initialBulletAmount + bulletItemCount;
     }
 
+    //총 단계별 설정//
+    /*
+    1단계 : 총알 단일 발사
+    2단계 : 2발 발사(샷건)
+    3단계 : 3발 발사(샷건)
+    4단계 : 4발 발사(샷건)
+    5단계 : 투사체 속도 증가 -> 건틀링건 느낌으로
+     */
     public void shoot() {
         if(bulletCount != 0) {
+            switch (gunItemCount) {
+                case 0:
+                    shoot(0);
+                    break;
+                case 1:
+                    shoot(1);
+                    break;
+                case  2:
+                    shoot(2);
+                    break;
+                case 3:
+                    shoot(3);
+                    break;
+                case 4:
+                    shoot(4);
+                    break;
+                case 5:
+                    shoot(5);
+                    break;
+                default:
+                    break;
+            }
             bulletCount--;
             return;
         }
         reload();
         bulletCount--;
+    }
+
+    private void shoot(int type) {
+        //총알 풀에서 필요한 총알을 끌어다 사용한다.
+        /*
+        원형큐(우로보로스) 구조로 총알 인덱스를 사용
+         */
     }
 
     //동
@@ -148,6 +189,9 @@ public class Character {
                 if(maxGunItemAmount > gunItemCount) {
                     gun++;
                 }
+                break;
+            default:
+                break;
         }
     }
 
@@ -158,7 +202,11 @@ public class Character {
         healthPoint = 0;
     }
 
+    public double getX() {
+        return x;
+    }
 
-
-
+    public double getY() {
+        return y;
+    }
 }
