@@ -25,6 +25,7 @@ public class Bullet {
             moveCount = 0;
             return;
         }
+
         x += Math.sin(radian) * bulletSpeed;
         y -= Math.cos(radian) * bulletSpeed;
         moveCount++;

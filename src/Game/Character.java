@@ -45,24 +45,27 @@ public class Character {
     private ArrayList<Bullet> bullets;
 
     public Character() {
+        //ABOUT ITEM//
         powerItemCount = 0;
         speedItemCount = 0;
         healthItemCount = 0;
         bulletItemCount = 0;
         gunItemCount = 0;
 
+        //ABOUT STATS//
         healthPoint = initialHealth;
         bulletCount = initialBulletAmount;
         power = initialPowerValue;
         speed = initialSpeed;
         gun = initialGun;
-
-        bullets = new ArrayList<Bullet>(200);
-        bulletIndex = 0;
-        //맵에 랜덤으로 생성
         x = 10;
         y = 10;
         radian = 0;
+
+        //ABOUT BULLTS//
+        bullets = new ArrayList<Bullet>(200);
+        bulletIndex = 0;
+
     }
 
     public void reload() {
@@ -117,47 +120,56 @@ public class Character {
 
     //동
     public void moveE() {
-        x+=speed;
-    }
-
-    //서
-    public void moveW() {
-        x=speed;
-    }
-
-    //남
-    public void moveS() {
-        y+=speed;
-    }
-
-    //북
-    public  void moveN() {
-        y-=speed;
-    }
-
-    //북서
-    public void moveNW() {
-        x-=speed;
-        y-=speed;
-    }
-
-    //남동
-    public void moveSE() {
-        x+=speed;
-        y+=speed;
+        x += speed;
+        radian = Math.toRadians(0);
     }
 
     //북동
     public void moveNE() {
-        x+=speed;
-        y-=speed;
+        x += speed;
+        y -= speed;
+        radian = Math.toRadians(45);
+    }
+
+    //북
+    public void moveN() {
+        y -= speed;
+        radian = Math.toRadians(90);
+    }
+
+    //북서
+    public void moveNW() {
+        x -= speed;
+        y -= speed;
+        radian = Math.toRadians(135);
+    }
+
+    //서
+    public void moveW() {
+        x = speed;
+        radian = Math.toRadians(180);
     }
 
     //남서
     public void moveSW() {
-        x-=speed;
-        y+=speed;
+        x -= speed;
+        y += speed;
+        radian = Math.toRadians(225);
     }
+
+    //남
+    public void moveS() {
+        y += speed;
+        radian = Math.toRadians(270);
+    }
+
+    //남동
+    public void moveSE() {
+        x += speed;
+        y += speed;
+        radian = Math.toRadians(315);
+    }
+
 
     void getItem(Item item) {
         switch (item) {
@@ -185,7 +197,7 @@ public class Character {
                 }
                 break;
 
-            case Gun:
+            case GUN:
                 if(maxGunItemAmount > gunItemCount) {
                     gun++;
                 }
