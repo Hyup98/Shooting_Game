@@ -4,5 +4,5 @@ public enum Language {
     KOR,
     ENG,
     JAP,
-    CHAIN
+    CHAIN,
 }

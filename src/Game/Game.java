@@ -1,4 +1,5 @@
 package Game;
+
 import java.util.Scanner;
 
 public class Game {
@@ -35,6 +36,7 @@ public class Game {
     //게임 방 화면
 
     /////////////////////////////////////////////////
+
     public void start() {
         switch (pageState)
         {

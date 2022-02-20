@@ -19,7 +19,7 @@ public class Bullet {
 
     void move(double radian) {
         //총알 생명주기//
-        if(moveCount == 5) {
+        if (moveCount == 5) {
             x = -1;
             y = -1;
             moveCount = 0;
@@ -28,6 +28,10 @@ public class Bullet {
         x += Math.sin(radian) * bulletSpeed;
         y -= Math.cos(radian) * bulletSpeed;
         moveCount++;
+    }
+
+    public void powerUp(int t) {
+        power += t;
     }
 
     public double getPower() {
