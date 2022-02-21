@@ -2,6 +2,21 @@ package Game;
 import java.util.HashMap;
 import java.util.UUID;
 
+//구현 항목//
+/*
+1.캐릭터 선택
+2.게임 준비
+3.채팅
+ */
+
+//채팅//
+/*
+1.자신의 버퍼에 입력
+2.서버에 보낸다
+3.서버에서 같은 방에 있는 사람에게 전달
+4.전달받은 메시지에 국적이 다르면 해당 나라의 언어로 변환 함수를 거친다
+5.번역된 데이터를 채팅에 띄워준다.
+ */
 public class GameRoom {
     private String uuid;
     private String name;
@@ -36,6 +51,7 @@ public class GameRoom {
         return true;
     }
 
+    //쓰레드로 게임 준비완료 구현//
     public void pushRedyButton(Player player) {
         if(player == master) {
             //자신 제외 모든 인원이 준비완료가 되어 있으면 준비가능
@@ -50,6 +66,14 @@ public class GameRoom {
             players.put(player, true);
         }
     }
+
+    //쓰레드로 채팅 구현//
+    public void chating() {
+        while(true) {
+
+        }
+    }
+
 
 
 }
