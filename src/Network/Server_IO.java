@@ -1,6 +1,8 @@
 package Network;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -10,6 +12,7 @@ public class Server_IO {
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);
+
             // 2. 접속 수락
             Socket socket = server.accept();
             System.out.println("접속 수락");

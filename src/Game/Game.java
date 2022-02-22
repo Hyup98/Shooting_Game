@@ -111,7 +111,7 @@ public class Game extends JFrame{
 				ip = inputTextField[0].getText();
 				String name = inputTextField[1].getText();
 				Language lag = Language.KOR;
-				port = 8000;
+				port = 8080;
 				
 				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
 
