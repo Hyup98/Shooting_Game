@@ -1,10 +1,10 @@
 package Game;
 
 public class Bullet {
-    //ê¸°ë³¸ ì´ì•Œ ì„¤ì •
+    //±âº» ÃÑ¾Ë ¼³Á¤
     private static int bulletSpeed = 1;
 
-    //ì•„ì´í…œì— ë”°ë¼ì„œ
+    //¾ÆÀÌÅÛ¿¡ µû¶ó¼­
     private int type;
     private double x;
     private double y;
@@ -18,7 +18,7 @@ public class Bullet {
     }
 
     void move(double radian) {
-        //ì´ì•Œ ìƒëª…ì£¼ê¸°//
+        //ÃÑ¾Ë »ı¸íÁÖ±â//
         if (moveCount == 5) {
             x = -1;
             y = -1;
