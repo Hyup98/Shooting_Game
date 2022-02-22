@@ -19,6 +19,7 @@ public class Game extends JFrame{
     String ip;
     int port;
     Container c;
+    boolean isRoomSelect;
 
     public void ScreenSetting() {
     	setSize(WIDTH, HEIGHT);
@@ -30,7 +31,8 @@ public class Game extends JFrame{
     	ScreenSetting();
         player = null;
         pageState = PageState.LOGIN;
-
+        port = -1;
+        isRoomSelect = false;
     }
 
     /*
@@ -55,7 +57,7 @@ public class Game extends JFrame{
      */
 
     public void start() {
-
+    	while(true) {
 			switch (pageState) {
 				case LOGIN:
 					LogIn();
@@ -77,7 +79,7 @@ public class Game extends JFrame{
 					JOptionPane.showMessageDialog(null, "ERROR");
 					break;
 			}
-
+		}
     }
 
     public void LogIn() {
@@ -109,7 +111,7 @@ public class Game extends JFrame{
 				ip = inputTextField[0].getText();
 				String name = inputTextField[1].getText();
 				Language lag = Language.KOR;
-				port = 8001;
+				port = 8000;
 				
 				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
 
@@ -125,8 +127,13 @@ public class Game extends JFrame{
     	
     	c.add(inputPanel,BorderLayout.WEST);
     	c.add(imagePanel,BorderLayout.CENTER);
-    	
-    	setVisible(true);
+		setVisible(true);
+    	while(true) {
+			if (port != -1) {
+				break;
+			}
+		}
+		pageState = PageState.MAIN;
     }
 
     public void Main() {
@@ -174,6 +181,11 @@ public class Game extends JFrame{
     	c.add(inputPanel,BorderLayout.SOUTH);
 
     	setVisible(true);
+    	while(true) {
+    		if(isRoomSelect) {
+    			break;
+			}
+		}
         pageState = PageState.GAMEROOM;
     }
 
