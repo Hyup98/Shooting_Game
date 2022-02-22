@@ -1,4 +1,5 @@
 package Game;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ import java.util.UUID;
 4.전달받은 메시지에 국적이 다르면 해당 나라의 언어로 변환 함수를 거친다
 5.번역된 데이터를 채팅에 띄워준다.
  */
+
 public class GameRoom {
     private String uuid;
     private String name;
@@ -73,7 +75,5 @@ public class GameRoom {
 
         }
     }
-
-
 
 }

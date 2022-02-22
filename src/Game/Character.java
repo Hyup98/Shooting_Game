@@ -36,11 +36,11 @@ public class Character {
     
     private int bulletIndex;
 
-    //ÃÑ¾Ë »ç¿ë¹ı//
+    //ì´ì•Œ ì‚¬ìš©ë²•//
     /*
-    1.¹ß»ç Àü ÃÑ¾ËÀº ¸Ê ¹Û¿¡ ÁÂÇ¥·Î ¼³Á¤ÇÏ¿© µĞ´Ù
-    2.ÃÑ¾ËÀ» ¹ß»çÇÏ¸é ÇØ´ç ¸Ê ¹ÛÀÇ ÃÑ¾ËÀ» °¡Áö°í »ç¿ëÇÑ´Ù.
-    3.ÀÏÁ¤ ¹üÀ§ ÀÌ»ó ÃÑ¾ËÀÌ ³¯¾Æ°¡¸é ±× µÚ·Î ÃÑ¾ËÀÌ ´Ù½Ã ¸Ê ¹ÛÀÇ Æ¯Á¤ À§Ä¡·Î ÀÌµ¿ -> »ç¶óÁö°Ô Ç¥Çö
+    1.ë°œì‚¬ ì „ ì´ì•Œì€ ë§µ ë°–ì— ì¢Œí‘œë¡œ ì„¤ì •í•˜ì—¬ ë‘”ë‹¤
+    2.ì´ì•Œì„ ë°œì‚¬í•˜ë©´ í•´ë‹¹ ë§µ ë°–ì˜ ì´ì•Œì„ ê°€ì§€ê³  ì‚¬ìš©í•œë‹¤.
+    3.ì¼ì • ë²”ìœ„ ì´ìƒ ì´ì•Œì´ ë‚ ì•„ê°€ë©´ ê·¸ ë’¤ë¡œ ì´ì•Œì´ ë‹¤ì‹œ ë§µ ë°–ì˜ íŠ¹ì • ìœ„ì¹˜ë¡œ ì´ë™ -> ì‚¬ë¼ì§€ê²Œ í‘œí˜„
      */
     private ArrayList<Bullet> bullets;
 
@@ -71,14 +71,13 @@ public class Character {
     public void reload() {
         bulletCount = initialBulletAmount + bulletItemCount;
     }
-
-    //ÃÑ ´Ü°èº° ¼³Á¤//
+    //ì´ ë‹¨ê³„ë³„ ì„¤ì •//
     /*
-    1´Ü°è : ÃÑ¾Ë ´ÜÀÏ ¹ß»ç
-    2´Ü°è : 2¹ß ¹ß»ç(¼¦°Ç)
-    3´Ü°è : 3¹ß ¹ß»ç(¼¦°Ç)
-    4´Ü°è : 4¹ß ¹ß»ç(¼¦°Ç)
-    5´Ü°è : Åõ»çÃ¼ ¼Óµµ Áõ°¡ -> °ÇÆ²¸µ°Ç ´À³¦À¸·Î
+    1ë‹¨ê³„ : ì´ì•Œ ë‹¨ì¼ ë°œì‚¬
+    2ë‹¨ê³„ : 2ë°œ ë°œì‚¬(ìƒ·ê±´)
+    3ë‹¨ê³„ : 3ë°œ ë°œì‚¬(ìƒ·ê±´)
+    4ë‹¨ê³„ : 4ë°œ ë°œì‚¬(ìƒ·ê±´)
+    5ë‹¨ê³„ : íˆ¬ì‚¬ì²´ ì†ë„ ì¦ê°€ -> ê±´í‹€ë§ê±´ ëŠë‚Œìœ¼ë¡œ
      */
     public void shoot() {
         if(bulletCount != 0) {
@@ -112,58 +111,58 @@ public class Character {
     }
 
     private void shoot(int type) {
-        //ÃÑ¾Ë Ç®¿¡¼­ ÇÊ¿äÇÑ ÃÑ¾ËÀ» ²ø¾î´Ù »ç¿ëÇÑ´Ù.
+        //ì´ì•Œ í’€ì—ì„œ í•„ìš”í•œ ì´ì•Œì„ ëŒì–´ë‹¤ ì‚¬ìš©í•œë‹¤.
         /*
-        ¿øÇüÅ¥(¿ì·Îº¸·Î½º) ±¸Á¶·Î ÃÑ¾Ë ÀÎµ¦½º¸¦ »ç¿ë
+        ì›í˜•í(ìš°ë¡œë³´ë¡œìŠ¤) êµ¬ì¡°ë¡œ ì´ì•Œ ì¸ë±ìŠ¤ë¥¼ ì‚¬ìš©
          */
     }
 
-    //µ¿
+    //ë™
     public void moveE() {
         x += speed;
         radian = Math.toRadians(0);
     }
 
-    //ºÏµ¿
+    //ë¶ë™
     public void moveNE() {
         x += speed;
         y -= speed;
         radian = Math.toRadians(45);
     }
 
-    //ºÏ
+    //ë¶
     public void moveN() {
         y -= speed;
         radian = Math.toRadians(90);
     }
 
-    //ºÏ¼­
+    //ë¶ì„œ
     public void moveNW() {
         x -= speed;
         y -= speed;
         radian = Math.toRadians(135);
     }
 
-    //¼­
+    //ì„œ
     public void moveW() {
         x = speed;
         radian = Math.toRadians(180);
     }
 
-    //³²¼­
+    //ë‚¨ì„œ
     public void moveSW() {
         x -= speed;
         y += speed;
         radian = Math.toRadians(225);
     }
 
-    //³²
+    //ë‚¨
     public void moveS() {
         y += speed;
         radian = Math.toRadians(270);
     }
 
-    //³²µ¿
+    //ë‚¨ë™
     public void moveSE() {
         x += speed;
         y += speed;

@@ -1,6 +1,6 @@
 package Bgm;
 
-import javazoom.jl.player.Player;
+import javazoom.jl.player.*;
 
 import java.io.FileInputStream;
 
@@ -21,7 +21,7 @@ public class MusicPlayer extends Thread {
         musicPath = path;
     }
 
-    public void play() {
+    public void run() {
         try {
             FileInputStream fis = new FileInputStream(musicPath);
             Player playMp3 = new Player(fis);

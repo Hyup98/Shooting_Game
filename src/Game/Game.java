@@ -1,76 +1,83 @@
 package Game;
 
+import Bgm.MusicPlayer;
+import Network.Client_IO;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import java.util.Scanner;
 
 public class Game extends JFrame{
+	//ABOUT UI//
 	private final int WIDTH = 1280,
 					  HEIGHT = 720;
+	//ABOUT GAME//
+	Client_IO client;
     PageState pageState;
     Player player;
     String ip;
+    int port;
     Container c;
+
     public void ScreenSetting() {
     	setSize(WIDTH, HEIGHT);
     	setTitle("DEFAULT");
     	setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+
     public Game() {
     	ScreenSetting();
         player = null;
         pageState = PageState.LOGIN;
+
     }
 
+    /*
     /////////////////<게임 흐름>//////////////////
 
     //게임 로그인 화면//
-        /*
-        1. 이름 & 포트번호및 ip주소 입력
-         */
+    1. 이름 & 포트번호및 ip주소 입력
 
     //게임 홈 화면//
-        /*
-        1.게임 방 생성 또는 게임 방 목록을 클릭하여 게임 방에 입장
-         */
+    1.게임 방 생성 또는 게임 방 목록을 클릭하여 게임 방에 입장
 
     //게임 방 화면//
-        /*
-        1.캐릭터 선택
-        2.준비완료
-        3.모두 준비완료 되면 방장이 게임 시작 선택 가능
-         */
+    1.캐릭터 선택
+    2.준비완료
+    3.모두 준비완료 되면 방장이 게임 시작 선택 가능
 
     //게임 화면//
 
     //게임 방 화면
 
     /////////////////////////////////////////////////
+     */
 
     public void start() {
-        switch (pageState)
-        {
-            case LOGIN:
-                LogIn();
-                break;
 
-            case MAIN:
-                Main();
-                break;
+			switch (pageState) {
+				case LOGIN:
+					LogIn();
+					break;
 
-            case INGAME:
-                InGame();
-                break;
+				case MAIN:
+					Main();
+					break;
 
-            case GAMEROOM:
-                GameRoom();
-                break;
+				case INGAME:
+					InGame();
+					break;
 
-            default:
-            	JOptionPane.showMessageDialog(null, "ERROR");
-                break;
-        }
+				case GAMEROOM:
+					GameRoom();
+					break;
+
+				default:
+					JOptionPane.showMessageDialog(null, "ERROR");
+					break;
+			}
+
     }
 
     public void LogIn() {
@@ -95,18 +102,20 @@ public class Game extends JFrame{
     	}
     	
     	startButton.setBounds(210, 360, 90, 35);
+
     	startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//이름, ip, 포트번호 입력받기
 				ip = inputTextField[0].getText();
 				String name = inputTextField[1].getText();
 				Language lag = Language.KOR;
+				port = 8001;
 				
 				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
-				
+
+				client = new Client_IO(ip, port);
 		        player = new Player(name, lag);
 		        pageState = PageState.MAIN;
-		        start(); //temp
 			}
 		});
     	
