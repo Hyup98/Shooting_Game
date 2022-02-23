@@ -4,18 +4,18 @@ import Game.Language;
 
 import java.io.*;
 
-public class Packet_Chat implements Serializable {
+public class ChatDTO implements Serializable {
     String name;
     Language language;
     String data;
 
-    public Packet_Chat(String name, Language lag) {
+    public ChatDTO(String name, Language lag) {
         this.name = name;
         language = lag;
-        data = "";
+        data = "초기화 전";
     }
 
-    public static void conductSerializing(Packet_Chat packet_chat, OutputStream os) {
+    public static void conductSerializing(ChatDTO packet_chat, OutputStream os) {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(os);
             ObjectOutputStream out = new ObjectOutputStream(bos);
@@ -27,13 +27,14 @@ public class Packet_Chat implements Serializable {
 
     }
 
-    public static void conductDeserializing(Packet_Chat packet_chat, InputStream is) {
+    public static void conductDeserializing(ChatDTO packet_chat, ObjectInputStream in) {
         try {
-            BufferedInputStream bis = new BufferedInputStream(is);
-            ObjectInputStream in = new ObjectInputStream(bis);
-            packet_chat = (Packet_Chat) in.readObject();
+            //BufferedInputStream bis = new BufferedInputStream(is);
+            //ObjectInputStream in = new ObjectInputStream(bis);
+            packet_chat = (ChatDTO)in.readObject();
             System.out.println(packet_chat.toString());
-        } catch (Exception e) { // TODO Auto-generated catch block
+            System.out.println("몰라레후");
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,6 +49,18 @@ public class Packet_Chat implements Serializable {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Language getLanguage() {
+        return language;
     }
 
     public String toString() {

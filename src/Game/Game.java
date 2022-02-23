@@ -1,9 +1,9 @@
 package Game;
 
 import Network.Client_IO;
-import Network.Packet_Chat;
-import Network.Packet_Game;
-import Network.Packet_GameRoom;
+import Network.ChatDTO;
+import Network.GameDTO;
+import Network.GameRoomDTO;
 
 import javax.swing.*;
 
@@ -30,9 +30,9 @@ public class Game extends JFrame{
     Player player;
     String ip;
     int port;
-    Packet_Chat packet_chat;
-    Packet_Game packet_game;
-    Packet_GameRoom packet_gameRoom;
+    ChatDTO packet_chat;
+    GameDTO packet_game;
+    GameRoomDTO packet_gameRoom;
     boolean isRoomSelect;
 
     public Game() {
@@ -135,7 +135,7 @@ public class Game extends JFrame{
                 port = 5801;
 
                 //setting//
-                packet_chat = new Packet_Chat(name, lag);
+                packet_chat = new ChatDTO(name, lag);
                 client = new Client_IO(ip, port, packet_chat);
                 player = new Player(name, lag);
                 //
@@ -152,6 +152,7 @@ public class Game extends JFrame{
         c.add(imagePanel, BorderLayout.CENTER);
         setVisible(true);
         while (true) {
+        	System.out.println("왜 여기야");
             if (player != null) {
                 break;
             }

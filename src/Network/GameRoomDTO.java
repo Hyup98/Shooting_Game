@@ -1,6 +1,6 @@
 package Network;
 
-public class Packet_GameRoom {
+public class GameRoomDTO {
     boolean isReady;
     int characterType;
 }

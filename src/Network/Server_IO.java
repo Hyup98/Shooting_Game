@@ -7,10 +7,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server_IO {
-    Packet_Chat packet_chat;
+    ChatDTO packet_chat;
 
     public Server_IO(int port) {
-        packet_chat = new Packet_Chat("asd", Language.KOR);
+        packet_chat = null;
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);
