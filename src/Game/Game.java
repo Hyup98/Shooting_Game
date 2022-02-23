@@ -1,42 +1,53 @@
 package Game;
 
-import Bgm.MusicPlayer;
 import Network.Client_IO;
+import Network.Packet_Chat;
+import Network.Packet_Game;
+import Network.Packet_GameRoom;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.Scanner;
 import java.util.Vector;
 
 public class Game extends JFrame{
+
 	//ABOUT UI//
 	private final int WIDTH = 1280,
 					  HEIGHT = 720;
 	private Vector<String> item = new Vector<>();
 	Container c;
-	//ABOUT GAME//
-	Client_IO client;
+    //ABOUT GAME//
+    Client_IO client;
     PageState pageState;
     Player player;
     String ip;
     int port;
+    Packet_Chat packet_chat;
+    Packet_Game packet_game;
+    Packet_GameRoom packet_gameRoom;
     boolean isRoomSelect;
 
-    public void ScreenSetting() {
-    	setSize(WIDTH, HEIGHT);
-    	setTitle("DEFAULT");
-    	setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
     public Game() {
-    	ScreenSetting();
+        ScreenSetting();
         player = null;
         pageState = PageState.LOGIN;
         port = -1;
         isRoomSelect = false;
+        Scanner scan = new Scanner(System.in);
+    }
+
+    public void ScreenSetting() {
+        setSize(WIDTH, HEIGHT);
+        setTitle("DEFAULT");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     /*
@@ -64,7 +75,7 @@ public class Game extends JFrame{
     	while(true) {
 			switch (pageState) {
 				case LOGIN:
-					Main();
+					LogIn();
 					break;
 
 				case MAIN:
@@ -103,6 +114,7 @@ public class Game extends JFrame{
 		JComboBox<Language> languageComboBox = new JComboBox<>();
 		languageComboBox.setModel(new DefaultComboBoxModel<>(Language.values()));
 		languageComboBox.setBounds(60,360,240,40);
+
     	for(var i = 0; i < 3; i++) {
     		inputTextField[i] = new JTextField();
     		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
@@ -116,34 +128,35 @@ public class Game extends JFrame{
 
     	startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//이름, ip, 포트번호 입력받기
-				ip = inputTextField[0].getText();
-				String name = inputTextField[1].getText();
-				port = Integer.parseInt(inputTextField[2].getText());
-				Language lag = Language.KOR;
+                //이름, ip, 포트번호 입력받기
+                ip = inputTextField[0].getText();
+                String name = inputTextField[1].getText();
+                Language lag = Language.KOR;
+                port = 5801;
 
-				
-				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
+                //setting//
+                packet_chat = new Packet_Chat(name, lag);
+                client = new Client_IO(ip, port, packet_chat);
+                player = new Player(name, lag);
+                //
+                System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
+                pageState = PageState.MAIN;
+            }
+        });
 
-				client = new Client_IO(ip, port);
-		        player = new Player(name, lag);
-		        pageState = PageState.MAIN;
-			}
-		});
-    	
-    	JTextArea tempArea= new JTextArea(40,90);
-    	inputPanel.add(startButton);
-    	imagePanel.add(tempArea);
-    	
-    	c.add(inputPanel,BorderLayout.WEST);
-    	c.add(imagePanel,BorderLayout.CENTER);
-		setVisible(true);
-    	while(true) {
-			if (port != -1) {
-				break;
-			}
-		}
-		pageState = PageState.MAIN;
+        JTextArea tempArea = new JTextArea(40, 90);
+        inputPanel.add(startButton);
+        imagePanel.add(tempArea);
+
+        c.add(inputPanel, BorderLayout.WEST);
+        c.add(imagePanel, BorderLayout.CENTER);
+        setVisible(true);
+        while (true) {
+            if (player != null) {
+                break;
+            }
+        }
+
     }
 
     public void Main() {

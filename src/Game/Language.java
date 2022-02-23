@@ -5,4 +5,5 @@ public enum Language {
     ENG,
     JAP,
     CHAIN,
+    ITAL,
 }
