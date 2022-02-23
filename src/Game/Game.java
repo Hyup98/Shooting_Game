@@ -6,19 +6,23 @@ import Network.Client_IO;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.util.Scanner;
+import java.util.Vector;
 
 public class Game extends JFrame{
 	//ABOUT UI//
 	private final int WIDTH = 1280,
 					  HEIGHT = 720;
+	private Vector<String> item = new Vector<>();
+	Container c;
 	//ABOUT GAME//
 	Client_IO client;
     PageState pageState;
     Player player;
     String ip;
     int port;
-    Container c;
     boolean isRoomSelect;
 
     public void ScreenSetting() {
@@ -60,7 +64,7 @@ public class Game extends JFrame{
     	while(true) {
 			switch (pageState) {
 				case LOGIN:
-					LogIn();
+					Main();
 					break;
 
 				case MAIN:
@@ -96,22 +100,28 @@ public class Game extends JFrame{
     	
     	JTextField [] inputTextField = new JTextField[3];
     	JButton startButton = new JButton("로그인");
-
+		JComboBox<Language> languageComboBox = new JComboBox<>();
+		languageComboBox.setModel(new DefaultComboBoxModel<>(Language.values()));
+		languageComboBox.setBounds(60,360,240,40);
     	for(var i = 0; i < 3; i++) {
     		inputTextField[i] = new JTextField();
-    		inputTextField[i].setBounds(60, 180 + (i * 60), 240, 40);
+    		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
     		inputPanel.add(inputTextField[i]);
     	}
-    	
-    	startButton.setBounds(210, 360, 90, 35);
+		inputTextField[0].setText("IP");
+		inputTextField[1].setText("NAME");
+		inputTextField[2].setText("PORT");
+    	inputPanel.add((languageComboBox));
+    	startButton.setBounds(210, 420, 90, 35);
 
     	startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//이름, ip, 포트번호 입력받기
 				ip = inputTextField[0].getText();
 				String name = inputTextField[1].getText();
+				port = Integer.parseInt(inputTextField[2].getText());
 				Language lag = Language.KOR;
-				port = 8080;
+
 				
 				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
 
@@ -150,16 +160,28 @@ public class Game extends JFrame{
         //방 입장 시 방에 입장함수로 전환
     	
     	System.out.println("Main()");
-    	
+
+
+
     	getContentPane().removeAll();
     	c = getContentPane();
     	c.setLayout(new BorderLayout());
-    	
     	JPanel roomListPanel = new JPanel();
     	JPanel inputPanel = new JPanel();
+		roomListPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,30));
     	inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER,110,30));
-    	
-    	JTextArea tempArea= new JTextArea(30,100);
+
+		item.add("test1");
+		item.add("test2");
+		JList roomList = new JList(item);
+		roomList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		roomList.setPreferredSize(new Dimension(1100,500));
+		roomList.addListSelectionListener(new RoomListSelect(roomList));
+
+		JScrollPane roomListScroll = new JScrollPane(roomList);
+		roomListScroll.setPreferredSize(new Dimension(300,300));
+
     	JLabel blank1 = new JLabel();
     	JLabel blank2 = new JLabel();
     	JButton joinRoomButton = new JButton("방 참가");
@@ -171,12 +193,12 @@ public class Game extends JFrame{
     	joinRoomButton.addActionListener(new RoomConfig(0));
     	createRoomButton.addActionListener(new RoomConfig(1));
     	
-    	roomListPanel.add(tempArea);
+    	roomListPanel.add(roomList);
     	inputPanel.add(blank1);
     	inputPanel.add(blank2);
     	inputPanel.add(joinRoomButton);
     	inputPanel.add(createRoomButton);
-    	
+
     	c.add(roomListPanel,BorderLayout.CENTER);
     	c.add(inputPanel,BorderLayout.SOUTH);
 
@@ -199,18 +221,18 @@ public class Game extends JFrame{
     	getContentPane().removeAll();
     	c = getContentPane();
     	
-    	JPanel playeristPanel = new JPanel();
+    	JPanel playerListPanel = new JPanel();
     	JPanel inputPanel = new JPanel();
     	inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT,200,30));
     	
     	JTextArea tempArea= new JTextArea(30,100);
     	JButton readyButton = new JButton("준비완료 / 취소");
     	readyButton.setPreferredSize(new Dimension(120,60));
-    	
-    	playeristPanel.add(tempArea);
+
+		playerListPanel.add(tempArea);
     	inputPanel.add(readyButton);
     	
-    	c.add(playeristPanel,BorderLayout.CENTER);
+    	c.add(playerListPanel,BorderLayout.CENTER);
     	c.add(inputPanel,BorderLayout.SOUTH);
     	
     	setVisible(true);
@@ -222,7 +244,18 @@ public class Game extends JFrame{
 
         pageState = PageState.GAMEROOM;
     }
-    
+    private class RoomListSelect implements ListSelectionListener{
+		JList list;
+		RoomListSelect(JList list){
+			this.list=list;
+		}
+		public void valueChanged(ListSelectionEvent e){
+			if(!e.getValueIsAdjusting()) {
+				String roomName = (String) list.getSelectedValue();
+				System.out.println(roomName);
+			}
+		}
+	}
 	private class RoomConfig implements ActionListener{
 		int configIndex;
 		RoomConfig(int configIndex){
