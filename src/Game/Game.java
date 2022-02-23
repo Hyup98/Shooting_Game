@@ -1,38 +1,45 @@
 package Game;
 
-import Bgm.MusicPlayer;
 import Network.Client_IO;
+import Network.Packet_Chat;
+import Network.Packet_Game;
+import Network.Packet_GameRoom;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Scanner;
 
 public class Game extends JFrame{
-	//ABOUT UI//
-	private final int WIDTH = 1280,
-					  HEIGHT = 720;
-	//ABOUT GAME//
-	Client_IO client;
+    //ABOUT UI//
+    private final int WIDTH = 1280,
+            HEIGHT = 720;
+    //ABOUT GAME//
+    Client_IO client;
     PageState pageState;
     Player player;
     String ip;
     int port;
     Container c;
+    Packet_Chat packet_chat;
+    Packet_Game packet_game;
+    Packet_GameRoom packet_gameRoom;
     boolean isRoomSelect;
 
-    public void ScreenSetting() {
-    	setSize(WIDTH, HEIGHT);
-    	setTitle("DEFAULT");
-    	setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
     public Game() {
-    	ScreenSetting();
+        ScreenSetting();
         player = null;
         pageState = PageState.LOGIN;
         port = -1;
         isRoomSelect = false;
+        Scanner scan = new Scanner(System.in);
+    }
+
+    public void ScreenSetting() {
+        setSize(WIDTH, HEIGHT);
+        setTitle("DEFAULT");
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     /*
@@ -107,33 +114,34 @@ public class Game extends JFrame{
 
     	startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//이름, ip, 포트번호 입력받기
-				ip = inputTextField[0].getText();
-				String name = inputTextField[1].getText();
-				Language lag = Language.KOR;
-				port = 8080;
-				
-				System.out.println("ip\t: "+ ip + "\nname\t: " + name + "\nlag\t: " + lag);
+                //이름, ip, 포트번호 입력받기
+                ip = inputTextField[0].getText();
+                String name = inputTextField[1].getText();
+                Language lag = Language.KOR;
+                port = 5801;
 
-				client = new Client_IO(ip, port);
-		        player = new Player(name, lag);
-		        pageState = PageState.MAIN;
-			}
-		});
-    	
-    	JTextArea tempArea= new JTextArea(40,90);
-    	inputPanel.add(startButton);
-    	imagePanel.add(tempArea);
-    	
-    	c.add(inputPanel,BorderLayout.WEST);
-    	c.add(imagePanel,BorderLayout.CENTER);
-		setVisible(true);
-    	while(true) {
-			if (port != -1) {
-				break;
-			}
-		}
-		pageState = PageState.MAIN;
+                //setting//
+                packet_chat = new Packet_Chat(name, lag);
+                client = new Client_IO(ip, port, packet_chat);
+                player = new Player(name, lag);
+                //
+                System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
+                pageState = PageState.MAIN;
+            }
+        });
+
+        JTextArea tempArea = new JTextArea(40, 90);
+        inputPanel.add(startButton);
+        imagePanel.add(tempArea);
+
+        c.add(inputPanel, BorderLayout.WEST);
+        c.add(imagePanel, BorderLayout.CENTER);
+        setVisible(true);
+        while (true) {
+            if (player != null) {
+                break;
+            }
+        }
     }
 
     public void Main() {
