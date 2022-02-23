@@ -72,7 +72,7 @@ public class Game extends JFrame{
      */
 
     public void start() {
-    	while(true) {
+
 			switch (pageState) {
 				case LOGIN:
 					LogIn();
@@ -94,7 +94,7 @@ public class Game extends JFrame{
 					JOptionPane.showMessageDialog(null, "ERROR");
 					break;
 			}
-		}
+
     }
 
     public void LogIn() {
@@ -117,7 +117,7 @@ public class Game extends JFrame{
 
     	for(var i = 0; i < 3; i++) {
     		inputTextField[i] = new JTextField();
-    		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
+     		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
     		inputPanel.add(inputTextField[i]);
     	}
 		inputTextField[0].setText("IP");
@@ -136,11 +136,15 @@ public class Game extends JFrame{
 
                 //setting//
                 packet_chat = new ChatDTO(name, lag);
+                System.out.println("1");
                 client = new Client_IO(ip, port, packet_chat);
                 player = new Player(name, lag);
                 //
+				System.out.println("2");
                 System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
                 pageState = PageState.MAIN;
+				System.out.println("3");
+				Main();
             }
         });
 
@@ -151,12 +155,8 @@ public class Game extends JFrame{
         c.add(inputPanel, BorderLayout.WEST);
         c.add(imagePanel, BorderLayout.CENTER);
         setVisible(true);
-        while (true) {
-        	System.out.println("왜 여기야");
-            if (player != null) {
-                break;
-            }
-        }
+
+
 
     }
 

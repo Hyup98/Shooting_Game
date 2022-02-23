@@ -1,20 +1,18 @@
 package Network;
 
-import java.io.BufferedOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Sender extends Thread {
     private Socket socket = null;
     private ChatDTO packet_chat;
-    private ObjectOutputStream writer=null;
+    private ObjectOutputStream writer;
 
-    public Sender(Socket socket, ChatDTO packet_chat) {
+    public Sender(Socket socket, ChatDTO packet_chat) throws IOException {
         this.socket = socket;
         this.packet_chat = packet_chat;
+        writer = new ObjectOutputStream(socket.getOutputStream());
     }
 
     @Override
@@ -25,7 +23,7 @@ public class Sender extends Thread {
             // OutputStream으로 보내온 메시지를 전송한다.
             System.out.println("sender while 전");
 
-            while (writer != null) {
+            while (true) {
                 String msg = scan.nextLine();
                 packet_chat.sendData(msg);
                 System.out.println("sender 패킷 생성 전");
@@ -36,7 +34,6 @@ public class Sender extends Thread {
                 System.out.println("sender 버퍼 비운 후");
             }
 
-            scan.close();
         } catch (Exception e) {
             System.out.println("sender에러");
             System.out.println(e.toString());
