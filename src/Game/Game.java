@@ -11,8 +11,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -22,7 +21,11 @@ public class Game extends JFrame{
 	//ABOUT UI//
 	private final int WIDTH = 1280,
 					  HEIGHT = 720;
-	private Vector<String> item = new Vector<>();
+	private Vector<String> roomListVector = new Vector<>();
+	private Vector<String> playerInRoom = new Vector<>();
+	private Font roomListFont = new Font("SansSerif",Font.ITALIC,30),
+			         chatFont = new Font("SansSerif",Font.ITALIC,15);
+	ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\Sample.png")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
 	Container c;
     //ABOUT GAME//
     Client_IO client;
@@ -94,7 +97,6 @@ public class Game extends JFrame{
 					JOptionPane.showMessageDialog(null, "ERROR");
 					break;
 			}
-
     }
 
     public void LogIn() {
@@ -131,8 +133,9 @@ public class Game extends JFrame{
                 //이름, ip, 포트번호 입력받기
                 ip = inputTextField[0].getText();
                 String name = inputTextField[1].getText();
+				port = Integer.parseInt(inputTextField[2].getText());
                 Language lag = Language.KOR;
-                port = 5801;
+
 
                 //setting//
                 packet_chat = new ChatDTO(name, lag);
@@ -148,16 +151,15 @@ public class Game extends JFrame{
             }
         });
 
-        JTextArea tempArea = new JTextArea(40, 90);
+        JLabel imageLabel = new JLabel();
+		imageLabel.setIcon(sampleImage);
+
         inputPanel.add(startButton);
-        imagePanel.add(tempArea);
+        imagePanel.add(imageLabel);
 
         c.add(inputPanel, BorderLayout.WEST);
         c.add(imagePanel, BorderLayout.CENTER);
         setVisible(true);
-
-
-
     }
 
     public void Main() {
@@ -175,29 +177,28 @@ public class Game extends JFrame{
     	
     	System.out.println("Main()");
 
-
-
     	getContentPane().removeAll();
     	c = getContentPane();
     	c.setLayout(new BorderLayout());
     	JPanel roomListPanel = new JPanel();
     	JPanel inputPanel = new JPanel();
 		roomListPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,30));
-    	inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER,110,30));
+    	inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT,100,30));
 
-		item.add("test1");
-		item.add("test2");
-		JList roomList = new JList(item);
+		roomListVector.add("test1");
+		roomListVector.add("test2");
+		JList roomList = new JList(roomListVector);
+		roomList.setFont(roomListFont);
 		roomList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		roomList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		roomList.setPreferredSize(new Dimension(1100,500));
-		roomList.addListSelectionListener(new RoomListSelect(roomList));
 
-		JScrollPane roomListScroll = new JScrollPane(roomList);
-		roomListScroll.setPreferredSize(new Dimension(300,300));
+		RoomListSelect roomListSelect = new RoomListSelect((roomList));
+		roomList.addListSelectionListener(roomListSelect);
+		roomList.addMouseListener(roomListSelect);
 
-    	JLabel blank1 = new JLabel();
-    	JLabel blank2 = new JLabel();
+		JScrollPane roomListScroll = new JScrollPane(roomList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		roomListScroll.setPreferredSize(new Dimension(1100,500));
+
     	JButton joinRoomButton = new JButton("방 참가");
     	JButton createRoomButton = new JButton("방 생성");
     	
@@ -207,9 +208,7 @@ public class Game extends JFrame{
     	joinRoomButton.addActionListener(new RoomConfig(0));
     	createRoomButton.addActionListener(new RoomConfig(1));
     	
-    	roomListPanel.add(roomList);
-    	inputPanel.add(blank1);
-    	inputPanel.add(blank2);
+    	roomListPanel.add(roomListScroll);
     	inputPanel.add(joinRoomButton);
     	inputPanel.add(createRoomButton);
 
@@ -235,19 +234,45 @@ public class Game extends JFrame{
     	getContentPane().removeAll();
     	c = getContentPane();
     	
-    	JPanel playerListPanel = new JPanel();
+    	JPanel playerPanel = new JPanel();
     	JPanel inputPanel = new JPanel();
-    	inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT,200,30));
-    	
-    	JTextArea tempArea= new JTextArea(30,100);
-    	JButton readyButton = new JButton("준비완료 / 취소");
-    	readyButton.setPreferredSize(new Dimension(120,60));
+		playerPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,30));
+    	inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,500));
 
-		playerListPanel.add(tempArea);
-    	inputPanel.add(readyButton);
+		JList playerList = new JList(playerInRoom);
+		playerInRoom.add("test");
+		playerList.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		playerList.setPreferredSize(new Dimension(700,300));
+
+		JTextArea chatTextArea = new JTextArea(10,10);
+		chatTextArea.setEditable(false);
+		chatTextArea.setFont(chatFont);
+
+		JScrollPane chatScroll = new JScrollPane(chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		chatScroll.setPreferredSize(new Dimension(700,200));
+
+		JTextField chatTextField = new JTextField();
+		chatTextField.setPreferredSize(new Dimension(700,50));
+		chatTextField.addKeyListener(new ChatEntered(chatTextArea,chatTextField));
+
+    	JButton readyButton = new JButton("준비완료 / 취소");
+		JButton exitButton = new JButton("나가기");
+
+    	readyButton.setPreferredSize(new Dimension(120,60));
+		exitButton.setPreferredSize(new Dimension(120,60));
+
+		readyButton.addActionListener(new ReadyOrExitButton(0));
+		exitButton.addActionListener(new ReadyOrExitButton(1));
+
+		playerPanel.add(playerList,BorderLayout.NORTH);
+		playerPanel.add(chatScroll,BorderLayout.CENTER);
+		playerPanel.add(chatTextField,BorderLayout.SOUTH);
+    	inputPanel.add(readyButton,BorderLayout.SOUTH);
+		inputPanel.add(exitButton,BorderLayout.SOUTH);
     	
-    	c.add(playerListPanel,BorderLayout.CENTER);
-    	c.add(inputPanel,BorderLayout.SOUTH);
+    	c.add(playerPanel,BorderLayout.CENTER);
+    	c.add(inputPanel,BorderLayout.EAST);
     	
     	setVisible(true);
         pageState = PageState.INGAME;
@@ -258,14 +283,22 @@ public class Game extends JFrame{
 
         pageState = PageState.GAMEROOM;
     }
-    private class RoomListSelect implements ListSelectionListener{
+    private class RoomListSelect extends MouseAdapter implements ListSelectionListener{
 		JList list;
+		String roomName;
 		RoomListSelect(JList list){
 			this.list=list;
 		}
+		@Override
 		public void valueChanged(ListSelectionEvent e){
 			if(!e.getValueIsAdjusting()) {
-				String roomName = (String) list.getSelectedValue();
+				roomName = (String) list.getSelectedValue();
+				System.out.println(roomName);
+			}
+		}
+		@Override
+		public void mouseClicked(MouseEvent e){
+			if(e.getClickCount() == 2){
 				System.out.println(roomName);
 			}
 		}
@@ -288,6 +321,41 @@ public class Game extends JFrame{
 					break;
 				default:
 					JOptionPane.showMessageDialog(null, "ERROR");
+					break;
+			}
+		}
+	}
+	private class ChatEntered extends KeyAdapter {
+		JTextArea chatTextArea;
+		JTextField chatTextField;
+		ChatEntered(JTextArea chatTextArea,JTextField chatTextField){
+			this.chatTextArea = chatTextArea;
+			this.chatTextField = chatTextField;
+		}
+		@Override
+		public void keyPressed(KeyEvent e){
+			if(e.getKeyCode()==KeyEvent.VK_ENTER){
+				Chatting(chatTextField.getText(),chatTextArea);
+				chatTextField.setText("");
+			}
+		}
+	}
+	void Chatting(String chatText, JTextArea chatArea){ //이곳은 채팅이오
+		chatArea.setText(chatArea.getText() + "\n" + chatText);
+	}
+	private class ReadyOrExitButton implements ActionListener{
+		int configIndex;
+		ReadyOrExitButton(int configIndex){
+			this.configIndex = configIndex;
+		}
+		@Override
+		public void actionPerformed(ActionEvent e){
+			switch (configIndex){
+				case 0:
+					System.out.println("Ready");
+					break;
+				case 1:
+					System.out.println("Exit");
 					break;
 			}
 		}
