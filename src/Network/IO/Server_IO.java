@@ -12,7 +12,7 @@ import java.net.Socket;
 public class Server_IO {
     ChatDTO chatDTO;
     public Server_IO(int port) {
-        chatDTO = new ChatDTO("setver", Language.ENG);
+        chatDTO = new ChatDTO("server", Language.ENG);
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);

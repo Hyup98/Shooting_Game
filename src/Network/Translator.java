@@ -6,41 +6,30 @@ import java.io.*;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Translator {
-    private Language lag;
-    private Language targetLag;
+    private Language MyLag;
+    private Language inputLag;
     private String clientID;
     private String clientPW;
     private String text;
     private HttpURLConnection connection;
 
+    private String str_response;
+    private Object object;
+    private JSONObject jsonObject;
+    private JSONParser parser;
+
     public Translator(Language myLag) {
-        this.lag = myLag;
+        parser = new JSONParser();
+        this.MyLag = myLag;
         clientID = "CE82OwiEg5teK2wkzyzR";//애플리케이션 클라이언트 아이디값";
         clientPW = "GD8CTer9VJ";//애플리케이션 클라이언트 시크릿값";
         connection = connect("https://openapi.naver.com/v1/papago/n2mt");
         System.out.println("번역기 생성 완료");
-        switch (lag) {
-            case ENG:
-                System.out.println("번역기 생성 완료" + "en");
-                break;
-            case JAP:
-                System.out.println("번역기 생성 완료" + "ja");
-                break;
-            case ITAL:
-                System.out.println("번역기 생성 완료" + "it");
-                break;
-            case CHAIN:
-                System.out.println("번역기 생성 완료" + "zh-CN");
-                break;
-            case KOR:
-                System.out.println("번역기 생성 완료" + "ko");
-                break;
-
-            default:
-                break;
-        }
     }
 
     private HttpURLConnection connect(String apiUrl){
@@ -54,8 +43,8 @@ public class Translator {
         }
     }
 
-    public String translate(String input, Language targetLag) throws ProtocolException {
-        this.targetLag = targetLag;
+    public String translate(String input, Language inputLag) throws ProtocolException {
+        this.inputLag = inputLag;
         try {
             text = URLEncoder.encode(input, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -79,11 +68,26 @@ public class Translator {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == HttpURLConnection.HTTP_OK) { // 정상 응답
-                return readBody(connection.getInputStream());
+                //return readBody(connection.getInputStream());
+                str_response = readBody(connection.getInputStream());
+                object = parser.parse(str_response);
+
+                jsonObject = (JSONObject) object;
+                object = jsonObject.get("message");
+
+                jsonObject = (JSONObject) object;
+                object = jsonObject.get("result");
+
+                jsonObject = (JSONObject) object;
+                str_response =(String) jsonObject.get("translatedText");
+
+                return str_response;
             } else {  // 에러 응답
+                System.out.println("번역 최종본 에러1");
                 return readBody(connection.getErrorStream());
             }
-        } catch (IOException e) {
+        } catch (IOException | ParseException e) {
+            System.out.println("번역 최종본 에러2");
             e.printStackTrace();
             return e.toString();
         }
@@ -109,7 +113,7 @@ public class Translator {
     public String makePostParams(String string) {
         String my = "";
         String target = "";
-        switch (lag) {
+        switch (MyLag) {
             case ENG:
                 my = "en";
                 break;
@@ -128,7 +132,7 @@ public class Translator {
             default:
                 break;
         }
-        switch (targetLag) {
+        switch (inputLag) {
             case ENG:
                 target = "en";
                 break;

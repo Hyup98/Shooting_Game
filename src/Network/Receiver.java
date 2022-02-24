@@ -30,6 +30,7 @@ public class Receiver extends Thread {
                 if(chatDTO.getLanguage() != lag) {
                     //번역
                     System.out.println("reciver에러_번역");
+                    System.out.println(chatDTO.getData());
                     System.out.println(chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()) );
                 }
                 else {
