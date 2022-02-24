@@ -7,19 +7,19 @@ import Network.Sender;
 import java.net.Socket;
 
 public class Client_IO {
+    private ChatDTO chatDTO_sender;
+    private ChatDTO chatDTO_reciver;
 
-    public Client_IO(String ip, int port, ChatDTO packet_chat) {
+
+    public Client_IO(String ip, int port, ChatDTO chatDTO) {
+        chatDTO_sender = chatDTO;
         try {
             Socket socket = new Socket(ip, port);
-            System.out.println("3");
-            Receiver receiver = new Receiver(socket, packet_chat);
-            System.out.println("4");
-            Sender sender = new Sender(socket, packet_chat);
-            System.out.println("5");
+
+            Receiver receiver = new Receiver(socket, chatDTO_reciver);
+            Sender sender = new Sender(socket, chatDTO_sender);
             sender.start();
-            System.out.println("6");
             receiver.start();
-            System.out.println("7");
         } catch (Exception e) {
             System.out.println("client에러");
             System.out.println(e.toString());

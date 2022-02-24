@@ -8,13 +8,13 @@ import java.net.Socket;
 
 public class Receiver extends Thread {
     private Socket socket;
-    private ChatDTO packet_chat;
+    private ChatDTO chatDTO;
     private ObjectInputStream reader;
 
-    public Receiver(Socket socket, ChatDTO packet_chat) throws IOException {
+    public Receiver(Socket socket, ChatDTO chatDTO) throws IOException {
         this.socket = socket;
         System.out.println("a");
-        this.packet_chat = packet_chat;
+        this.chatDTO = chatDTO;
         System.out.println("b");
 
         System.out.println("c");
@@ -26,8 +26,8 @@ public class Receiver extends Thread {
         try {
             reader = new ObjectInputStream(socket.getInputStream());
             while (true) {  // 스트림으로 반복문 제어
-                packet_chat = (ChatDTO) reader.readObject();
-                System.out.println(packet_chat.getData());
+                chatDTO = (ChatDTO) reader.readObject();
+                System.out.println(chatDTO.getData());
             }
         } catch (Exception e) {
             System.out.println("reciver에러");

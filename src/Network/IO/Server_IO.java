@@ -1,5 +1,6 @@
 package Network.IO;
 
+import Game.Language;
 import Network.DTO.ChatDTO;
 import Network.Receiver;
 import Network.Sender;
@@ -10,9 +11,8 @@ import java.net.Socket;
 
 public class Server_IO {
     ChatDTO packet_chat;
-
     public Server_IO(int port) {
-        packet_chat = null;
+        packet_chat = new ChatDTO("setver", Language.KOR);
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);

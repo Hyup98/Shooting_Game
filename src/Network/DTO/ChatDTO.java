@@ -39,7 +39,7 @@ public class ChatDTO implements Serializable {
         }
     }
 
-    public void sendData(String data) {
+    public void setData(String data) {
         this.data = data;
     }
 
