@@ -15,8 +15,7 @@ public class Client_IO {
         chatDTO_sender = chatDTO;
         try {
             Socket socket = new Socket(ip, port);
-
-            Receiver receiver = new Receiver(socket, chatDTO_reciver);
+            Receiver receiver = new Receiver(socket, chatDTO_reciver, chatDTO.getLanguage());
             Sender sender = new Sender(socket, chatDTO_sender);
             sender.start();
             receiver.start();
