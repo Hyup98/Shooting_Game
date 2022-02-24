@@ -1,8 +1,8 @@
 package Network;
 
-import java.io.BufferedInputStream;
+import Network.DTO.ChatDTO;
+
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
@@ -16,13 +16,15 @@ public class Receiver extends Thread {
         System.out.println("a");
         this.packet_chat = packet_chat;
         System.out.println("b");
-        reader = new ObjectInputStream(socket.getInputStream());
+
         System.out.println("c");
     }
 
     @Override
     public void run() {
+
         try {
+            reader = new ObjectInputStream(socket.getInputStream());
             while (true) {  // 스트림으로 반복문 제어
                 packet_chat = (ChatDTO) reader.readObject();
                 System.out.println(packet_chat.getData());

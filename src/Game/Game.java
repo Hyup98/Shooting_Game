@@ -1,9 +1,9 @@
 package Game;
 
-import Network.Client_IO;
-import Network.ChatDTO;
-import Network.GameDTO;
-import Network.GameRoomDTO;
+import Network.IO.Client_IO;
+import Network.DTO.ChatDTO;
+import Network.DTO.GameDTO;
+import Network.DTO.GameRoomDTO;
 
 import javax.swing.*;
 

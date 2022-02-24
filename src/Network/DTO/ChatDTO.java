@@ -1,4 +1,4 @@
-package Network;
+package Network.DTO;
 
 import Game.Language;
 

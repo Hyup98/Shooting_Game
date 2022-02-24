@@ -1,5 +1,7 @@
 package Network;
 
+import Network.DTO.ChatDTO;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;

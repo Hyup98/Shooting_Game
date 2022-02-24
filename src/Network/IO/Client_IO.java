@@ -1,4 +1,8 @@
-package Network;
+package Network.IO;
+
+import Network.DTO.ChatDTO;
+import Network.Receiver;
+import Network.Sender;
 
 import java.net.Socket;
 
