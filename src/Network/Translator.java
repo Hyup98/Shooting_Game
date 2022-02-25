@@ -24,8 +24,6 @@ public class Translator {
     public Translator(Language myLag) throws ProtocolException {
         parser = new JSONParser();
         this.MyLag = myLag;
-
-
         System.out.println("번역기 생성 완료");
     }
 

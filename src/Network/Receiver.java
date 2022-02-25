@@ -19,7 +19,7 @@ public class Receiver extends Thread {
         this.chatDTO = chatDTO;
         this.lag = lag;
         translator = new Translator(lag);
-        reader = new ObjectInputStream(socket.getInputStream());
+        System.out.println("receiver 생성완료");
     }
 
     protected void finalize() {
@@ -33,6 +33,7 @@ public class Receiver extends Thread {
     @Override
     public void run() {
         try {
+            reader = new ObjectInputStream(socket.getInputStream());
             while (true) {  // 스트림으로 반복문 제어
                 chatDTO = (ChatDTO) reader.readObject();
                 System.out.println("받은 데이터 : " + chatDTO.toString());

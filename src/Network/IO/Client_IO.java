@@ -16,8 +16,12 @@ public class Client_IO {
         chatDTO_reciver = new ChatDTO();
         try {
             Socket socket = new Socket(ip, port);
+
+            System.out.println("receiver 생성");
             Receiver receiver = new Receiver(socket, chatDTO_reciver, chatDTO.getLanguage());
+            System.out.println("sender생성");
             Sender sender = new Sender(socket, chatDTO_sender);
+
             sender.start();
             receiver.start();
         } catch (Exception e) {
