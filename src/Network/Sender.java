@@ -33,10 +33,9 @@ public class Sender extends Thread {
             writer = new ObjectOutputStream(socket.getOutputStream());
             scanner = new Scanner(System.in);
             while (true) {
-                System.out.println("스캐너");
                 String msg = scanner.nextLine();
                 chatDTO.setData(msg);
-                System.out.println(chatDTO.getData());
+                System.out.println(chatDTO.toString());
                 System.out.println("버퍼입력");
                 writer.writeObject(chatDTO);
                 writer.flush();

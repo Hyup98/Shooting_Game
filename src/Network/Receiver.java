@@ -44,7 +44,7 @@ public class Receiver extends Thread {
                 else {
                     System.out.println(chatDTO.getName() + ": " + chatDTO.getData());
                 }
-                chatDTO = null;
+                reader.readAllBytes();
             }
         } catch (Exception e) {
             System.out.println("reciver에러");

@@ -136,17 +136,13 @@ public class Game extends JFrame{
 				port = Integer.parseInt(inputTextField[2].getText());
                 Language lag = Language.KOR;
 
-
                 //setting//
                 packet_chat = new ChatDTO(name, lag);
-                System.out.println("1");
                 client = new Client_IO(ip, port, packet_chat);
                 player = new Player(name, lag);
-                //
-				System.out.println("2");
+
                 System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
                 pageState = PageState.MAIN;
-				System.out.println("3");
 				Main();
             }
         });
