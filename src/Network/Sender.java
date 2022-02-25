@@ -36,6 +36,7 @@ public class Sender extends Thread {
                 String msg = scanner.nextLine();
                 chatDTO.setData(msg);
                 System.out.println(chatDTO.toString());
+                //객체를 하나 가지고 그걸 재활용하고 싶은데 그러면 아무리 기존의 개체를 바꿔도 바뀌기 전의 개체가 전달된다 이유 알아낼 것
                 writer.writeObject(new ChatDTO(chatDTO.getName(), chatDTO.getLanguage(), chatDTO.getData()));
                 writer.flush();
             }
