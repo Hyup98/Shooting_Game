@@ -13,12 +13,11 @@ public class Client_IO {
 
     public Client_IO(String ip, int port, ChatDTO chatDTO) {
         chatDTO_sender = chatDTO;
-        chatDTO_reciver = new ChatDTO();
         try {
             Socket socket = new Socket(ip, port);
 
             System.out.println("receiver 생성");
-            Receiver receiver = new Receiver(socket, chatDTO_reciver, chatDTO.getLanguage());
+            Receiver receiver = new Receiver(socket, chatDTO.getLanguage());
             System.out.println("sender생성");
             Sender sender = new Sender(socket, chatDTO_sender);
 

@@ -15,8 +15,6 @@ public class Server_IO {
 
     public Server_IO(int port) {
         chatDTO_sender = new ChatDTO("server", Language.KOR);
-        chatDTO_reciver = new ChatDTO();
-
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);
@@ -25,7 +23,7 @@ public class Server_IO {
             System.out.println("접속 수락");
 
             System.out.println("receiver 생성");
-            Receiver receiver = new Receiver(socket, chatDTO_reciver, Language.KOR);
+            Receiver receiver = new Receiver(socket, Language.KOR);
 
             receiver.start();
             System.out.println("sender생성");

@@ -36,10 +36,8 @@ public class Sender extends Thread {
                 String msg = scanner.nextLine();
                 chatDTO.setData(msg);
                 System.out.println(chatDTO.toString());
-                System.out.println("버퍼입력");
                 writer.writeObject(chatDTO);
                 writer.flush();
-                System.out.println("버퍼 비우기");
             }
         } catch (Exception e) {
             System.out.println("sender에러");

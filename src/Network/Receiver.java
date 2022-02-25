@@ -14,9 +14,8 @@ public class Receiver extends Thread {
     private Language lag;
     private Translator translator;
 
-    public Receiver(Socket socket, ChatDTO chatDTO, Language lag) throws IOException {
+    public Receiver(Socket socket, Language lag) throws IOException {
         this.socket = socket;
-        this.chatDTO = chatDTO;
         this.lag = lag;
         translator = new Translator(lag);
         System.out.println("receiver 생성완료");
@@ -44,7 +43,6 @@ public class Receiver extends Thread {
                 else {
                     System.out.println(chatDTO.getName() + ": " + chatDTO.getData());
                 }
-                reader.readAllBytes();
             }
         } catch (Exception e) {
             System.out.println("reciver에러");
