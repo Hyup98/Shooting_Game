@@ -15,6 +15,12 @@ public class ChatDTO implements Serializable {
         data = "초기화 전";
     }
 
+    public ChatDTO(String name, Language lag, String data) {
+        this.name = name;
+        language = lag;
+        this.data = data;
+    }
+
     public ChatDTO() {
         name = null;
         language = null;

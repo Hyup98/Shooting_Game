@@ -36,7 +36,7 @@ public class Sender extends Thread {
                 String msg = scanner.nextLine();
                 chatDTO.setData(msg);
                 System.out.println(chatDTO.toString());
-                writer.writeObject(chatDTO);
+                writer.writeObject(new ChatDTO(chatDTO.getName(), chatDTO.getLanguage(), chatDTO.getData()));
                 writer.flush();
             }
         } catch (Exception e) {
