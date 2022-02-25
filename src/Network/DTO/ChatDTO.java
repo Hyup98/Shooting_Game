@@ -15,6 +15,12 @@ public class ChatDTO implements Serializable {
         data = "초기화 전";
     }
 
+    public ChatDTO() {
+        name = null;
+        language = null;
+        data = null;
+    }
+
     public static void conductSerializing(ChatDTO packet_chat, OutputStream os) {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -64,7 +70,7 @@ public class ChatDTO implements Serializable {
     }
 
     public String toString() {
-        String answer = name + " : " + data + "\n";
+        String answer ="[" + name + " : " + data + "]";
         return answer;
     }
 

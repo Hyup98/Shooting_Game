@@ -35,5 +35,10 @@ public class Sender extends Thread {
             System.out.println("sender에러");
             System.out.println(e.toString());
         }
+        try {
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

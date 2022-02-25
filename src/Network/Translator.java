@@ -16,19 +16,16 @@ public class Translator {
     private String clientID;
     private String clientPW;
     private String text;
-    private HttpURLConnection connection;
-
     private String str_response;
     private Object object;
     private JSONObject jsonObject;
     private JSONParser parser;
 
-    public Translator(Language myLag) {
+    public Translator(Language myLag) throws ProtocolException {
         parser = new JSONParser();
         this.MyLag = myLag;
-        clientID = "CE82OwiEg5teK2wkzyzR";//애플리케이션 클라이언트 아이디값";
-        clientPW = "GD8CTer9VJ";//애플리케이션 클라이언트 시크릿값";
-        connection = connect("https://openapi.naver.com/v1/papago/n2mt");
+
+
         System.out.println("번역기 생성 완료");
     }
 
@@ -43,25 +40,25 @@ public class Translator {
         }
     }
 
-    public String translate(String input, Language inputLag) throws ProtocolException {
+    public String translate(String input, Language inputLag) throws IOException {
         this.inputLag = inputLag;
+        //inputData encode//
         try {
             text = URLEncoder.encode(input, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException("인코딩 실패", e);
         }
+        URL url = new URL("https://openapi.naver.com/v1/papago/n2mt");
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        clientID = "CE82OwiEg5teK2wkzyzR";//애플리케이션 클라이언트 아이디값";
+        clientPW = "GD8CTer9VJ";//애플리케이션 클라이언트 시크릿값";
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("X-Naver-Client-Id", clientID);
+        connection.setRequestProperty("X-Naver-Client-Secret", clientPW);
+        connection.setDoOutput(true);
 
-        Map<String, String> requestHeaders = new HashMap<>();
-        requestHeaders.put("X-Naver-Client-Id", clientID);
-        requestHeaders.put("X-Naver-Client-Secret", clientPW);
         String request = makePostParams(input);
 
-        connection.setRequestMethod("POST");
-        for(Map.Entry<String, String> header :requestHeaders.entrySet()) {
-            connection.setRequestProperty(header.getKey(), header.getValue());
-        }
-
-        connection.setDoOutput(true);
         try (DataOutputStream wr = new DataOutputStream(connection.getOutputStream())) {
             wr.write(request.getBytes());
             wr.flush();
@@ -80,7 +77,7 @@ public class Translator {
 
                 jsonObject = (JSONObject) object;
                 str_response =(String) jsonObject.get("translatedText");
-
+                wr.close();
                 return str_response;
             } else {  // 에러 응답
                 System.out.println("번역 최종본 에러1");
@@ -103,7 +100,7 @@ public class Translator {
             while ((line = lineReader.readLine()) != null) {
                 responseBody.append(line);
             }
-
+            streamReader.close();
             return responseBody.toString();
         } catch (IOException e) {
             throw new RuntimeException("API 응답을 읽는데 실패했습니다.", e);

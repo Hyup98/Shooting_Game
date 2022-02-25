@@ -10,9 +10,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server_IO {
-    ChatDTO chatDTO;
+    private ChatDTO chatDTO_reciver;
+    private ChatDTO chatDTO_sender;
+
     public Server_IO(int port) {
-        chatDTO = new ChatDTO("server", Language.ENG);
+        chatDTO_sender = new ChatDTO("server", Language.ENG);
+        chatDTO_reciver = new ChatDTO();
+
         try {
             // 1. 소켓 생성(bind 생략 가능)
             ServerSocket server = new ServerSocket(port);
@@ -22,11 +26,11 @@ public class Server_IO {
             System.out.println("접속 수락");
 
             // 3. 받기 전용 스레드 실행
-            Receiver receiver = new Receiver(socket, chatDTO, Language.ENG);
+            Receiver receiver = new Receiver(socket, chatDTO_reciver, Language.ENG);
             receiver.start();
 
             // 4. 전송 전용 스레드 실행
-            Sender sender = new Sender(socket, chatDTO);
+            Sender sender = new Sender(socket, chatDTO_sender);
             sender.start();
         } catch (IOException e) {
             e.printStackTrace();
