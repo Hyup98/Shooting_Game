@@ -1,6 +1,5 @@
 package Game;
 
-
 import java.util.ArrayList;
 
 public class Character {
@@ -33,8 +32,6 @@ public class Character {
     private double x;
     private double y;
     private double radian;
-    
-    private int bulletIndex;
 
     //총알 사용법//
     /*
@@ -42,6 +39,7 @@ public class Character {
     2.총알을 발사하면 해당 맵 밖의 총알을 가지고 사용한다.
     3.일정 범위 이상 총알이 날아가면 그 뒤로 총알이 다시 맵 밖의 특정 위치로 이동 -> 사라지게 표현
      */
+    private int bulletIndex;
     private ArrayList<Bullet> bullets;
 
     public Character() {
@@ -219,5 +217,11 @@ public class Character {
 
     public double getY() {
         return y;
+    }
+
+    //서버로부터 받은 키 입력
+    //입력으로부터 알맞은 함수를 호출
+    public void move() {
+
     }
 }

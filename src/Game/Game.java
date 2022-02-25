@@ -1,18 +1,15 @@
 package Game;
 
-import Network.IO.Client_IO;
 import Network.DTO.ChatDTO;
 import Network.DTO.GameDTO;
 import Network.DTO.GameRoomDTO;
+import Network.IO.Client_IO;
 
 import javax.swing.*;
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import java.awt.*;
 import java.awt.event.*;
-
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -321,6 +318,7 @@ public class Game extends JFrame{
 			}
 		}
 	}
+
 	private class ChatEntered extends KeyAdapter {
 		JTextArea chatTextArea;
 		JTextField chatTextField;
@@ -336,9 +334,11 @@ public class Game extends JFrame{
 			}
 		}
 	}
+
 	void Chatting(String chatText, JTextArea chatArea){ //이곳은 채팅이오
 		chatArea.setText(chatArea.getText() + "\n" + chatText);
 	}
+
 	private class ReadyOrExitButton implements ActionListener{
 		int configIndex;
 		ReadyOrExitButton(int configIndex){
