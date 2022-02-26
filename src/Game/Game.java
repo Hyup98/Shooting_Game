@@ -22,26 +22,29 @@ public class Game extends JFrame{
 	private Vector<String> playerInRoom = new Vector<>();
 	private Font roomListFont = new Font("SansSerif",Font.ITALIC,30),
 			         chatFont = new Font("SansSerif",Font.ITALIC,15);
-	ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\Sample.png")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
-	Container c;
+	private ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\Sample.png")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
+	private Container c;
     //ABOUT GAME//
-    Client_IO client;
-    PageState pageState;
-    Player player;
-    String ip;
-    int port;
-    ChatDTO packet_chat;
-    GameDTO packet_game;
-    GameRoomDTO packet_gameRoom;
-    boolean isRoomSelect;
+	private Client_IO client;
+	private PageState pageState;
+	private Player player;
+	private String ip;
+	private int port;
+	private ChatDTO packet_chat;
+	private GameDTO packet_game;
+	private GameRoomDTO packet_gameRoom;
+	private boolean isRoomSelect;
+	private ChatDTO inputDTO;
+
 
     public Game() {
         ScreenSetting();
         player = null;
-        pageState = PageState.LOGIN;
+        pageState = PageState.GAMEROOM;
         port = -1;
         isRoomSelect = false;
         Scanner scan = new Scanner(System.in);
+        inputDTO = new ChatDTO();
     }
 
     public void ScreenSetting() {
@@ -128,6 +131,7 @@ public class Game extends JFrame{
      		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
     		inputPanel.add(inputTextField[i]);
     	}
+
 		inputTextField[0].setText("IP");
 		inputTextField[1].setText("NAME");
 		inputTextField[2].setText("PORT");
@@ -144,7 +148,7 @@ public class Game extends JFrame{
 
                 //setting//
                 packet_chat = new ChatDTO(name, lag);
-                client = new Client_IO(ip, port, packet_chat);
+                client = new Client_IO(ip, port, packet_chat, inputDTO);
                 player = new Player(name, lag);
 
                 System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
@@ -285,6 +289,7 @@ public class Game extends JFrame{
 
         pageState = PageState.GAMEROOM;
     }
+
     private class RoomListSelect extends MouseAdapter implements ListSelectionListener{
 		JList list;
 		String roomName;
@@ -305,6 +310,7 @@ public class Game extends JFrame{
 			}
 		}
 	}
+
 	private class RoomConfig implements ActionListener{
 		int configIndex;
 		RoomConfig(int configIndex){

@@ -167,7 +167,6 @@ public class Character {
         radian = Math.toRadians(315);
     }
 
-
     void getItem(Item item) {
         switch (item) {
             case POWER:

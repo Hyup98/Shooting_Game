@@ -6,16 +6,14 @@ import java.net.Socket;
 
 public class Client_IO {
     private ChatDTO chatDTO_sender;
-    private ChatDTO chatDTO_reciver;
 
-
-    public Client_IO(String ip, int port, ChatDTO chatDTO) {
+    public Client_IO(String ip, int port, ChatDTO chatDTO,ChatDTO inputData) {
         chatDTO_sender = chatDTO;
         try {
             Socket socket = new Socket(ip, port);
 
             System.out.println("receiver 생성");
-            Receiver receiver = new Receiver(socket, chatDTO.getLanguage());
+            Receiver receiver = new Receiver(socket, chatDTO.getLanguage(),inputData);
             System.out.println("sender생성");
             Sender sender = new Sender(socket, chatDTO_sender);
 
@@ -26,7 +24,6 @@ public class Client_IO {
             System.out.println(e.toString());
         }
     }
-
 }
 
 

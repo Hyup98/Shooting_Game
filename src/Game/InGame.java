@@ -20,6 +20,7 @@ public class InGame {
     private ArrayList<Bullet> shootingBullets;
 
     //0번 인덱스는 항상 자신의 캐릭터가 저장되어있다.
+    //1번 인덱스는 서버 캐릭터
     //매개변수로 캐릭터 생성할 수 있는 초기 값 전달
     public InGame(ArrayList<String> input, ArrayList<ItemObject> itemObjects) {
         //캐릭터 생성 및 초기화
@@ -55,6 +56,12 @@ public class InGame {
     //크게 차이가나면 해결해야함
     //추후에 시험작동 해보고 결정
     //인풋 매개변수로 소캣으로부터 여러 유저의 입력정보를 받는다.
+
+    /*
+    게임 로직 순서
+    1. 내가 입력을 한다 (방향키, 장전키 발사 키)
+    2.
+     */
     public void run() {
         //아직 구현x
         //서버로부터 받은 각의 입력을 해당 캐릭터에 적적히 업데이트

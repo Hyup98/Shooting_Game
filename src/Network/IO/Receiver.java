@@ -14,6 +14,15 @@ public class Receiver extends Thread {
     private ObjectInputStream reader;
     private Language lag;
     private Translator translator;
+    private ChatDTO inputData;
+
+    public Receiver(Socket socket, Language lag, ChatDTO inputData) throws IOException {
+        this.socket = socket;
+        this.lag = lag;
+        translator = new Translator(lag);
+        this.chatDTO = inputData;
+        System.out.println("receiver 생성완료");
+    }
 
     public Receiver(Socket socket, Language lag) throws IOException {
         this.socket = socket;
@@ -36,13 +45,17 @@ public class Receiver extends Thread {
             reader = new ObjectInputStream(socket.getInputStream());
             while (true) {  // 스트림으로 반복문 제어
                 chatDTO = (ChatDTO) reader.readObject();
-                System.out.println("받은 데이터 : " + chatDTO.toString());
+                //System.out.println("받은 데이터 : " + chatDTO.toString());
                 if(chatDTO.getLanguage() != lag) {
                     //번역
                     System.out.println(chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()) );
+                    inputData.setName(chatDTO.getName());
+                    inputData.setData(translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
                 }
                 else {
                     System.out.println(chatDTO.getName() + ": " + chatDTO.getData());
+                    inputData.setName(chatDTO.getName());
+                    inputData.setData(chatDTO.getData());
                 }
             }
         } catch (Exception e) {
@@ -50,6 +63,5 @@ public class Receiver extends Thread {
             System.out.println(e.toString());
         }
     }
-
 }
 
