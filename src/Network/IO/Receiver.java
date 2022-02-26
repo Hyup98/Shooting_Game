@@ -1,7 +1,8 @@
-package Network;
+package Network.IO;
 
 import Game.Language;
 import Network.DTO.ChatDTO;
+import Network.Translator;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

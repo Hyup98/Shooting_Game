@@ -2,8 +2,6 @@ package Network.IO;
 
 import Game.Language;
 import Network.DTO.ChatDTO;
-import Network.Receiver;
-import Network.Sender;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -7,7 +7,7 @@ public class Bullet {
     //아이템에 따라서
     private double x;
     private double y;
-    private double power;
+    private int power;
     private int moveCount;
 
     public Bullet() {
@@ -43,7 +43,7 @@ public class Bullet {
         this.y = y;
     }
 
-    public double getPower() {
+    public int getPower() {
         return power;
     }
 

@@ -71,15 +71,24 @@ public class Game extends JFrame{
     /////////////////////////////////////////////////
      */
 
-    public void start() {
+	/*
+	설계
+	1. 총알은 기본적으로 그냥 맞으면 죽는다 -> 내가 쏜 총알도 포함
+	2. 사람이 총알보다 절대 빠를 수 없다 -> 내가 쏜 총은 내가 맞지 못한다.
+	3. 총알 오브젝트가 생존시간은 총알 쏜 순간부터
+	     3-1) 프레임으로 계산
+	     3-2) 좌표 거리고 계산
+	 */
 
-			switch (pageState) {
-				case LOGIN:
-					LogIn();
-					break;
+	public void start() {
 
-				case MAIN:
-					Main();
+		switch (pageState) {
+			case LOGIN:
+				LogIn();
+				break;
+
+			case MAIN:
+				Main();
 					break;
 
 				case INGAME:

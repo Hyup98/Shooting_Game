@@ -1,5 +1,6 @@
 package Game;
 
+import Game.Object.Bullet;
 import Game.Object.Item;
 
 import java.util.ArrayList;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class InGame {
     private ArrayList<Character> characters;
     private ArrayList<ItemObject> itemObjects;
+    private BulletObjectPool bulletObjectPool;
+    private ArrayList<Bullet> shootingBullets;
 
     //0번 인덱스는 항상 자신의 캐릭터가 저장되어있다.
     //매개변수로 캐릭터 생성할 수 있는 초기 값 전달
@@ -35,6 +38,10 @@ public class InGame {
         for (int i = 0; i < itemObjects.size(); i++) {
             this.itemObjects.add(i, new ItemObject(itemObjects.get(i).getX(), itemObjects.get(i).getY(), itemObjects.get(i).getItem()));
         }
+
+        //총알 오브젝트 풀
+        bulletObjectPool = new BulletObjectPool();
+        shootingBullets = new ArrayList<>();
     }
 
     //서버로 부터 받는 값
@@ -47,6 +54,7 @@ public class InGame {
     //나의 입력과 서버로부터 오는 값의 시간차이는 어떻게 할까 고민
     //크게 차이가나면 해결해야함
     //추후에 시험작동 해보고 결정
+    //인풋 매개변수로 소캣으로부터 여러 유저의 입력정보를 받는다.
     public void run() {
         //아직 구현x
         //서버로부터 받은 각의 입력을 해당 캐릭터에 적적히 업데이트
@@ -54,7 +62,7 @@ public class InGame {
             characters.get(i).move();
         }
         isGetItem();
-
+        isGotShot();
         //총에 맞았는지 계산
         /*
         아직 정확한 구상 x
@@ -100,8 +108,18 @@ public class InGame {
         }
     }
 
-    public void isgotShot() {
-
+    public void isGotShot() {
+        for (int i = 0; i < characters.size(); i++) {
+            //충돌확인 이후 총알 반납
+            for (int j = 0; j < shootingBullets.size(); j++) {
+                if (characters.get(i).getX() == shootingBullets.get(j).getX() &&
+                        characters.get(i).getY() == shootingBullets.get(j).getY()) {
+                    characters.get(i).getdamage(shootingBullets.get(j).getPower());
+                    bulletObjectPool.retunBullet(shootingBullets.get(j));
+                    shootingBullets.remove(j);
+                }
+            }
+        }
     }
 
 }
