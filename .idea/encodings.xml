@@ -2,6 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/Game/Character.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/Game/Object/Bullet.java" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/src/Game/Object/Bullet.java" charset="x-windows-949" />
     <file url="file://$PROJECT_DIR$/src/Game/Player.java" charset="UTF-8" />
   </component>
 </project>

@@ -1,5 +1,8 @@
 package Game;
 
+import Game.Object.Bullet;
+import Game.Object.Item;
+
 import java.util.ArrayList;
 
 public class Character {
@@ -56,16 +59,13 @@ public class Character {
         power = initialPowerValue;
         speed = initialSpeed;
         gun = initialGun;
+
         x = 10;
         y = 10;
         radian = 0;
-
-        //ABOUT BULLTS//
-        bullets = new ArrayList<Bullet>(200);
-        bulletIndex = 0;
-
     }
 
+    //재장전 시 바로 총알 완충이 아닌 시간이 흐르면서 하나씩 추가되는 형태로 구현
     public void reload() {
         bulletCount = initialBulletAmount + bulletItemCount;
     }
