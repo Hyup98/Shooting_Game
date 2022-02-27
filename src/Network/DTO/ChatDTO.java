@@ -8,23 +8,27 @@ public class ChatDTO implements Serializable {
     String name;
     Language language;
     String data;
+    boolean isChanged;
 
     public ChatDTO(String name, Language lag) {
         this.name = name;
         language = lag;
         data = "초기화 전";
+        isChanged = false;
     }
 
     public ChatDTO(String name, Language lag, String data) {
         this.name = name;
         language = lag;
         this.data = data;
+        isChanged = false;
     }
 
     public ChatDTO() {
         name = null;
         language = null;
         data = null;
+        isChanged = false;
     }
 
     public static void conductSerializing(ChatDTO packet_chat, OutputStream os) {
@@ -53,10 +57,13 @@ public class ChatDTO implements Serializable {
 
     public void setData(String data) {
         this.data = data;
+        isChanged = true;
     }
 
     public void setName(String name) {
         this.name = name;
+        this.data = data;
+        isChanged = true;
     }
 
     public void setLanguage(Language language) {
@@ -64,6 +71,7 @@ public class ChatDTO implements Serializable {
     }
 
     public String getData() {
+        isChanged = false;
         return data;
     }
 
@@ -77,8 +85,11 @@ public class ChatDTO implements Serializable {
 
     public String toString() {
         String answer ="[" + name + " : " + data + "]";
+        isChanged = false;
         return answer;
     }
 
-
+    public boolean isChanged() {
+        return isChanged;
+    }
 }

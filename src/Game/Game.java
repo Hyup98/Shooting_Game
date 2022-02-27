@@ -153,7 +153,6 @@ public class Game extends JFrame{
 
                 System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
                 pageState = PageState.MAIN;
-				Main();
             }
         });
 
@@ -165,7 +164,15 @@ public class Game extends JFrame{
 
         c.add(inputPanel, BorderLayout.WEST);
         c.add(imagePanel, BorderLayout.CENTER);
-        setVisible(true);
+		setVisible(true);
+		while(true) {
+			if(inputDTO.isChanged()) {
+				System.out.println(inputDTO.toString() + "받기 성공!!");
+			}
+			System.out.println("계속 while 문 안");
+		}
+
+
     }
 
     public void Main() {

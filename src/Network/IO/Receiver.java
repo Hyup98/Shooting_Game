@@ -20,7 +20,7 @@ public class Receiver extends Thread {
         this.socket = socket;
         this.lag = lag;
         translator = new Translator(lag);
-        this.chatDTO = inputData;
+        this.inputData = inputData;
         System.out.println("receiver 생성완료");
     }
 
