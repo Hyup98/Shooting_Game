@@ -3,6 +3,7 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
      3.1)
 4. 그 후 실시간으로 발생하는 데이터를 서버가 각각의 유저에게 전달하면 그걸 바탕으로 게임
  */
-public class InGame {
+public class InGame extends JPanel {
     private boolean isGameOver;
     private ArrayList<Character> characters;
     private ArrayList<ItemObject> itemObjects;
