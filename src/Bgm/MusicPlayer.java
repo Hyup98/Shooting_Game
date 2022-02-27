@@ -9,7 +9,7 @@ public class MusicPlayer extends Thread {
     String musicPath;
 
     public MusicPlayer() {
-        musicPath = "src\\Bgm\\test_NCS.mp3";
+        musicPath = "src\\Bgm\\Syn Cole - Time [NCS Release].mp3";
     }
 
     public void setMusicPath(String path) {
