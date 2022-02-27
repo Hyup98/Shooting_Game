@@ -22,7 +22,7 @@ public class Game extends JFrame{
 	private Vector<String> playerInRoom = new Vector<>();
 	private Font roomListFont = new Font("SansSerif",Font.ITALIC,30),
 			         chatFont = new Font("SansSerif",Font.ITALIC,15);
-	private ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\Sample.png")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
+	private ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\pexels-alex-andrews-876344.jpg")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
 	private Container c;
     //ABOUT GAME//
 	private Client_IO client;
@@ -40,7 +40,7 @@ public class Game extends JFrame{
     public Game() {
         ScreenSetting();
         player = null;
-        pageState = PageState.GAMEROOM;
+        pageState = PageState.LOGIN;
         port = -1;
         isRoomSelect = false;
         Scanner scan = new Scanner(System.in);
