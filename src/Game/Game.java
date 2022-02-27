@@ -4,6 +4,7 @@ import Network.DTO.ChatDTO;
 import Network.DTO.GameDTO;
 import Network.DTO.GameRoomDTO;
 import Network.IO.Client_IO;
+import Network.IO.Server_IO;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -24,27 +25,29 @@ public class Game extends JFrame{
 			         chatFont = new Font("SansSerif",Font.ITALIC,15);
 	private ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\pexels-alex-andrews-876344.jpg")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
 	private Container c;
+	private JTextArea chatTextArea;
     //ABOUT GAME//
 	private Client_IO client;
+	private Server_IO server;
 	private PageState pageState;
 	private Player player;
 	private String ip;
+	private String name;
 	private int port;
 	private ChatDTO packet_chat;
 	private GameDTO packet_game;
 	private GameRoomDTO packet_gameRoom;
 	private boolean isRoomSelect;
-	private ChatDTO inputDTO;
+	private boolean isServer;
 
-
-    public Game() {
+    public Game(boolean isServer) {
         ScreenSetting();
         player = null;
         pageState = PageState.LOGIN;
         port = -1;
         isRoomSelect = false;
         Scanner scan = new Scanner(System.in);
-        inputDTO = new ChatDTO();
+		this.isServer = isServer;
     }
 
     public void ScreenSetting() {
@@ -110,7 +113,7 @@ public class Game extends JFrame{
 
     public void LogIn() {
     	System.out.println("LogIn()");
-    	
+
     	getContentPane().removeAll();
     	c = getContentPane();
     	c.setLayout(new BorderLayout());
@@ -132,30 +135,11 @@ public class Game extends JFrame{
     		inputPanel.add(inputTextField[i]);
     	}
 
-		inputTextField[0].setText("IP");
+		inputTextField[0].setText("127.0.0.1");
 		inputTextField[1].setText("NAME");
-		inputTextField[2].setText("PORT");
+		inputTextField[2].setText("5801");
     	inputPanel.add((languageComboBox));
     	startButton.setBounds(210, 420, 90, 35);
-
-    	startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                //이름, ip, 포트번호 입력받기
-                ip = inputTextField[0].getText();
-                String name = inputTextField[1].getText();
-				port = Integer.parseInt(inputTextField[2].getText());
-                Language lag = Language.KOR;
-
-                //setting//
-                packet_chat = new ChatDTO(name, lag);
-                client = new Client_IO(ip, port, packet_chat, inputDTO);
-                player = new Player(name, lag);
-
-                System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
-                pageState = PageState.MAIN;
-				Main();
-            }
-        });
 
         JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(sampleImage);
@@ -165,7 +149,33 @@ public class Game extends JFrame{
 
         c.add(inputPanel, BorderLayout.WEST);
         c.add(imagePanel, BorderLayout.CENTER);
+		if(isServer) {
+			server = new Server_IO(5801);
+			pageState = PageState.GAMEROOM;
+			GameRoom();
+			return;
+		}
+		startButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//이름, ip, 포트번호 입력받기
+				ip = inputTextField[0].getText();
+				name = inputTextField[1].getText();
+				port = Integer.parseInt(inputTextField[2].getText());
+				Language lag = Language.KOR;
+
+				//setting//
+				packet_chat = new ChatDTO(name, lag);
+				client = new Client_IO(ip, port, packet_chat);
+				player = new Player(name, lag);
+
+				System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
+				pageState = PageState.MAIN;
+				GameRoom();
+			}
+		});
+
         setVisible(true);
+
     }
 
     public void Main() {
@@ -222,11 +232,14 @@ public class Game extends JFrame{
     	c.add(inputPanel,BorderLayout.SOUTH);
 
     	setVisible(true);
+		/*
     	while(true) {
     		if(isRoomSelect) {
     			break;
 			}
 		}
+
+		 */
         pageState = PageState.GAMEROOM;
     }
 
@@ -251,9 +264,12 @@ public class Game extends JFrame{
 		playerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playerList.setPreferredSize(new Dimension(700,300));
 
-		JTextArea chatTextArea = new JTextArea(10,10);
+		chatTextArea = new JTextArea(10,10);
 		chatTextArea.setEditable(false);
 		chatTextArea.setFont(chatFont);
+
+		if (isServer) server.SetChat(chatTextArea);
+		else client.SetChat(chatTextArea);
 
 		JScrollPane chatScroll = new JScrollPane(chatTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		chatScroll.setPreferredSize(new Dimension(700,200));
@@ -350,8 +366,15 @@ public class Game extends JFrame{
 		}
 	}
 
-	void Chatting(String chatText, JTextArea chatArea){ //이곳은 채팅이오
-		chatArea.setText(chatArea.getText() + "\n" + chatText);
+	private void Chatting(String chatText, JTextArea chatArea){ //이곳은 채팅이오
+		if(!isServer) {
+			chatArea.setText(chatArea.getText() + "\n" + name + " : " + chatText);
+			client.SetMessage(chatText);
+		}
+		else {
+			chatArea.setText(chatArea.getText() + "\n"+ name + " : " + chatText);
+			server.SetMessage(chatText);
+		}
 	}
 
 	private class ReadyOrExitButton implements ActionListener{

@@ -4,6 +4,7 @@ import Game.Language;
 import Network.DTO.ChatDTO;
 import Network.Translator;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -14,16 +15,7 @@ public class Receiver extends Thread {
     private ObjectInputStream reader;
     private Language lag;
     private Translator translator;
-    private ChatDTO inputData;
-
-    public Receiver(Socket socket, Language lag, ChatDTO inputData) throws IOException {
-        this.socket = socket;
-        this.lag = lag;
-        translator = new Translator(lag);
-        this.chatDTO = inputData;
-        System.out.println("receiver 생성완료");
-    }
-
+    private JTextArea chatTextArea;
     public Receiver(Socket socket, Language lag) throws IOException {
         this.socket = socket;
         this.lag = lag;
@@ -43,25 +35,25 @@ public class Receiver extends Thread {
     public void run() {
         try {
             reader = new ObjectInputStream(socket.getInputStream());
-            while (true) {  // 스트림으로 반복문 제어
+            while (true) {
                 chatDTO = (ChatDTO) reader.readObject();
-                //System.out.println("받은 데이터 : " + chatDTO.toString());
-                if(chatDTO.getLanguage() != lag) {
+                if (chatDTO.getLanguage() != lag) {
                     //번역
-                    System.out.println(chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()) );
-                    inputData.setName(chatDTO.getName());
-                    inputData.setData(translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
-                }
-                else {
+                    System.out.println(chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
+                    chatTextArea.setText(chatTextArea.getText() +"\n"+ chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
+                } else {
                     System.out.println(chatDTO.getName() + ": " + chatDTO.getData());
-                    inputData.setName(chatDTO.getName());
-                    inputData.setData(chatDTO.getData());
+                    chatTextArea.setText(chatTextArea.getText() +"\n"+ chatDTO.getName() + ": " + chatDTO.getData());
                 }
+
             }
         } catch (Exception e) {
             System.out.println("reciver에러");
             System.out.println(e.toString());
         }
+    }
+    public void SetChat(JTextArea chaTextArea){
+        this.chatTextArea = chaTextArea;
     }
 }
 
