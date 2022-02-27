@@ -1,5 +1,7 @@
 package Game.Object;
 
+import javax.swing.text.ElementIterator;
+
 public class Bullet {
     //기본 총알 설정
     private static int bulletSpeed = 1;
@@ -9,6 +11,8 @@ public class Bullet {
     private double y;
     private int power;
     private int moveCount;
+    private double direction;
+    private int lifeTime;
 
     public Bullet() {
         x = -1;
@@ -53,5 +57,28 @@ public class Bullet {
 
     public double getY() {
         return y;
+    }
+
+
+    public void setLifeTime(int lifeTime) {
+        this.lifeTime = lifeTime;
+    }
+
+    public boolean tictoc() {
+        if(lifeTime == 1) {
+            return false;
+        }
+        lifeTime--;
+        return true;
+    }
+
+    public void setDirection(double direction) {
+        this.direction = direction;
+    }
+
+    public void move() {
+        y += bulletSpeed * Math.sin(direction);
+        x += bulletSpeed * Math.cos(direction);
+        lifeTime--;
     }
 }

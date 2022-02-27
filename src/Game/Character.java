@@ -42,8 +42,6 @@ public class Character {
     2.총알을 발사하면 해당 맵 밖의 총알을 가지고 사용한다.
     3.일정 범위 이상 총알이 날아가면 그 뒤로 총알이 다시 맵 밖의 특정 위치로 이동 -> 사라지게 표현
      */
-    private int bulletIndex;
-    private ArrayList<Bullet> bullets;
 
     public Character() {
         //ABOUT ITEM//
@@ -71,48 +69,82 @@ public class Character {
     }
     //총 단계별 설정//
     /*
+    총알은 현재 캐릭터가 바라보는 방향 기준 30도(+-15)각으로 쏜다.
     1단계 : 총알 단일 발사
     2단계 : 2발 발사(샷건)
     3단계 : 3발 발사(샷건)
     4단계 : 4발 발사(샷건)
     5단계 : 투사체 속도 증가 -> 건틀링건 느낌으로
      */
-    public void shoot() {
-        if(bulletCount != 0) {
-            switch (gunItemCount) {
+    public static void shoot(Character character, BulletObjectPool bulletObjectPool, ArrayList<Bullet> shootingBullets, double x, double y, int power, int lifeTime) {
+        if(character.bulletCount != 0) {
+            switch (character.gunItemCount) {
                 case 0:
-                    shoot(0);
+                    shoot(0, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 case 1:
-                    shoot(1);
+                    shoot(1, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 case  2:
-                    shoot(2);
+                    shoot(2, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 case 3:
-                    shoot(3);
+                    shoot(3, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 case 4:
-                    shoot(4);
+                    shoot(4, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 case 5:
-                    shoot(5);
+                    shoot(5, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
                     break;
                 default:
                     break;
             }
-            bulletCount--;
+            character.bulletCount--;
             return;
         }
-        reload();
-        bulletCount--;
+        character.reload();
+        character.bulletCount--;
     }
 
-    private void shoot(int type) {
-        //총알 풀에서 필요한 총알을 끌어다 사용한다.
-        /*
-        원형큐(우로보로스) 구조로 총알 인덱스를 사용
-         */
+    private static void shoot(int type, BulletObjectPool bulletObjectPool, double radian, ArrayList<Bullet> shootingBullets, double x, double y, int power, int lifeTime) {
+        ArrayList<Bullet> bullets;
+        if(type == 0) {
+            bullets = bulletObjectPool.getBullets(1, power, x, y, lifeTime);
+            bullets.get(0).setDirection(radian);
+        }
+        else if(type == 1) {
+            bullets = bulletObjectPool.getBullets(2, power, x, y, lifeTime);
+            bullets.get(0).setDirection(radian + Math.toRadians(5));
+            bullets.get(1).setDirection(radian - Math.toRadians(5));
+
+        }
+        else if(type == 2) {
+            bullets = bulletObjectPool.getBullets(3, power, x, y, lifeTime);
+            bullets.get(0).setDirection(radian);
+            bullets.get(1).setDirection(radian + Math.toRadians(5));
+            bullets.get(2).setDirection(radian - Math.toRadians(5));
+
+        }
+        else if(type == 3) {
+            bullets = bulletObjectPool.getBullets(4, power, x, y, lifeTime);
+            bullets.get(0).setDirection(radian + Math.toRadians(2));
+            bullets.get(1).setDirection(radian + Math.toRadians(7));
+            bullets.get(2).setDirection(radian - Math.toRadians(2));
+            bullets.get(3).setDirection(radian - Math.toRadians(7));
+
+        }
+        else {
+            bullets = bulletObjectPool.getBullets(5, power, x, y, lifeTime);
+            bullets.get(0).setDirection(radian);
+            bullets.get(1).setDirection(radian + Math.toRadians(2));
+            bullets.get(2).setDirection(radian + Math.toRadians(7));
+            bullets.get(3).setDirection(radian - Math.toRadians(2));
+            bullets.get(4).setDirection(radian - Math.toRadians(7));
+        }
+        for (int i =0; i<bullets.size(); i++) {
+            shootingBullets.add(bullets.get(i));
+        }
     }
 
     //동
@@ -216,11 +248,5 @@ public class Character {
 
     public double getY() {
         return y;
-    }
-
-    //서버로부터 받은 키 입력
-    //입력으로부터 알맞은 함수를 호출
-    public void move() {
-
     }
 }

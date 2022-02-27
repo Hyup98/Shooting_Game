@@ -3,6 +3,7 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 //게임 로직 흐름//
@@ -19,10 +20,11 @@ public class InGame {
     private BulletObjectPool bulletObjectPool;
     private ArrayList<Bullet> shootingBullets;
 
-    //0번 인덱스는 항상 자신의 캐릭터가 저장되어있다.
-    //1번 인덱스는 서버 캐릭터
-    //매개변수로 캐릭터 생성할 수 있는 초기 값 전달
-    public InGame(ArrayList<String> input, ArrayList<ItemObject> itemObjects) {
+    /*
+    게임 로직
+    1. 서버에서 방에 참가한 순서대로 캐릭터 개체를 만들고 개채를 생성 후 배열에 저장하여 각 클라이언트에 반환
+     */
+    public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
         //캐릭터 생성 및 초기화
         /*
         캐릭터 위치 랜덤하게 생성
@@ -30,14 +32,14 @@ public class InGame {
          */
         this.characters = new ArrayList<Character>(input.size());
         for (int i = 0; i < input.size(); i++) {
-            characters.add(i, new Character());
+            characters.add(i, characters.get(i));
         }
 
         //서버에서 받은 아이탬의 위치정보 저장
         //깊은복사 실시
         this.itemObjects = new ArrayList<ItemObject>(itemObjects.size());
         for (int i = 0; i < itemObjects.size(); i++) {
-            this.itemObjects.add(i, new ItemObject(itemObjects.get(i).getX(), itemObjects.get(i).getY(), itemObjects.get(i).getItem()));
+            this.itemObjects.add(i, itemObjects.get(i));
         }
 
         //총알 오브젝트 풀
@@ -63,10 +65,16 @@ public class InGame {
     2.
      */
     public void run() {
-        //아직 구현x
-        //서버로부터 받은 각의 입력을 해당 캐릭터에 적적히 업데이트
-        for (int i = 0; i < characters.size(); i++) {
-            characters.get(i).move();
+        //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
+        ArrayList<KeyEvent> input = new ArrayList<>();
+
+        /*
+        여기에 나의 키보드 입력받는 함수 호출 -> 쓰레드 형식으로 계속 입력을 받고 있어야 한다.
+        여기는 서버에서 오는 다른 유저의 키 입력을 받는 함수 호출 -> 이것도 마찬가지로 계속 입력을 받는 상태 유지
+         */
+
+        for (int i = 0; i < input.size(); i++) {
+
         }
         isGetItem();
         isGotShot();

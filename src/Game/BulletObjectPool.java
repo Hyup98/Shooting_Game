@@ -22,13 +22,14 @@ public class BulletObjectPool {
         bullets = new ArrayList<>(MAXPOOLSIZE);
     }
 
-   ArrayList<Bullet> getBullets(int size, int power, int x, int y) {
+    public ArrayList<Bullet> getBullets(int size, int power, double x, double y, int lifeTime) {
         ArrayList<Bullet> answer = new ArrayList<>();
         //부족하면 부족한 만큼 생성 후 반환
         if(bullets.size() < size) {
             for(int i = 0 ; i < bullets.size(); i++) {
                 bullets.get(i).setPower(power);
                 bullets.get(i).setPoint(x,y);
+                bullets.get(i).setLifeTime(lifeTime);
                 answer.add(bullets.get(i));
             }
 
