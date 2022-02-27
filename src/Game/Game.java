@@ -14,6 +14,36 @@ import java.awt.event.*;
 import java.util.Scanner;
 import java.util.Vector;
 
+    /*
+    /////////////////<게임 흐름>//////////////////
+
+    //게임 로그인 화면//
+    1. 이름 & 포트번호및 ip주소 입력
+
+    //게임 홈 화면//
+    1.게임 방 생성 또는 게임 방 목록을 클릭하여 게임 방에 입장
+
+    //게임 방 화면//
+    1.캐릭터 선택
+    2.준비완료
+    3.모두 준비완료 되면 방장이 게임 시작 선택 가능
+
+    //게임 화면//
+
+    //게임 방 화면
+
+    /////////////////////////////////////////////////
+     */
+
+/*
+설계
+1. 총알은 기본적으로 그냥 맞으면 죽는다 -> 내가 쏜 총알도 포함
+2. 사람이 총알보다 절대 빠를 수 없다 -> 내가 쏜 총은 내가 맞지 못한다.
+3. 총알 오브젝트가 생존시간은 총알 쏜 순간부터
+     3-1) 프레임으로 계산
+     3-2) 좌표 거리고 계산
+ */
+
 public class Game extends JFrame{
 
 	//ABOUT UI//
@@ -56,36 +86,6 @@ public class Game extends JFrame{
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    /*
-    /////////////////<게임 흐름>//////////////////
-
-    //게임 로그인 화면//
-    1. 이름 & 포트번호및 ip주소 입력
-
-    //게임 홈 화면//
-    1.게임 방 생성 또는 게임 방 목록을 클릭하여 게임 방에 입장
-
-    //게임 방 화면//
-    1.캐릭터 선택
-    2.준비완료
-    3.모두 준비완료 되면 방장이 게임 시작 선택 가능
-
-    //게임 화면//
-
-    //게임 방 화면
-
-    /////////////////////////////////////////////////
-     */
-
-	/*
-	설계
-	1. 총알은 기본적으로 그냥 맞으면 죽는다 -> 내가 쏜 총알도 포함
-	2. 사람이 총알보다 절대 빠를 수 없다 -> 내가 쏜 총은 내가 맞지 못한다.
-	3. 총알 오브젝트가 생존시간은 총알 쏜 순간부터
-	     3-1) 프레임으로 계산
-	     3-2) 좌표 거리고 계산
-	 */
-
 	public void start() {
 
 		switch (pageState) {
@@ -114,6 +114,13 @@ public class Game extends JFrame{
     public void LogIn() {
     	System.out.println("LogIn()");
 
+		if(isServer) {
+			server = new Server_IO(5801);
+			pageState = PageState.GAMEROOM;
+			GameRoom();
+			return;
+		}
+
     	getContentPane().removeAll();
     	c = getContentPane();
     	c.setLayout(new BorderLayout());
@@ -141,27 +148,6 @@ public class Game extends JFrame{
     	inputPanel.add((languageComboBox));
     	startButton.setBounds(210, 420, 90, 35);
 
-<<<<<<< HEAD
-    	startButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-                //이름, ip, 포트번호 입력받기
-                ip = inputTextField[0].getText();
-                String name = inputTextField[1].getText();
-				port = Integer.parseInt(inputTextField[2].getText());
-                Language lag = Language.KOR;
-
-                //setting//
-                packet_chat = new ChatDTO(name, lag);
-                client = new Client_IO(ip, port, packet_chat, inputDTO);
-                player = new Player(name, lag);
-
-                System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
-                pageState = PageState.MAIN;
-            }
-        });
-
-=======
->>>>>>> d712d5cfbaf268e4b7b69b2ca2ef3b7e3c230253
         JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(sampleImage);
 
@@ -170,22 +156,7 @@ public class Game extends JFrame{
 
         c.add(inputPanel, BorderLayout.WEST);
         c.add(imagePanel, BorderLayout.CENTER);
-<<<<<<< HEAD
-		setVisible(true);
-		while(true) {
-			if(inputDTO.isChanged()) {
-				System.out.println(inputDTO.toString() + "받기 성공!!");
-			}
-			System.out.println("계속 while 문 안");
-		}
 
-=======
-		if(isServer) {
-			server = new Server_IO(5801);
-			pageState = PageState.GAMEROOM;
-			GameRoom();
-			return;
-		}
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//이름, ip, 포트번호 입력받기
@@ -206,8 +177,6 @@ public class Game extends JFrame{
 		});
 
         setVisible(true);
->>>>>>> d712d5cfbaf268e4b7b69b2ca2ef3b7e3c230253
-
     }
 
     public void Main() {
@@ -215,6 +184,7 @@ public class Game extends JFrame{
         방 목록 띄우기
         방 만들기 or 방 입장
          */
+
         //서버에서 방 목록을 가져오는 함수 -> uuid로 방에 입장한다.
 
         //방 목록 볼 수 있는 함수 -> 네트워크 필요
@@ -270,7 +240,6 @@ public class Game extends JFrame{
     			break;
 			}
 		}
-
 		 */
         pageState = PageState.GAMEROOM;
     }

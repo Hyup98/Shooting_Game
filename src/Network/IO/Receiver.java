@@ -15,20 +15,8 @@ public class Receiver extends Thread {
     private ObjectInputStream reader;
     private Language lag;
     private Translator translator;
-<<<<<<< HEAD
-    private ChatDTO inputData;
-
-    public Receiver(Socket socket, Language lag, ChatDTO inputData) throws IOException {
-        this.socket = socket;
-        this.lag = lag;
-        translator = new Translator(lag);
-        this.inputData = inputData;
-        System.out.println("receiver 생성완료");
-    }
-
-=======
     private JTextArea chatTextArea;
->>>>>>> d712d5cfbaf268e4b7b69b2ca2ef3b7e3c230253
+
     public Receiver(Socket socket, Language lag) throws IOException {
         this.socket = socket;
         this.lag = lag;
