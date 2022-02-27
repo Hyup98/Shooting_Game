@@ -3,6 +3,7 @@ package Network.IO;
 import Game.Language;
 import Network.DTO.ChatDTO;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -10,7 +11,8 @@ import java.net.Socket;
 public class Server_IO {
     private ChatDTO chatDTO_reciver;
     private ChatDTO chatDTO_sender;
-
+    Receiver receiver;
+    Sender sender;
     public Server_IO(int port) {
         chatDTO_sender = new ChatDTO("server", Language.ENG);
         try {
@@ -21,16 +23,21 @@ public class Server_IO {
             System.out.println("접속 수락");
 
             System.out.println("receiver 생성");
-            Receiver receiver = new Receiver(socket, Language.ENG);
+            receiver = new Receiver(socket, Language.ENG);
 
             receiver.start();
             System.out.println("sender생성");
-            Sender sender = new Sender(socket, chatDTO_sender);
+            sender = new Sender(socket, chatDTO_sender);
             sender.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
+    public void SetChat(JTextArea chaTextArea){
+        receiver.SetChat(chaTextArea);
+    }
+    public void SetMessage(String message){
+        sender.SetMessage(message);
+    }
 }

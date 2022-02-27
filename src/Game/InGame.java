@@ -15,6 +15,7 @@ import java.util.ArrayList;
 4. 그 후 실시간으로 발생하는 데이터를 서버가 각각의 유저에게 전달하면 그걸 바탕으로 게임
  */
 public class InGame {
+    private boolean isGameOver;
     private ArrayList<Character> characters;
     private ArrayList<ItemObject> itemObjects;
     private BulletObjectPool bulletObjectPool;
@@ -25,6 +26,7 @@ public class InGame {
     1. 서버에서 방에 참가한 순서대로 캐릭터 개체를 만들고 개채를 생성 후 배열에 저장하여 각 클라이언트에 반환
      */
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
+        isGameOver = false;
         //캐릭터 생성 및 초기화
         /*
         캐릭터 위치 랜덤하게 생성
@@ -50,8 +52,8 @@ public class InGame {
     //서버로 부터 받는 값
     /*
     1. 방향키
-    2. 총 발사키
-    3. 장전키
+    2. 총 발사키 컨트롤
+    3. 장전키 쉬프트
      */
 
     //나의 입력과 서버로부터 오는 값의 시간차이는 어떻게 할까 고민
@@ -64,26 +66,32 @@ public class InGame {
     1. 내가 입력을 한다 (방향키, 장전키 발사 키)
     2.
      */
+    
+    //입력
+    //상태업데이트(캐릭터 + 오브젝트)
+    //업데이트 바탕으로 게임 업데이트
     public void run() {
-        //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
-        ArrayList<KeyEvent> input = new ArrayList<>();
+        while (!isGameOver) {
+            //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
+            ArrayList<KeyEvent> input = new ArrayList<>();
 
         /*
         여기에 나의 키보드 입력받는 함수 호출 -> 쓰레드 형식으로 계속 입력을 받고 있어야 한다.
         여기는 서버에서 오는 다른 유저의 키 입력을 받는 함수 호출 -> 이것도 마찬가지로 계속 입력을 받는 상태 유지
          */
 
-        for (int i = 0; i < input.size(); i++) {
+            for (int i = 0; i < input.size(); i++) {
 
-        }
-        isGetItem();
-        isGotShot();
-        //총에 맞았는지 계산
+            }
+            isGetItem();
+            isGotShot();
+            //총에 맞았는지 계산
         /*
         아직 정확한 구상 x
         총알을 각각의 캐릭터가 관리하면 이게 효율적인가? 등등
         발사된 총알과 아닌 총알 구분 등도 마찬가지
          */
+        }
     }
 
     //아이탬 확득 계산

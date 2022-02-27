@@ -5,6 +5,9 @@ import Game.Object.Item;
 
 import java.util.ArrayList;
 
+/*
+1서버에서 현재 방에 있는 인원만큼->순서대로 캐릭터 초깃값을 준다
+ */
 public class Character {
     //DEFAULT VALUE//
     private static int initialBulletAmount = 5;
@@ -61,6 +64,11 @@ public class Character {
         x = 10;
         y = 10;
         radian = 0;
+    }
+
+    //키 입력
+    public void update() {
+
     }
 
     //재장전 시 바로 총알 완충이 아닌 시간이 흐르면서 하나씩 추가되는 형태로 구현
