@@ -12,7 +12,7 @@ public class Character {
     //DEFAULT VALUE//
     private static int initialBulletAmount = 5;
     private static int initialPowerValue = 1;
-    private static int initialSpeed = 1;
+    private static int initialSpeed = 5;
     private static int initialHealth = 10;
     private static int initialGun = 1;
 
@@ -188,7 +188,7 @@ public class Character {
 
     //서
     public void moveW() {
-        x = speed;
+        x -= speed;
         radian = Math.toRadians(180);
     }
 
