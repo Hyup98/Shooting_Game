@@ -76,7 +76,7 @@ public class Game extends JFrame{
     public Game(boolean isServer) {
         ScreenSetting();
         player = null;
-        pageState = PageState.INGAME;
+        pageState = PageState.LOGIN;
         port = -1;
         isRoomSelect = false;
         Scanner scan = new Scanner(System.in);
@@ -304,46 +304,21 @@ public class Game extends JFrame{
         pageState = PageState.INGAME;
     }
 
-    public void InGame() {
-    	//게임 종류 후 다시 게임 방으로 이동
+	public void InGame() {
+		//게임 종류 후 다시 게임 방으로 이동
 		System.out.println("InGame()");
 		getContentPane().removeAll();
 
-		setContentPane(new InGame());
+		InGame inGame = new InGame(this);
+		//this.addKeyListener(new KeyInput());
 
-		Thread inGameThread = new Thread(new InGameThread());
+		Thread inGameThread = new Thread(inGame);
 		inGameThread.start();
 
+		setContentPane(inGame);
+
 		setVisible(true);
-        pageState = PageState.GAMEROOM;
-    }
-
-	class InGame extends JPanel{
-		@Override
-		public void paintComponent(Graphics g){
-			System.out.println("paintComponent");
-			super.paintComponent(g);
-			//g.clearRect(0,0,WIDTH,HEIGHT);
-			g.setColor(Color.BLUE);
-			g.drawRect(10, 10, 50, 50);
-			g.drawRect(50, 50, 50, 50);
-			g.setColor(Color.MAGENTA);
-			g.drawRect(90, 90, 50, 50);
-
-		}
-	}
-
-	private class InGameThread extends Thread {
-		public void run() {
-			while(true) {
-				repaint();
-				try {
-					Thread.sleep(500);
-				} catch(InterruptedException e) {
-					return;
-				}
-			}
-		}
+		pageState = PageState.GAMEROOM;
 	}
 
     private class RoomListSelect extends MouseAdapter implements ListSelectionListener{

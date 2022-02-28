@@ -155,6 +155,11 @@ public class Character {
         }
     }
 
+
+    public void Move(int x,int y){ //temp
+        this.x+= x * speed;
+        this.y+= y * speed;
+    }
     //동
     public void moveE() {
         x += speed;
