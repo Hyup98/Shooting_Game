@@ -1,7 +1,10 @@
 package Game;
 
+import Game.Object.Bullet;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.BitSet;
 /*
 비트맵 약속
@@ -15,8 +18,9 @@ import java.util.BitSet;
 class KeyInput extends KeyAdapter {
     Character character;
     BitSet input;
-
+    boolean isShot;
     KeyInput(Character character){
+        isShot = false;
         this.character = character;
         input = new BitSet(6);
     }
@@ -49,11 +53,15 @@ class KeyInput extends KeyAdapter {
                 break;
 
             case KeyEvent.VK_SHIFT:
+                System.out.println("reload");
                 input.set(4);
+                dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_CONTROL:
+                System.out.println("shot");
                 input.set(5);
+                dispatchKeyEvent();
                 break;
         }
     }
@@ -83,6 +91,7 @@ class KeyInput extends KeyAdapter {
 
             case KeyEvent.VK_CONTROL:
                 input.flip(5);
+                isShot = false;
                 break;
         }
     }
@@ -100,5 +109,12 @@ class KeyInput extends KeyAdapter {
         if(input.get(3)) {
             character.moveE();
         }
+        if(input.get(4)) {
+            character.reload();
+        }
+        if(input.get(5)) {
+            isShot = true;
+        }
     }
+    public boolean getIsShot(){ return isShot; }
 }

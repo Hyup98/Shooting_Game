@@ -21,6 +21,9 @@ public class InGame extends JPanel implements Runnable{
         character=new Character();
         keyInput=new KeyInput(character);
         jFrame.addKeyListener(keyInput);
+
+        bulletObjectPool = new BulletObjectPool();
+        shootingBullets = new ArrayList<>();
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -63,19 +66,17 @@ public class InGame extends JPanel implements Runnable{
     public void run() {
         while (!isGameOver) {
             try {
-                Thread.sleep(50);
+                Thread.sleep(1);
 
                 //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
                 ArrayList<KeyEvent> input = new ArrayList<>();
 
-                Move();
                 /*
                 여기에 나의 키보드 입력받는 함수 호출 -> 쓰레드 형식으로 계속 입력을 받고 있어야 한다.
                 여기는 서버에서 오는 다른 유저의 키 입력을 받는 함수 호출 -> 이것도 마찬가지로 계속 입력을 받는 상태 유지
                 */
-
-                for (int i = 0; i < input.size(); i++) {
-
+                if(keyInput.getIsShot()){
+                    Character.shoot(character, bulletObjectPool, shootingBullets, character.getX(), character.getY(), 10,3);
                 }
                 //isGetItem();
                 //isGotShot();
@@ -92,14 +93,18 @@ public class InGame extends JPanel implements Runnable{
         }
     }
 
-    public void Move() {
-
-    }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
         g.drawOval((int) character.getX(),(int) character.getY(),10,10);
+
+        for (var i = 0; i < shootingBullets.size(); i++){
+            g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);
+            shootingBullets.get(i).move();
+        }
+
+
     }
     //아이탬 확득 계산
     /*
