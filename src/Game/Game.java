@@ -76,7 +76,7 @@ public class Game extends JFrame{
     public Game(boolean isServer) {
         ScreenSetting();
         player = null;
-        pageState = PageState.LOGIN;
+        pageState = PageState.INGAME;
         port = -1;
         isRoomSelect = false;
         Scanner scan = new Scanner(System.in);
@@ -332,6 +332,7 @@ public class Game extends JFrame{
 
 		}
 	}
+
 	private class InGameThread extends Thread {
 		public void run() {
 			while(true) {
