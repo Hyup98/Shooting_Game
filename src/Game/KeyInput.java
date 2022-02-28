@@ -3,8 +3,6 @@ package Game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.BitSet;
-import java.util.logging.Handler;
-
 /*
 비트맵 약속
 1. 0번은 w
@@ -20,49 +18,71 @@ class KeyInput extends KeyAdapter {
 
     KeyInput(Character character){
         this.character = character;
-        input = new BitSet(4);
+        input = new BitSet(6);
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (e.getKeyChar()) {
-            case 'w':
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
                 System.out.println("w");
                 input.set(0);
                 dispatchKeyEvent();
                 break;
-            case 'a':
+
+            case KeyEvent.VK_A:
                 System.out.println("a");
                 input.set(1);
                 dispatchKeyEvent();
                 break;
-            case 's':
+
+            case KeyEvent.VK_S:
                 System.out.println("s");
                 input.set(2);
                 dispatchKeyEvent();
                 break;
-            case 'd':
+
+            case KeyEvent.VK_D:
                 System.out.println("d");
                 input.set(3);
                 dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_SHIFT:
+                input.set(4);
+                break;
+
+            case KeyEvent.VK_CONTROL:
+                input.set(5);
                 break;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyChar()) {
-            case 'w':
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_W:
                 input.flip(0);
                 break;
-            case 'a':
+
+            case KeyEvent.VK_A:
                 input.flip(1);
                 break;
-            case 's':
+
+            case KeyEvent.VK_S:
                 input.flip(2);
                 break;
-            case 'd':
+
+            case KeyEvent.VK_D:
                 input.flip(3);
+                break;
+
+            case KeyEvent.VK_SHIFT:
+                input.flip(4);
+                break;
+
+            case KeyEvent.VK_CONTROL:
+                input.flip(5);
                 break;
         }
     }
