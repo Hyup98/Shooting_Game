@@ -1,5 +1,6 @@
 package Game;
 
+import Bgm.MusicPlayer;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
@@ -39,6 +40,7 @@ public class Character {
     private double y;
     private double radian;
 
+    MusicPlayer bgm;
     //총알 사용법//
     /*
     1.발사 전 총알은 맵 밖에 좌표로 설정하여 둔다
@@ -64,6 +66,7 @@ public class Character {
         x = 10;
         y = 10;
         radian = 0;
+        bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
     }
 
     //키 입력
@@ -108,6 +111,7 @@ public class Character {
                 default:
                     break;
             }
+            character.bgm.run();
             character.bulletCount--;
             return;
         }
