@@ -52,7 +52,7 @@ public class Character {
         speedItemCount = 0;
         healthItemCount = 0;
         bulletItemCount = 0;
-        gunItemCount = 0;
+        gunItemCount = 3;
 
         //ABOUT STATS//
         healthPoint = initialHealth;
@@ -155,7 +155,6 @@ public class Character {
         }
     }
 
-
     public void Move(int x,int y){ //temp
         this.x += x * speed;
         this.y += y * speed;
@@ -170,20 +169,20 @@ public class Character {
     public void moveNE() {
         x += speed;
         y -= speed;
-        radian = Math.toRadians(45);
+        radian = Math.toRadians(315);
     }
 
     //북
     public void moveN() {
         y -= speed;
-        radian = Math.toRadians(90);
+        radian = Math.toRadians(270);
     }
 
     //북서
     public void moveNW() {
         x -= speed;
         y -= speed;
-        radian = Math.toRadians(135);
+        radian = Math.toRadians(225);
     }
 
     //서
@@ -196,20 +195,20 @@ public class Character {
     public void moveSW() {
         x -= speed;
         y += speed;
-        radian = Math.toRadians(225);
+        radian = Math.toRadians(135);
     }
 
     //남
     public void moveS() {
         y += speed;
-        radian = Math.toRadians(270);
+        radian = Math.toRadians(90);
     }
 
     //남동
     public void moveSE() {
         x += speed;
         y += speed;
-        radian = Math.toRadians(315);
+        radian = Math.toRadians(45);
     }
 
     void getItem(Item item) {
@@ -261,5 +260,9 @@ public class Character {
 
     public double getY() {
         return y;
+    }
+
+    public void setDirection(double direction) {
+        radian = Math.toRadians(direction);
     }
 }

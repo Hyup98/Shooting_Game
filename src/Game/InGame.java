@@ -86,6 +86,14 @@ public class InGame extends JPanel implements Runnable{
                 총알을 각각의 캐릭터가 관리하면 이게 효율적인가? 등등
                 발사된 총알과 아닌 총알 구분 등도 마찬가지
                 */
+
+                for (int i = 0 ; i < shootingBullets.size(); i++) {
+                    if(shootingBullets.get(i).getLifeTime() == 0) {
+                        bulletObjectPool.returnBullet(shootingBullets.get(i));
+                        shootingBullets.remove(i);
+                        i--;
+                    }
+                }
                 repaint();
             } catch (InterruptedException e) {
                 return;
@@ -103,8 +111,6 @@ public class InGame extends JPanel implements Runnable{
             g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);
             shootingBullets.get(i).move();
         }
-
-
     }
     //아이탬 확득 계산
     /*
@@ -150,8 +156,9 @@ public class InGame extends JPanel implements Runnable{
                 if (characters.get(i).getX() == shootingBullets.get(j).getX() &&
                         characters.get(i).getY() == shootingBullets.get(j).getY()) {
                     characters.get(i).getdamage(shootingBullets.get(j).getPower());
-                    bulletObjectPool.retunBullet(shootingBullets.get(j));
+                    bulletObjectPool.returnBullet(shootingBullets.get(j));
                     shootingBullets.remove(j);
+                    j--;
                 }
             }
         }

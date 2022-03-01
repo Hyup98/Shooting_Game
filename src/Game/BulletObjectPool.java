@@ -31,10 +31,8 @@ public class BulletObjectPool {
                 bullets.get(i).setPoint(x,y);
                 bullets.get(i).setLifeTime(lifeTime);
                 answer.add(bullets.get(i));
-            }
-
-            for(int i = 0 ; i < bullets.size(); i++) {
                 answer.remove(0);
+                i--;
             }
 
             for (int i = 0; i < size - bullets.size(); i++) {
@@ -54,10 +52,12 @@ public class BulletObjectPool {
         return answer;
     }
 
-    void retunBullet(Bullet bullet) {
+    void returnBullet(Bullet bullet) {
         if(bullets.size() == MAXPOOLSIZE) {
+            bullet.setPoint(-1, -1);
             return;
         }
+        bullet.setPoint(-1,-1);
         bullets.add(bullet);
     }
 }

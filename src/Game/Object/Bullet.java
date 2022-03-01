@@ -25,23 +25,10 @@ public class Bullet {
         this.power = power;
     }
 
-    void move(double radian) {
-        //총알 생명주기//
-        if (moveCount == 5) {
-            x = -1;
-            y = -1;
-            moveCount = 0;
-            return;
-        }
-
-        x += Math.sin(radian) * bulletSpeed;
-        y -= Math.cos(radian) * bulletSpeed;
-        moveCount++;
-    }
-
     public void setPower(int t) {
         power += t;
     }
+
     public void setPoint(double x, double y) {
         this.x = x;
         this.y = y;
@@ -59,7 +46,6 @@ public class Bullet {
         return y;
     }
 
-
     public void setLifeTime(int lifeTime) {
         this.lifeTime = lifeTime;
     }
@@ -74,11 +60,18 @@ public class Bullet {
 
     public void setDirection(double direction) {
         this.direction = direction;
+        this.lifeTime = 100;
     }
 
     public void move() {
-        y += bulletSpeed * Math.sin(direction);
-        x += bulletSpeed * Math.cos(direction);
-        lifeTime--;
+        if(lifeTime > 0) {
+            y += bulletSpeed * Math.sin(direction);
+            x += bulletSpeed * Math.cos(direction);
+            lifeTime--;
+        }
+    }
+
+    public int getLifeTime() {
+        return lifeTime;
     }
 }

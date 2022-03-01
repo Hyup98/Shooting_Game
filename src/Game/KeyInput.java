@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 /*
 비트맵 약속
-1. 0번은 w
+1. 0번은 ws
 2. 1번은 a
 3. 2번은 s
 3. 3번은 d
@@ -97,6 +97,7 @@ class KeyInput extends KeyAdapter {
     }
 
     private void dispatchKeyEvent() {
+        /*
         if(input.get(0)) {
             character.moveN();
         }
@@ -109,6 +110,46 @@ class KeyInput extends KeyAdapter {
         if(input.get(3)) {
             character.moveE();
         }
+        if(input.get(4)) {
+            character.reload();
+        }
+        if(input.get(5)) {
+            isShot = true;
+        }
+         */
+        if (input.get(0) == true && input.get(1) == true) {
+            character.moveNW();
+        }
+
+        else if (input.get(1) == true && input.get(2) == true) {
+            character.moveSW();
+        }
+
+        else if (input.get(2) == true && input.get(3) == true) {
+            character.moveSE();
+        }
+
+        else if (input.get(3) == true && input.get(0) == true) {
+            character.moveNE();
+        }
+
+        else if (input.get(1) == true) {
+            character.moveW();
+        }
+
+        else if (input.get(2) == true) {
+            character.moveS();
+        }
+
+        else if (input.get(3) == true) {
+            character.moveE();
+        }
+
+        else if(input.get(0)) {
+            character.moveN();
+        }
+
+
         if(input.get(4)) {
             character.reload();
         }
