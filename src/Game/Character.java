@@ -116,26 +116,26 @@ public class Character {
     }
 
     private static void shoot(int type, BulletObjectPool bulletObjectPool, double radian, ArrayList<Bullet> shootingBullets, double x, double y, int power, int lifeTime) {
-        ArrayList<Bullet> bullets;
+        ArrayList<Bullet> bullets = new ArrayList<>();
         if(type == 0) {
-            bullets = bulletObjectPool.getBullets(1, power, x, y, lifeTime);
+            bulletObjectPool.getBullets(1, power, x, y, lifeTime, bullets);
             bullets.get(0).setDirection(radian);
         }
         else if(type == 1) {
-            bullets = bulletObjectPool.getBullets(2, power, x, y, lifeTime);
+            bulletObjectPool.getBullets(2, power, x, y, lifeTime, bullets);
             bullets.get(0).setDirection(radian + Math.toRadians(5));
             bullets.get(1).setDirection(radian - Math.toRadians(5));
 
         }
         else if(type == 2) {
-            bullets = bulletObjectPool.getBullets(3, power, x, y, lifeTime);
+            bulletObjectPool.getBullets(3, power, x, y, lifeTime, bullets);
             bullets.get(0).setDirection(radian);
             bullets.get(1).setDirection(radian + Math.toRadians(5));
             bullets.get(2).setDirection(radian - Math.toRadians(5));
 
         }
         else if(type == 3) {
-            bullets = bulletObjectPool.getBullets(4, power, x, y, lifeTime);
+            bulletObjectPool.getBullets(4, power, x, y, lifeTime, bullets);
             bullets.get(0).setDirection(radian + Math.toRadians(2));
             bullets.get(1).setDirection(radian + Math.toRadians(7));
             bullets.get(2).setDirection(radian - Math.toRadians(2));
@@ -143,7 +143,7 @@ public class Character {
 
         }
         else {
-            bullets = bulletObjectPool.getBullets(5, power, x, y, lifeTime);
+            bulletObjectPool.getBullets(5, power, x, y, lifeTime, bullets);
             bullets.get(0).setDirection(radian);
             bullets.get(1).setDirection(radian + Math.toRadians(2));
             bullets.get(2).setDirection(radian + Math.toRadians(7));

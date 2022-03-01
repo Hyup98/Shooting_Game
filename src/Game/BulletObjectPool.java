@@ -22,34 +22,31 @@ public class BulletObjectPool {
         bullets = new ArrayList<>(MAXPOOLSIZE);
     }
 
-    public ArrayList<Bullet> getBullets(int size, int power, double x, double y, int lifeTime) {
-        ArrayList<Bullet> answer = new ArrayList<>();
+    public void getBullets(int size, int power, double x, double y, int lifeTime, ArrayList<Bullet> returnBullets) {
         //부족하면 부족한 만큼 생성 후 반환
         if(bullets.size() < size) {
             for(int i = 0 ; i < bullets.size(); i++) {
                 bullets.get(i).setPower(power);
                 bullets.get(i).setPoint(x,y);
                 bullets.get(i).setLifeTime(lifeTime);
-                answer.add(bullets.get(i));
-                answer.remove(0);
+                returnBullets.add(bullets.get(i));
+                bullets.remove(i);
                 i--;
             }
 
             for (int i = 0; i < size - bullets.size(); i++) {
-                answer.add(new Bullet(x,y,power));
+                returnBullets.add(new Bullet(x, y, power, lifeTime));
             }
-            return answer;
         }
 
         for (int i = 0; i < size; i++) {
             bullets.get(i).setPower(power);
-            bullets.get(i).setPoint(x,y);
-            answer.add(bullets.get(i));
+            bullets.get(i).setPoint(x, y);
+            bullets.get(i).setLifeTime(lifeTime);
+            returnBullets.add(bullets.get(i));
+            bullets.remove(i);
+            i--;
         }
-        for (int i = 0; i < size; i++) {
-            answer.remove(0);
-        }
-        return answer;
     }
 
     void returnBullet(Bullet bullet) {

@@ -97,26 +97,6 @@ class KeyInput extends KeyAdapter {
     }
 
     private void dispatchKeyEvent() {
-        /*
-        if(input.get(0)) {
-            character.moveN();
-        }
-        if(input.get(1)) {
-            character.moveW();
-        }
-        if(input.get(2)) {
-            character.moveS();
-        }
-        if(input.get(3)) {
-            character.moveE();
-        }
-        if(input.get(4)) {
-            character.reload();
-        }
-        if(input.get(5)) {
-            isShot = true;
-        }
-         */
         if (input.get(0) == true && input.get(1) == true) {
             character.moveNW();
         }

@@ -24,6 +24,12 @@ public class Bullet {
         this.y = y;
         this.power = power;
     }
+    public Bullet(double x, double y, int power, int lieftTime) {
+        this.x = x;
+        this.y = y;
+        this.power = power;
+        this.lifeTime = lieftTime;
+    }
 
     public void setPower(int t) {
         power += t;
