@@ -90,6 +90,7 @@ class KeyInput extends KeyAdapter {
                 break;
 
             case KeyEvent.VK_CONTROL:
+
                 input.flip(5);
                 isShot = false;
                 break;

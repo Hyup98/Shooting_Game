@@ -37,6 +37,7 @@ public class BulletObjectPool {
             for (int i = 0; i < size - bullets.size(); i++) {
                 returnBullets.add(new Bullet(x, y, power, lifeTime));
             }
+            return;
         }
 
         for (int i = 0; i < size; i++) {
@@ -44,8 +45,9 @@ public class BulletObjectPool {
             bullets.get(i).setPoint(x, y);
             bullets.get(i).setLifeTime(lifeTime);
             returnBullets.add(bullets.get(i));
-            bullets.remove(i);
-            i--;
+        }
+        for (int i = 0; i < size; i++) {
+            bullets.remove(0);
         }
     }
 
