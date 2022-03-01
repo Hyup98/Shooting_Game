@@ -1,5 +1,6 @@
 package Game;
 
+import Bgm.Audio;
 import Bgm.MusicPlayer;
 import Game.Object.Bullet;
 import Game.Object.Item;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 /*
 1서버에서 현재 방에 있는 인원만큼->순서대로 캐릭터 초깃값을 준다
  */
+
 public class Character {
     //DEFAULT VALUE//
     private static int initialBulletAmount = 5;
@@ -39,8 +41,12 @@ public class Character {
     private double x;
     private double y;
     private double radian;
+    private Audio hittingSound;
+    private Audio reloadSound;
+    private Audio getItemSound;
 
-    MusicPlayer bgm;
+    ///MusicPlayer bgm;
+
     //총알 사용법//
     /*
     1.발사 전 총알은 맵 밖에 좌표로 설정하여 둔다
@@ -66,9 +72,12 @@ public class Character {
         x = 10;
         y = 10;
         radian = 0;
-        bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
+        //bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
+        //bgm.start();
+        hittingSound = new Audio("src\\Bgm\\Gun Fire.wav", false);
+        getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
+        reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
     }
-
     //키 입력
     public void update() {
 
@@ -77,6 +86,7 @@ public class Character {
     //재장전 시 바로 총알 완충이 아닌 시간이 흐르면서 하나씩 추가되는 형태로 구현
     public void reload() {
         bulletCount = initialBulletAmount + bulletItemCount;
+        reloadSound.start();
     }
     //총 단계별 설정//
     /*
@@ -111,12 +121,13 @@ public class Character {
                 default:
                     break;
             }
-            character.bgm.run();
+            character.hittingSound.start();
+            //character.bgm.run();
+            //character.bgm.interrupt();
             character.bulletCount--;
             return;
         }
         character.reload();
-        character.bulletCount--;
     }
 
     private static void shoot(int type, BulletObjectPool bulletObjectPool, double radian, ArrayList<Bullet> shootingBullets, double x, double y, int power, int lifeTime) {
@@ -249,6 +260,7 @@ public class Character {
             default:
                 break;
         }
+        getItemSound.start();
     }
 
     public void getdamage(int damage) {

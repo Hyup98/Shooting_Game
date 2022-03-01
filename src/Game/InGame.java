@@ -66,7 +66,7 @@ public class InGame extends JPanel implements Runnable{
     public void run() {
         while (!isGameOver) {
             try {
-                Thread.sleep(2);
+                Thread.sleep(5);
 
                 //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
                 ArrayList<KeyEvent> input = new ArrayList<>();
