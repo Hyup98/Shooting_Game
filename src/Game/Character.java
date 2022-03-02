@@ -60,7 +60,7 @@ public class Character {
         speedItemCount = 0;
         healthItemCount = 0;
         bulletItemCount = 0;
-        gunItemCount = 5;
+        gunItemCount = 0;
 
         //ABOUT STATS//
         healthPoint = initialHealth;
@@ -248,7 +248,7 @@ public class Character {
 
             case GUN:
                 if(maxGunItemAmount > gunItemCount) {
-                    gun++;
+                    gunItemCount++;
                 }
                 break;
             default:

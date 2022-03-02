@@ -44,11 +44,11 @@ public class InGame extends JPanel implements Runnable{
         bulletObjectPool = new BulletObjectPool();
         shootingBullets = new ArrayList<>();
 
-        itemObjects.add(new ItemObject(100,100,Item.GUN));
-        itemObjects.add(new ItemObject(100,200,Item.POWER));
-        itemObjects.add(new ItemObject(100,300,Item.SPEED));
-        itemObjects.add(new ItemObject(100,400,Item.HEALTH));
-        itemObjects.add(new ItemObject(100,500,Item.BULLET));
+        itemObjects.add(new ItemObject(100,100,Item.POWER));
+        itemObjects.add(new ItemObject(200,100,Item.POWER));
+        itemObjects.add(new ItemObject(300,100,Item.SPEED));
+        itemObjects.add(new ItemObject(400,100,Item.HEALTH));
+        itemObjects.add(new ItemObject(500,100,Item.BULLET));
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -80,7 +80,6 @@ public class InGame extends JPanel implements Runnable{
 
      */
     public void run() {
-
         while (!isGameOver) {
             try {
                 Thread.sleep(5);
@@ -97,16 +96,7 @@ public class InGame extends JPanel implements Runnable{
                     }
                 }
                 
-                for(var i = 0; i < characters.size(); i++){
-                    for(var j = 0 ; j < shootingBullets.size(); j++){
-                        OnTriggerEnter(i,j,false);
-                    }
-                    /*
-                    for(var j = 0;  j < itemObjects.size(); j++){
-                        OnTriggerEnter(i,j,true);
-                    }
-                     */
-                }
+                isGetItem();
 
                 repaint();
             } catch (InterruptedException e) {
@@ -151,6 +141,7 @@ public class InGame extends JPanel implements Runnable{
             g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);
             shootingBullets.get(i).move();
         }
+        System.out.println(itemObjects.size());
     }
 
     public void isGetItem() {
