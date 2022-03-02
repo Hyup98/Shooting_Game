@@ -68,24 +68,9 @@ public class InGame extends JPanel implements Runnable{
             try {
                 Thread.sleep(5);
 
-                //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
-                ArrayList<KeyEvent> input = new ArrayList<>();
-
-                /*
-                여기에 나의 키보드 입력받는 함수 호출 -> 쓰레드 형식으로 계속 입력을 받고 있어야 한다.
-                여기는 서버에서 오는 다른 유저의 키 입력을 받는 함수 호출 -> 이것도 마찬가지로 계속 입력을 받는 상태 유지
-                */
                 if(keyInput.getIsShot()){
                     Character.shoot(character, bulletObjectPool, shootingBullets, character.getX(), character.getY(), 10,3);
                 }
-                //isGetItem();
-                //isGotShot();
-                //총에 맞았는지 계산
-                /*
-                아직 정확한 구상 x
-                총알을 각각의 캐릭터가 관리하면 이게 효율적인가? 등등
-                발사된 총알과 아닌 총알 구분 등도 마찬가지
-                */
 
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
@@ -112,12 +97,7 @@ public class InGame extends JPanel implements Runnable{
             shootingBullets.get(i).move();
         }
     }
-    //아이탬 확득 계산
-    /*
-    1.모든 유저를 순회하며 아이템과 같은 좌표에 있는지 계산
-    2 아이탬을 획득하면 해당 유저의 아이탬 관련 수치 업데이트
-    3 해당 아이이탬은 아이탬 리스트에서 삭제
-     */
+
     public void isGetItem() {
         for(int i = 0; i < characters.size(); i++) {
             for(int j = 0; j < itemObjects.size();j++) {
