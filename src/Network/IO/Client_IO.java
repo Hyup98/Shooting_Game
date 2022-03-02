@@ -1,5 +1,6 @@
 package Network.IO;
 
+import Game.PageState;
 import Network.DTO.ChatDTO;
 
 import javax.swing.*;
@@ -9,7 +10,9 @@ public class Client_IO {
     private ChatDTO chatDTO_sender;
     Receiver receiver;
     Sender sender;
+    PageState state;
     public Client_IO(String ip, int port, ChatDTO chatDTO) {
+        state = PageState.GAMEROOM;
         chatDTO_sender = chatDTO;
         try {
             Socket socket = new Socket(ip, port);
@@ -31,6 +34,16 @@ public class Client_IO {
     }
     public void SetMessage(String message){
         sender.SetMessage(message);
+    }
+
+    public void playGame() {
+        receiver.setPlayingGame(true);
+        sender.setPlayingGame(true);
+    }
+
+    public void exitGame() {
+        receiver.setPlayingGame(false);
+        sender.setPlayingGame(false);
     }
 }
 
