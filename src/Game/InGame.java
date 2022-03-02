@@ -3,12 +3,26 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class InGame extends JPanel implements Runnable{
+    //UI
+    private ImageIcon gameImage[] = {
+                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
+    };
+    //
     private boolean isGameOver;
     private ArrayList<Character> characters;
     private ArrayList<ItemObject> itemObjects;
@@ -18,12 +32,23 @@ public class InGame extends JPanel implements Runnable{
     KeyInput keyInput;
 
     public InGame(JFrame jFrame){
-        character=new Character();
+        characters = new ArrayList<>();
+        character = new Character();
+
+        characters.add(character);
+
         keyInput=new KeyInput(character);
         jFrame.addKeyListener(keyInput);
 
+        itemObjects = new ArrayList<>();
         bulletObjectPool = new BulletObjectPool();
         shootingBullets = new ArrayList<>();
+
+        itemObjects.add(new ItemObject(100,100,Item.GUN));
+        itemObjects.add(new ItemObject(100,200,Item.POWER));
+        itemObjects.add(new ItemObject(100,300,Item.SPEED));
+        itemObjects.add(new ItemObject(100,400,Item.HEALTH));
+        itemObjects.add(new ItemObject(100,500,Item.BULLET));
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -71,6 +96,18 @@ public class InGame extends JPanel implements Runnable{
                         i--;
                     }
                 }
+                
+                for(var i = 0; i < characters.size(); i++){
+                    for(var j = 0 ; j < shootingBullets.size(); j++){
+                        OnTriggerEnter(i,j,false);
+                    }
+                    /*
+                    for(var j = 0;  j < itemObjects.size(); j++){
+                        OnTriggerEnter(i,j,true);
+                    }
+                     */
+                }
+
                 repaint();
             } catch (InterruptedException e) {
                 return;
@@ -78,11 +115,37 @@ public class InGame extends JPanel implements Runnable{
         }
     }
 
+    public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
+        int characterX = (int)characters.get(tempCharacter).getX();
+        int characterY = (int)characters.get(tempCharacter).getY();
+        int objectX;
+        int objectY;
+        if(index){
+            objectX = (int)shootingBullets.get(tempCharacter).getX();
+            objectY = (int)shootingBullets.get(tempCharacter).getY();
+        } else{
+            objectX = (int)itemObjects.get(tempCharacter).getX();
+            objectY = (int)itemObjects.get(tempCharacter).getY();
+        }
+        Rectangle r1 = new Rectangle(characterX,characterY,50,50);
+        Rectangle r2 = new Rectangle(objectX,objectY,shootingBullets.get(tempObject).getSize(),shootingBullets.get(tempObject).getSize());
+        if(r1.intersects(r2)){
+            System.out.println("OnTriggerEnter");
+        }
+    }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
-        g.drawOval((int) character.getX(),(int) character.getY(),10,10);
+
+
+        for(var i = 0; i < characters.size(); i++){
+            g.drawImage(gameImage[0].getImage(),(int) characters.get(i).getX(),(int) characters.get(i).getY(),this);
+        }
+
+        for(var i = 0; i < itemObjects.size(); i++){
+            g.drawImage(gameImage[itemObjects.get(i).getItem().ordinal() + 1].getImage(),(int)itemObjects.get(i).getX(),(int)itemObjects.get(i).getY(),this);
+        }
 
         for (var i = 0; i < shootingBullets.size(); i++){
             g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);

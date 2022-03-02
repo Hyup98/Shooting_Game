@@ -9,6 +9,7 @@ public class Bullet {
     //아이템에 따라서
     private double x;
     private double y;
+    private int size;
     private int power;
     private int moveCount;
     private double direction;
@@ -17,16 +18,19 @@ public class Bullet {
     public Bullet() {
         x = -1;
         y = -1;
+        size = 10;
         power = 1;
     }
     public Bullet(double x, double y, int power) {
         this.x = x;
         this.y = y;
+        this.size = 10;
         this.power = power;
     }
     public Bullet(double x, double y, int power, int lieftTime) {
         this.x = x;
         this.y = y;
+        this.size = 10;
         this.power = power;
         this.lifeTime = lieftTime;
     }
@@ -38,6 +42,10 @@ public class Bullet {
     public void setPoint(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public int getSize(){
+        return size;
     }
 
     public int getPower() {
