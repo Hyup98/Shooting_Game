@@ -15,7 +15,7 @@ public class Character {
     //DEFAULT VALUE//
     private static int initialBulletAmount = 10;
     private static int initialPowerValue = 1;
-    private static int initialSpeed = 5;
+    private static int initialSpeed = 15;
     private static int initialHealth = 10;
     private static int initialGun = 1;
 
@@ -60,7 +60,7 @@ public class Character {
         speedItemCount = 0;
         healthItemCount = 0;
         bulletItemCount = 0;
-        gunItemCount = 3;
+        gunItemCount = 5;
 
         //ABOUT STATS//
         healthPoint = initialHealth;
@@ -168,10 +168,6 @@ public class Character {
         }
     }
 
-    public void Move(int x,int y){ //temp
-        this.x += x * speed;
-        this.y += y * speed;
-    }
     //동
     public void moveE() {
         x += speed;
@@ -278,5 +274,8 @@ public class Character {
 
     public void setDirection(double direction) {
         radian = Math.toRadians(direction);
+    }
+    public double getDirection(){
+        return radian;
     }
 }

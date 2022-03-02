@@ -31,37 +31,31 @@ class KeyInput extends KeyAdapter {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_UP:
-                System.out.println("up");
                 input.set(0);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_LEFT:
-                System.out.println("a");
                 input.set(1);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_DOWN:
-                System.out.println("s");
                 input.set(2);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_RIGHT:
-                System.out.println("d");
                 input.set(3);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_SHIFT:
-                System.out.println("reload");
                 input.set(4);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_CONTROL:
-                System.out.println("shot");
                 input.set(5);
                 dispatchKeyEvent();
                 break;
@@ -71,37 +65,31 @@ class KeyInput extends KeyAdapter {
     public void keyPressed(int e) {
         switch (e) {
             case KeyEvent.VK_UP:
-                System.out.println("up");
                 input.set(0);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_LEFT:
-                System.out.println("a");
                 input.set(1);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_DOWN:
-                System.out.println("s");
                 input.set(2);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_RIGHT:
-                System.out.println("d");
                 input.set(3);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_SHIFT:
-                System.out.println("reload");
                 input.set(4);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_CONTROL:
-                System.out.println("shot");
                 input.set(5);
                 dispatchKeyEvent();
                 break;
