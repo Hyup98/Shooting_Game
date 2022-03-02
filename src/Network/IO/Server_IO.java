@@ -40,4 +40,13 @@ public class Server_IO {
     public void SetMessage(String message){
         sender.SetMessage(message);
     }
+    public void playGame() {
+        receiver.setPlayingGame(true);
+        sender.setPlayingGame(true);
+    }
+
+    public void exitGame() {
+        receiver.setPlayingGame(false);
+        sender.setPlayingGame(false);
+    }
 }
