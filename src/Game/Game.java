@@ -59,6 +59,7 @@ public class Game extends JFrame{
 	private JTextArea chatTextArea;
 	public JPanel inGamePanel;
 	private InGame inGame;
+
     //ABOUT GAME//
 	private Client_IO client;
 	private Server_IO server;
@@ -90,7 +91,6 @@ public class Game extends JFrame{
     }
 
 	public void start() {
-
 		switch (pageState) {
 			case LOGIN:
 				LogIn();

@@ -2,6 +2,7 @@ package Network.IO;
 
 import Network.DTO.ChatDTO;
 
+import java.awt.event.KeyAdapter;
 import java.io.*;
 import java.net.Socket;
 
@@ -15,7 +16,18 @@ public class Sender extends Thread {
     private PrintWriter pw;
     private int outputKeyEvent;
     private BufferedReader br;
+    private KeyAdapter keyAdapter;
 
+    public Sender(Socket socket, ChatDTO chatDTO, KeyAdapter keyAdapter) throws IOException {
+        this.socket = socket;
+        this.chatDTO = chatDTO;
+        isSendMessage = false;
+        isPlayingGame = false;
+        this.keyAdapter = keyAdapter;
+        System.out.println("sender생성완료");
+    }
+    /*
+    원본
     public Sender(Socket socket, ChatDTO chatDTO) throws IOException {
         this.socket = socket;
         this.chatDTO = chatDTO;
@@ -23,6 +35,7 @@ public class Sender extends Thread {
         isPlayingGame = false;
         System.out.println("sender생성완료");
     }
+     */
 
     protected void finalize() {
         try {
@@ -37,7 +50,7 @@ public class Sender extends Thread {
         try {
             writer = new ObjectOutputStream(socket.getOutputStream());
             pw = new PrintWriter(socket.getOutputStream(), true);
-            br = new BufferedReader(new InputStreamReader(System.in));
+            br = new BufferedReader(new InputStreamReader;
             while (true) {
                 if (!isPlayingGame) {
                     if (isSendMessage) {

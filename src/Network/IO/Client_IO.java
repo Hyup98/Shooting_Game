@@ -29,9 +29,11 @@ public class Client_IO {
             System.out.println(e.toString());
         }
     }
+
     public void SetChat(JTextArea chaTextArea){
         receiver.SetChat(chaTextArea);
     }
+
     public void SetMessage(String message){
         sender.SetMessage(message);
     }
