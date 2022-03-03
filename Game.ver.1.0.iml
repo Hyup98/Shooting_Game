@@ -16,7 +16,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="jlayer-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="jlayer-1.0.1" level="project" />
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
