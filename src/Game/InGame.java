@@ -3,6 +3,10 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 import Network.IO.Client_IO;
+<<<<<<< HEAD
+=======
+import Network.IO.Server_IO;
+>>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -34,11 +38,29 @@ public class InGame extends JPanel implements Runnable{
     Character character2;
     KeyInput keyInput;
 
+<<<<<<< HEAD
     public InGame(JFrame jFrame, Client_IO client){
         client.gameMode();
+=======
+    Client_IO client_io;
+    Server_IO server_io;
+    boolean isServer;
+    public InGame(JFrame jFrame, Client_IO client_io, Server_IO server_io, boolean isServer){
+        if(isServer) {
+            this.server_io = server_io;
+            character1 = new Character();
+            server_io.SetPosition((int)character1.getX(), (int)character1.getY());
+            character2 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
+        }else{
+            this.client_io = client_io;
+            character1 = new Character();
+            this.client_io.SetPosition((int)character1.getX(), (int)character1.getY());
+            character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
+        }
+        this.isServer = isServer;
+
+>>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
         characters = new ArrayList<>();
-        character1 = new Character();
-        character2 = new Character();
 
         characters.add(character1);
         characters.add(character2);
@@ -88,11 +110,13 @@ public class InGame extends JPanel implements Runnable{
     public void run() {
         while (!isGameOver) {
             try {
-                Thread.sleep(5);
+                Thread.sleep(10);
 
                 if(keyInput.getIsShot()){
                     Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
                 }
+
+
 
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
@@ -137,8 +161,31 @@ public class InGame extends JPanel implements Runnable{
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
 
+
         for(var i = 0; i < characters.size(); i++){
-            g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(),(int) characters.get(i).getX(),(int) characters.get(i).getY(),this);
+            if(isServer){
+                if (i==0) {
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int) characters.get(i).getX(), (int) characters.get(i).getY(), this);
+                    server_io.SetPosition((int) character1.getX(), (int) character1.getY());
+                }
+                else{
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1: 0].getImage(), server_io.GetPositionX(),server_io.GetPositionY(),this);
+                }
+                //System.out.println("("+server_io.GetPositionX() + " , " + server_io.GetPositionY()+")");
+                //character2 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
+            }
+            else{
+                if (i==0) {
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int) characters.get(i).getX(), (int) characters.get(i).getY(), this);
+                    client_io.SetPosition((int) character1.getX(), (int) character1.getY());
+                }
+                else{
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1: 0].getImage(), client_io.GetPositionX(),client_io.GetPositionY(),this);
+                }
+                //System.out.println("("+client_io.GetPositionX() + " , " + client_io.GetPositionY()+")");
+                //character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
+            }
+
         }
 
         for(var i = 0; i < itemObjects.size(); i++){
