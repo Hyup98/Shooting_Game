@@ -2,6 +2,7 @@ package Game;
 
 import Game.Object.Bullet;
 import Game.Object.Item;
+import Network.IO.Client_IO;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -33,7 +34,8 @@ public class InGame extends JPanel implements Runnable{
     Character character2;
     KeyInput keyInput;
 
-    public InGame(JFrame jFrame){
+    public InGame(JFrame jFrame, Client_IO client){
+        client.gameMode();
         characters = new ArrayList<>();
         character1 = new Character();
         character2 = new Character();
