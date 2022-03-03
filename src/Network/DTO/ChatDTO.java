@@ -10,6 +10,12 @@ public class ChatDTO implements Serializable {
     String data;
     boolean isChanged;
 
+    int x,y;
+
+    public ChatDTO(int x,int y){
+        this.x=x;
+        this.y=y;
+    }
     public ChatDTO(String name, Language lag) {
         this.name = name;
         language = lag;
@@ -55,6 +61,16 @@ public class ChatDTO implements Serializable {
         }
     }
 
+    public int retrunX(){
+        return x;
+    }
+    public int returnY(){
+        return y;
+    }
+    public void setPosition(int x,int y){
+        this.x = x;
+        this.y = y;
+    }
     public void setData(String data) {
         this.data = data;
         isChanged = true;

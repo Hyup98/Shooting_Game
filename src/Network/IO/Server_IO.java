@@ -49,4 +49,8 @@ public class Server_IO {
         receiver.setPlayingGame(false);
         sender.setPlayingGame(false);
     }
+
+    public int GetPositionX(){return receiver.getPlayerPositionX();}
+    public int GetPositionY(){return receiver.getPlayerPositionY();}
+    public void SetPosition(int x,int y){sender.SetPlayerPosition(x, y);}
 }

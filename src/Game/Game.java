@@ -49,18 +49,17 @@ public class Game extends JFrame{
 
 	//ABOUT UI//
 	private final int WIDTH = 1280,
-					  HEIGHT = 720;
+			HEIGHT = 720;
 	private Vector<String> roomListVector = new Vector<>();
 	private Vector<String> playerInRoom = new Vector<>();
 	private Font roomListFont = new Font("SansSerif",Font.ITALIC,30),
-			         chatFont = new Font("SansSerif",Font.ITALIC,15);
+			chatFont = new Font("SansSerif",Font.ITALIC,15);
 	private ImageIcon sampleImage = new ImageIcon(new ImageIcon(("Image\\pexels-alex-andrews-876344.jpg")).getImage().getScaledInstance(920, 720, Image.SCALE_SMOOTH));
 	private Container c;
 	private JTextArea chatTextArea;
 	public JPanel inGamePanel;
 	private InGame inGame;
-
-    //ABOUT GAME//
+	//ABOUT GAME//
 	private Client_IO client;
 	private Server_IO server;
 	private PageState pageState;
@@ -74,23 +73,24 @@ public class Game extends JFrame{
 	private boolean isRoomSelect;
 	private boolean isServer;
 
-    public Game(boolean isServer) {
-        ScreenSetting();
-        player = null;
-        pageState = PageState.INGAME;
-        port = -1;
-        isRoomSelect = false;
-        Scanner scan = new Scanner(System.in);
+	public Game(boolean isServer) {
+		ScreenSetting();
+		player = null;
+		pageState = PageState.LOGIN;
+		port = -1;
+		isRoomSelect = false;
+		Scanner scan = new Scanner(System.in);
 		this.isServer = isServer;
-    }
+	}
 
-    public void ScreenSetting() {
-        setSize(WIDTH, HEIGHT);
-        setTitle("DEFAULT");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+	public void ScreenSetting() {
+		setSize(WIDTH, HEIGHT);
+		setTitle("DEFAULT");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
 
 	public void start() {
+
 		switch (pageState) {
 			case LOGIN:
 				LogIn();
@@ -98,24 +98,24 @@ public class Game extends JFrame{
 
 			case MAIN:
 				Main();
-					break;
+				break;
 
-				case INGAME:
-					InGame();
-					break;
+			case INGAME:
+				InGame();
+				break;
 
-				case GAMEROOM:
-					GameRoom();
-					break;
+			case GAMEROOM:
+				GameRoom();
+				break;
 
-				default:
-					JOptionPane.showMessageDialog(null, "ERROR");
-					break;
-			}
-    }
+			default:
+				JOptionPane.showMessageDialog(null, "ERROR");
+				break;
+		}
+	}
 
-    public void LogIn() {
-    	System.out.println("LogIn()");
+	public void LogIn() {
+		System.out.println("LogIn()");
 
 		if(isServer) {
 			server = new Server_IO(5801);
@@ -124,41 +124,41 @@ public class Game extends JFrame{
 			return;
 		}
 
-    	getContentPane().removeAll();
-    	c = getContentPane();
-    	c.setLayout(new BorderLayout());
-    	
-    	JPanel inputPanel = new JPanel();
-    	JPanel imagePanel = new JPanel();
-    	inputPanel.setLayout(null);
-    	inputPanel.setPreferredSize(new Dimension(360,720));
-    	
-    	JTextField [] inputTextField = new JTextField[3];
-    	JButton startButton = new JButton("로그인");
+		getContentPane().removeAll();
+		c = getContentPane();
+		c.setLayout(new BorderLayout());
+
+		JPanel inputPanel = new JPanel();
+		JPanel imagePanel = new JPanel();
+		inputPanel.setLayout(null);
+		inputPanel.setPreferredSize(new Dimension(360,720));
+
+		JTextField [] inputTextField = new JTextField[3];
+		JButton startButton = new JButton("로그인");
 		JComboBox<Language> languageComboBox = new JComboBox<>();
 		languageComboBox.setModel(new DefaultComboBoxModel<>(Language.values()));
 		languageComboBox.setBounds(60,360,240,40);
 
-    	for(var i = 0; i < 3; i++) {
-    		inputTextField[i] = new JTextField();
-     		inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
-    		inputPanel.add(inputTextField[i]);
-    	}
+		for(var i = 0; i < 3; i++) {
+			inputTextField[i] = new JTextField();
+			inputTextField[i].setBounds(60, 195 + (i * 55), 240, 40);
+			inputPanel.add(inputTextField[i]);
+		}
 
 		inputTextField[0].setText("127.0.0.1");
 		inputTextField[1].setText("NAME");
 		inputTextField[2].setText("5801");
-    	inputPanel.add((languageComboBox));
-    	startButton.setBounds(210, 420, 90, 35);
+		inputPanel.add((languageComboBox));
+		startButton.setBounds(210, 420, 90, 35);
 
-        JLabel imageLabel = new JLabel();
+		JLabel imageLabel = new JLabel();
 		imageLabel.setIcon(sampleImage);
 
-        inputPanel.add(startButton);
-        imagePanel.add(imageLabel);
+		inputPanel.add(startButton);
+		imagePanel.add(imageLabel);
 
-        c.add(inputPanel, BorderLayout.WEST);
-        c.add(imagePanel, BorderLayout.CENTER);
+		c.add(inputPanel, BorderLayout.WEST);
+		c.add(imagePanel, BorderLayout.CENTER);
 
 		startButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -179,32 +179,32 @@ public class Game extends JFrame{
 			}
 		});
 
-        setVisible(true);
-    }
+		setVisible(true);
+	}
 
-    public void Main() {
+	public void Main() {
         /*
         방 목록 띄우기
         방 만들기 or 방 입장
          */
 
-        //서버에서 방 목록을 가져오는 함수 -> uuid로 방에 입장한다.
+		//서버에서 방 목록을 가져오는 함수 -> uuid로 방에 입장한다.
 
-        //방 목록 볼 수 있는 함수 -> 네트워크 필요
+		//방 목록 볼 수 있는 함수 -> 네트워크 필요
 
-        //방 만들기 선택 시 자동적으로 방에 입장
+		//방 만들기 선택 시 자동적으로 방에 입장
 
-        //방 입장 시 방에 입장함수로 전환
-    	
-    	System.out.println("Main()");
+		//방 입장 시 방에 입장함수로 전환
 
-    	getContentPane().removeAll();
-    	c = getContentPane();
-    	c.setLayout(new BorderLayout());
-    	JPanel roomListPanel = new JPanel();
-    	JPanel inputPanel = new JPanel();
+		System.out.println("Main()");
+
+		getContentPane().removeAll();
+		c = getContentPane();
+		c.setLayout(new BorderLayout());
+		JPanel roomListPanel = new JPanel();
+		JPanel inputPanel = new JPanel();
 		roomListPanel.setLayout(new FlowLayout(FlowLayout.CENTER,0,30));
-    	inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT,100,30));
+		inputPanel.setLayout(new FlowLayout(FlowLayout.RIGHT,100,30));
 
 		roomListVector.add("test1");
 		roomListVector.add("test2");
@@ -220,23 +220,23 @@ public class Game extends JFrame{
 		JScrollPane roomListScroll = new JScrollPane(roomList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		roomListScroll.setPreferredSize(new Dimension(1100,500));
 
-    	JButton joinRoomButton = new JButton("방 참가");
-    	JButton createRoomButton = new JButton("방 생성");
-    	
-    	joinRoomButton.setPreferredSize(new Dimension(120,60));
-    	createRoomButton.setPreferredSize(new Dimension(120,60));
-    	
-    	joinRoomButton.addActionListener(new RoomConfig(0));
-    	createRoomButton.addActionListener(new RoomConfig(1));
-    	
-    	roomListPanel.add(roomListScroll);
-    	inputPanel.add(joinRoomButton);
-    	inputPanel.add(createRoomButton);
+		JButton joinRoomButton = new JButton("방 참가");
+		JButton createRoomButton = new JButton("방 생성");
 
-    	c.add(roomListPanel,BorderLayout.CENTER);
-    	c.add(inputPanel,BorderLayout.SOUTH);
+		joinRoomButton.setPreferredSize(new Dimension(120,60));
+		createRoomButton.setPreferredSize(new Dimension(120,60));
 
-    	setVisible(true);
+		joinRoomButton.addActionListener(new RoomConfig(0));
+		createRoomButton.addActionListener(new RoomConfig(1));
+
+		roomListPanel.add(roomListScroll);
+		inputPanel.add(joinRoomButton);
+		inputPanel.add(createRoomButton);
+
+		c.add(roomListPanel,BorderLayout.CENTER);
+		c.add(inputPanel,BorderLayout.SOUTH);
+
+		setVisible(true);
 		/*
     	while(true) {
     		if(isRoomSelect) {
@@ -244,23 +244,23 @@ public class Game extends JFrame{
 			}
 		}
 		 */
-        pageState = PageState.GAMEROOM;
-    }
+		pageState = PageState.GAMEROOM;
+	}
 
-    public void GameRoom() {
+	public void GameRoom() {
         /*
         1.캐릭터 선택
         2.준비완료
         3.모두 준비완료 되면 방장이 게임 시작 선택 가능
          */
-    	System.out.println("GameRoom()");
-    	getContentPane().removeAll();
-    	c = getContentPane();
-    	
-    	JPanel playerPanel = new JPanel();
-    	JPanel inputPanel = new JPanel();
+		System.out.println("GameRoom()");
+		getContentPane().removeAll();
+		c = getContentPane();
+
+		JPanel playerPanel = new JPanel();
+		JPanel inputPanel = new JPanel();
 		playerPanel.setLayout(new FlowLayout(FlowLayout.CENTER,10,30));
-    	inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,500));
+		inputPanel.setLayout(new FlowLayout(FlowLayout.CENTER,50,500));
 
 		JList playerList = new JList(playerInRoom);
 		playerInRoom.add("test");
@@ -282,10 +282,10 @@ public class Game extends JFrame{
 		chatTextField.setPreferredSize(new Dimension(700,50));
 		chatTextField.addKeyListener(new ChatEntered(chatTextArea,chatTextField));
 
-    	JButton readyButton = new JButton("준비완료 / 취소");
+		JButton readyButton = new JButton("준비완료 / 취소");
 		JButton exitButton = new JButton("나가기");
 
-    	readyButton.setPreferredSize(new Dimension(120,60));
+		readyButton.setPreferredSize(new Dimension(120,60));
 		exitButton.setPreferredSize(new Dimension(120,60));
 
 		readyButton.addActionListener(new ReadyOrExitButton(0));
@@ -294,22 +294,22 @@ public class Game extends JFrame{
 		playerPanel.add(playerList,BorderLayout.NORTH);
 		playerPanel.add(chatScroll,BorderLayout.CENTER);
 		playerPanel.add(chatTextField,BorderLayout.SOUTH);
-    	inputPanel.add(readyButton,BorderLayout.SOUTH);
+		inputPanel.add(readyButton,BorderLayout.SOUTH);
 		inputPanel.add(exitButton,BorderLayout.SOUTH);
-    	
-    	c.add(playerPanel,BorderLayout.CENTER);
-    	c.add(inputPanel,BorderLayout.EAST);
-    	
-    	setVisible(true);
-        pageState = PageState.INGAME;
-    }
+
+		c.add(playerPanel,BorderLayout.CENTER);
+		c.add(inputPanel,BorderLayout.EAST);
+
+		setVisible(true);
+		pageState = PageState.INGAME;
+	}
 
 	public void InGame() {
 		//게임 종류 후 다시 게임 방으로 이동
 		System.out.println("InGame()");
 		getContentPane().removeAll();
 
-		InGame inGame = new InGame(this);
+		InGame inGame = new InGame(this, client, server, isServer);
 
 		Thread inGameThread = new Thread(inGame);
 		inGameThread.start();
@@ -320,7 +320,7 @@ public class Game extends JFrame{
 		pageState = PageState.GAMEROOM;
 	}
 
-    private class RoomListSelect extends MouseAdapter implements ListSelectionListener{
+	private class RoomListSelect extends MouseAdapter implements ListSelectionListener{
 		JList list;
 		String roomName;
 		RoomListSelect(JList list){

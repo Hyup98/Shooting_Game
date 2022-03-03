@@ -11,6 +11,9 @@ public class Client_IO {
     Receiver receiver;
     Sender sender;
     PageState state;
+    public Client_IO(){
+
+    }
     public Client_IO(String ip, int port, ChatDTO chatDTO) {
         state = PageState.GAMEROOM;
         chatDTO_sender = chatDTO;
@@ -29,11 +32,9 @@ public class Client_IO {
             System.out.println(e.toString());
         }
     }
-
     public void SetChat(JTextArea chaTextArea){
         receiver.SetChat(chaTextArea);
     }
-
     public void SetMessage(String message){
         sender.SetMessage(message);
     }
@@ -47,6 +48,10 @@ public class Client_IO {
         receiver.setPlayingGame(false);
         sender.setPlayingGame(false);
     }
+
+    public int GetPositionX() { return receiver.getPlayerPositionX(); }
+    public int GetPositionY() { return receiver.getPlayerPositionY(); }
+    public void SetPosition(int x,int y) { sender.SetPlayerPosition(x, y); }
 }
 
 

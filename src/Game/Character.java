@@ -80,6 +80,31 @@ public class Character {
         getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
         reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
     }
+    public Character(int x,int y, boolean isServer){
+        //ABOUT ITEM//
+        powerItemCount = 0;
+        speedItemCount = 0;
+        healthItemCount = 0;
+        bulletItemCount = 0;
+        gunItemCount = 0;
+
+        //ABOUT STATS//
+        healthPoint = initialHealth;
+        bulletCount = initialBulletAmount;
+        power = initialPowerValue;
+        speed = initialSpeed;
+        gun = initialGun;
+
+        isRight = true;
+        x = 30;
+        y = 30;
+        radian = 0;
+        //bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
+        //bgm.start();
+        //hittingSound = new Audio("src\\Bgm\\Gun Fire.wav", false);
+        //getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
+        //reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
+    }
     //키 입력
     public void update() {
 

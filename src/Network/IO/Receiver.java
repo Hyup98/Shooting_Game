@@ -23,6 +23,7 @@ public class Receiver extends Thread {
     private boolean isPlayingGame;
     private int inputKeyEvent;
 
+    private int x,y;
     public Receiver(Socket socket, Language lag) throws IOException {
         this.socket = socket;
         this.lag = lag;
@@ -46,7 +47,12 @@ public class Receiver extends Thread {
             readerChat = new ObjectInputStream(socket.getInputStream());
             readerGame = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             while (true) {
+                chatDTO = (ChatDTO) readerChat.readObject();
+                System.out.println("받은 데이터 : ("+chatDTO.retrunX()+" : "+chatDTO.returnY()+")");
+                this.x = chatDTO.retrunX();
+                this.y = chatDTO.returnY();
                 //채팅 중일때
+                /*
                 if(!isPlayingGame) {
                     chatDTO = (ChatDTO) readerChat.readObject();
                     if (chatDTO.getLanguage() != lag) {
@@ -59,9 +65,15 @@ public class Receiver extends Thread {
                     }
                 }
                 else {
-                    inputKeyEvent = readerGame.read();
-                    System.out.println(inputKeyEvent);
+                    //inputKeyEvent = readerGame.read();
+                    //System.out.println(inputKeyEvent);
+                    chatDTO = (ChatDTO) readerChat.readObject();
+                    System.out.println("받은 데이터 : ("+chatDTO.retrunX()+" : "+chatDTO.returnY()+")");
+                    this.x = chatDTO.retrunX();
+                    this.y = chatDTO.returnY();
                 }
+
+                 */
             }
         } catch (Exception e) {
             System.out.println("reciver에러");
@@ -69,6 +81,12 @@ public class Receiver extends Thread {
         }
     }
 
+    public int getPlayerPositionX(){
+        return x;
+    }
+    public int getPlayerPositionY(){
+        return y;
+    }
     public void SetChat(JTextArea chaTextArea){
         this.chatTextArea = chaTextArea;
     }
