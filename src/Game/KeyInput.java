@@ -18,48 +18,78 @@ import java.util.BitSet;
 class KeyInput extends KeyAdapter {
     Character character;
     BitSet input;
+    boolean isChanged;
     boolean isShot;
-    KeyInput(Character character){
-        isShot = false;
+
+    public KeyInput(Character character){
         this.character = character;
         input = new BitSet(6);
+        isChanged = false;
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                System.out.println("w");
+            case KeyEvent.VK_UP:
                 input.set(0);
                 dispatchKeyEvent();
                 break;
 
-            case KeyEvent.VK_A:
-                System.out.println("a");
+            case KeyEvent.VK_LEFT:
                 input.set(1);
                 dispatchKeyEvent();
                 break;
 
-            case KeyEvent.VK_S:
-                System.out.println("s");
+            case KeyEvent.VK_DOWN:
                 input.set(2);
                 dispatchKeyEvent();
                 break;
 
-            case KeyEvent.VK_D:
-                System.out.println("d");
+            case KeyEvent.VK_RIGHT:
                 input.set(3);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_SHIFT:
-                System.out.println("reload");
                 input.set(4);
                 dispatchKeyEvent();
                 break;
 
             case KeyEvent.VK_CONTROL:
-                System.out.println("shot");
+                input.set(5);
+                dispatchKeyEvent();
+                break;
+        }
+    }
+
+    public void keyPressed(int e) {
+        switch (e) {
+            case KeyEvent.VK_UP:
+                input.set(0);
+                dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_LEFT:
+                input.set(1);
+                dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_DOWN:
+                input.set(2);
+                dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_RIGHT:
+                input.set(3);
+                dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_SHIFT:
+                input.set(4);
+                dispatchKeyEvent();
+                break;
+
+            case KeyEvent.VK_CONTROL:
                 input.set(5);
                 dispatchKeyEvent();
                 break;
@@ -69,19 +99,19 @@ class KeyInput extends KeyAdapter {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
+            case KeyEvent.VK_UP:
                 input.flip(0);
                 break;
 
-            case KeyEvent.VK_A:
+            case KeyEvent.VK_LEFT:
                 input.flip(1);
                 break;
 
-            case KeyEvent.VK_S:
+            case KeyEvent.VK_DOWN:
                 input.flip(2);
                 break;
 
-            case KeyEvent.VK_D:
+            case KeyEvent.	VK_RIGHT:
                 input.flip(3);
                 break;
 
@@ -90,9 +120,37 @@ class KeyInput extends KeyAdapter {
                 break;
 
             case KeyEvent.VK_CONTROL:
-
+                isChanged = true;
                 input.flip(5);
-                isShot = false;
+                break;
+        }
+    }
+
+    public void keyReleased(int e) {
+        switch (e) {
+            case KeyEvent.VK_UP:
+                input.flip(0);
+                break;
+
+            case KeyEvent.VK_LEFT:
+                input.flip(1);
+                break;
+
+            case KeyEvent.VK_DOWN:
+                input.flip(2);
+                break;
+
+            case KeyEvent.	VK_RIGHT:
+                input.flip(3);
+                break;
+
+            case KeyEvent.VK_SHIFT:
+                input.flip(4);
+                break;
+
+            case KeyEvent.VK_CONTROL:
+                isChanged = true;
+                input.flip(5);
                 break;
         }
     }
@@ -130,13 +188,19 @@ class KeyInput extends KeyAdapter {
             character.moveN();
         }
 
-
         if(input.get(4)) {
             character.reload();
         }
+
         if(input.get(5)) {
             isShot = true;
         }
     }
-    public boolean getIsShot(){ return isShot; }
+
+    public boolean getIsShot(){
+        boolean tem = isChanged;
+        isChanged = false;
+        return tem;
+
+    }
 }

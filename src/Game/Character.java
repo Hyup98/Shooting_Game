@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class Character {
     //DEFAULT VALUE//
-    private static int initialBulletAmount = 5;
+    private static int initialBulletAmount = 10;
     private static int initialPowerValue = 1;
-    private static int initialSpeed = 5;
+    private static int initialSpeed = 15;
     private static int initialHealth = 10;
     private static int initialGun = 1;
 
@@ -60,7 +60,7 @@ public class Character {
         speedItemCount = 0;
         healthItemCount = 0;
         bulletItemCount = 0;
-        gunItemCount = 3;
+        gunItemCount = 0;
 
         //ABOUT STATS//
         healthPoint = initialHealth;
@@ -99,6 +99,7 @@ public class Character {
      */
     public static void shoot(Character character, BulletObjectPool bulletObjectPool, ArrayList<Bullet> shootingBullets, double x, double y, int power, int lifeTime) {
         if(character.bulletCount != 0) {
+            character.hittingSound.start();
             switch (character.gunItemCount) {
                 case 0:
                     shoot(0, bulletObjectPool, character.radian, shootingBullets, character.x, character.y, power, lifeTime);
@@ -121,9 +122,6 @@ public class Character {
                 default:
                     break;
             }
-            character.hittingSound.start();
-            //character.bgm.run();
-            //character.bgm.interrupt();
             character.bulletCount--;
             return;
         }
@@ -170,10 +168,6 @@ public class Character {
         }
     }
 
-    public void Move(int x,int y){ //temp
-        this.x += x * speed;
-        this.y += y * speed;
-    }
     //동
     public void moveE() {
         x += speed;
@@ -254,7 +248,7 @@ public class Character {
 
             case GUN:
                 if(maxGunItemAmount > gunItemCount) {
-                    gun++;
+                    gunItemCount++;
                 }
                 break;
             default:
@@ -280,5 +274,8 @@ public class Character {
 
     public void setDirection(double direction) {
         radian = Math.toRadians(direction);
+    }
+    public double getDirection(){
+        return radian;
     }
 }

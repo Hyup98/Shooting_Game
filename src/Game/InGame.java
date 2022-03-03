@@ -3,12 +3,26 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class InGame extends JPanel implements Runnable{
+    //UI
+    private ImageIcon gameImage[] = {
+                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
+    };
+    //
     private boolean isGameOver;
     private ArrayList<Character> characters;
     private ArrayList<ItemObject> itemObjects;
@@ -18,12 +32,23 @@ public class InGame extends JPanel implements Runnable{
     KeyInput keyInput;
 
     public InGame(JFrame jFrame){
-        character=new Character();
+        characters = new ArrayList<>();
+        character = new Character();
+
+        characters.add(character);
+
         keyInput=new KeyInput(character);
         jFrame.addKeyListener(keyInput);
 
+        itemObjects = new ArrayList<>();
         bulletObjectPool = new BulletObjectPool();
         shootingBullets = new ArrayList<>();
+
+        itemObjects.add(new ItemObject(100,100,Item.POWER));
+        itemObjects.add(new ItemObject(200,100,Item.POWER));
+        itemObjects.add(new ItemObject(300,100,Item.SPEED));
+        itemObjects.add(new ItemObject(400,100,Item.HEALTH));
+        itemObjects.add(new ItemObject(500,100,Item.BULLET));
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -46,46 +71,22 @@ public class InGame extends JPanel implements Runnable{
         shootingBullets = new ArrayList<>();
     }
 
-    //서버로 부터 받는 값
     /*
-    1. 방향키
-    2. 총 발사키 컨트롤
-    3. 장전키 쉬프트
+    원래 로직
+    1.게임이 시작된다
+    2.서버가 해당 방에 있는 유저를 대상으로 캐릭터 배열, 아이템 배열을 만들어 각각 뿌려준다
+    3.각 데이터를 받고 유저들이 공통된 맵을 만들고 게임을 시작한다.
+    -----------------------------------------------------------------------------
+
      */
-
-    //나의 입력과 서버로부터 오는 값의 시간차이는 어떻게 할까 고민
-    //크게 차이가나면 해결해야함
-    //추후에 시험작동 해보고 결정
-    //인풋 매개변수로 소캣으로부터 여러 유저의 입력정보를 받는다.
-
-
-    //입력
-    //상태업데이트(캐릭터 + 오브젝트)
-    //업데이트 바탕으로 게임 업데이트
-
     public void run() {
         while (!isGameOver) {
             try {
                 Thread.sleep(5);
 
-                //배열 순서는 캐릭터 배열과 1대1 대응으로 구성한다.
-                ArrayList<KeyEvent> input = new ArrayList<>();
-
-                /*
-                여기에 나의 키보드 입력받는 함수 호출 -> 쓰레드 형식으로 계속 입력을 받고 있어야 한다.
-                여기는 서버에서 오는 다른 유저의 키 입력을 받는 함수 호출 -> 이것도 마찬가지로 계속 입력을 받는 상태 유지
-                */
                 if(keyInput.getIsShot()){
                     Character.shoot(character, bulletObjectPool, shootingBullets, character.getX(), character.getY(), 10,3);
                 }
-                //isGetItem();
-                //isGotShot();
-                //총에 맞았는지 계산
-                /*
-                아직 정확한 구상 x
-                총알을 각각의 캐릭터가 관리하면 이게 효율적인가? 등등
-                발사된 총알과 아닌 총알 구분 등도 마찬가지
-                */
 
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
@@ -94,6 +95,9 @@ public class InGame extends JPanel implements Runnable{
                         i--;
                     }
                 }
+                
+                isGetItem();
+
                 repaint();
             } catch (InterruptedException e) {
                 return;
@@ -101,23 +105,45 @@ public class InGame extends JPanel implements Runnable{
         }
     }
 
+    public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
+        int characterX = (int)characters.get(tempCharacter).getX();
+        int characterY = (int)characters.get(tempCharacter).getY();
+        int objectX;
+        int objectY;
+        if(index){
+            objectX = (int)shootingBullets.get(tempCharacter).getX();
+            objectY = (int)shootingBullets.get(tempCharacter).getY();
+        } else{
+            objectX = (int)itemObjects.get(tempCharacter).getX();
+            objectY = (int)itemObjects.get(tempCharacter).getY();
+        }
+        Rectangle r1 = new Rectangle(characterX,characterY,50,50);
+        Rectangle r2 = new Rectangle(objectX,objectY,shootingBullets.get(tempObject).getSize(),shootingBullets.get(tempObject).getSize());
+        if(r1.intersects(r2)){
+            System.out.println("OnTriggerEnter");
+        }
+    }
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
-        g.drawOval((int) character.getX(),(int) character.getY(),10,10);
+
+
+        for(var i = 0; i < characters.size(); i++){
+            g.drawImage(gameImage[0].getImage(),(int) characters.get(i).getX(),(int) characters.get(i).getY(),this);
+        }
+
+        for(var i = 0; i < itemObjects.size(); i++){
+            g.drawImage(gameImage[itemObjects.get(i).getItem().ordinal() + 1].getImage(),(int)itemObjects.get(i).getX(),(int)itemObjects.get(i).getY(),this);
+        }
 
         for (var i = 0; i < shootingBullets.size(); i++){
             g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);
             shootingBullets.get(i).move();
         }
+        System.out.println(itemObjects.size());
     }
-    //아이탬 확득 계산
-    /*
-    1.모든 유저를 순회하며 아이템과 같은 좌표에 있는지 계산
-    2 아이탬을 획득하면 해당 유저의 아이탬 관련 수치 업데이트
-    3 해당 아이이탬은 아이탬 리스트에서 삭제
-     */
+
     public void isGetItem() {
         for(int i = 0; i < characters.size(); i++) {
             for(int j = 0; j < itemObjects.size();j++) {

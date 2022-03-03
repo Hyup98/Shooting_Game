@@ -120,7 +120,7 @@ public class Game extends JFrame{
 		if(isServer) {
 			server = new Server_IO(5801);
 			pageState = PageState.GAMEROOM;
-			GameRoom();
+			InGame();
 			return;
 		}
 
@@ -175,7 +175,7 @@ public class Game extends JFrame{
 
 				System.out.println("ip\t: " + ip + "\nname\t: " + name + "\nlag\t: " + lag);
 				pageState = PageState.MAIN;
-				GameRoom();
+				InGame();
 			}
 		});
 
