@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class InGame extends JPanel implements Runnable{
     //UI
     private ImageIcon gameImage[] = {
-                new ImageIcon(new ImageIcon(("Image/CharacterImage/Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image/ItemImage/gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image/ItemImage/power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image/ItemImage/speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image/ItemImage/health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image/ItemImage/bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
+                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\ItemImage\\bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
     };
     //
     private boolean isGameOver;
