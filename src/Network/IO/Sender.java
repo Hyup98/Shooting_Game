@@ -40,16 +40,6 @@ public class Sender extends Thread {
             pw = new PrintWriter(socket.getOutputStream(), true);
             br = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
-                if (isSendPosition) {
-                    isSendPosition = false;
-                    chatDTO.setPosition(x, y);
-                    System.out.println("보낸 데이터 : ("+x+" : "+y+")");
-                    writer.writeObject(new ChatDTO(chatDTO.retrunX(), chatDTO.returnY()));
-                    writer.flush();
-                    //outputKeyEvent = br.read();
-                    //pw.println();
-                } else yield();
-                /*
                 if (!isPlayingGame) {
                     if (isSendMessage) {
                         isSendMessage = false;
@@ -61,18 +51,17 @@ public class Sender extends Thread {
                     } else yield();
                 }
                 else {
+                    //System.out.println("isSendPosition");
                     if (isSendPosition) {
                         isSendPosition = false;
                         chatDTO.setPosition(x, y);
-                        System.out.println("보낸 데이터 : ("+x+" : "+y+")");
+                        //System.out.println("보낸 데이터 : ("+x+" : "+y+")");
                         writer.writeObject(new ChatDTO(chatDTO.retrunX(), chatDTO.returnY()));
                         writer.flush();
                         //outputKeyEvent = br.read();
                         //pw.println();
-                    }
+                    }else yield();
                 }
-
-                 */
             }
         } catch (Exception e) {
             System.out.println("sender에러");
