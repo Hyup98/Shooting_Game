@@ -28,16 +28,19 @@ public class InGame extends JPanel implements Runnable{
     private ArrayList<ItemObject> itemObjects;
     private BulletObjectPool bulletObjectPool;
     private ArrayList<Bullet> shootingBullets;
-    Character character;
+    Character character1;
+    Character character2;
     KeyInput keyInput;
 
     public InGame(JFrame jFrame){
         characters = new ArrayList<>();
-        character = new Character();
+        character1 = new Character();
+        character2 = new Character();
 
-        characters.add(character);
+        characters.add(character1);
+        characters.add(character2);
 
-        keyInput=new KeyInput(character);
+        keyInput=new KeyInput(character1);
         jFrame.addKeyListener(keyInput);
 
         itemObjects = new ArrayList<>();
@@ -45,10 +48,10 @@ public class InGame extends JPanel implements Runnable{
         shootingBullets = new ArrayList<>();
 
         itemObjects.add(new ItemObject(100,100,Item.GUN));
-        itemObjects.add(new ItemObject(200,200,Item.GUN));
-        itemObjects.add(new ItemObject(300,300,Item.GUN));
-        itemObjects.add(new ItemObject(400,400,Item.GUN));
-        itemObjects.add(new ItemObject(500,500,Item.GUN));
+        itemObjects.add(new ItemObject(200,200,Item.POWER));
+        itemObjects.add(new ItemObject(300,300,Item.SPEED));
+        itemObjects.add(new ItemObject(400,400,Item.HEALTH));
+        itemObjects.add(new ItemObject(500,500,Item.BULLET));
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -85,7 +88,7 @@ public class InGame extends JPanel implements Runnable{
                 Thread.sleep(5);
 
                 if(keyInput.getIsShot()){
-                    Character.shoot(character, bulletObjectPool, shootingBullets, character.getX(), character.getY(), 10,3);
+                    Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
                 }
 
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
