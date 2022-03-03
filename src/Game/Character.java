@@ -33,6 +33,7 @@ public class Character {
     private int gunItemCount;
 
     //ABOUT CHARACTER//
+    private boolean isRight;
     private int healthPoint;
     private int bulletCount;
     private int speed;
@@ -69,6 +70,7 @@ public class Character {
         speed = initialSpeed;
         gun = initialGun;
 
+        isRight = true;
         x = 10;
         y = 10;
         radian = 0;
@@ -171,6 +173,7 @@ public class Character {
     //동
     public void moveE() {
         x += speed;
+        isRight = true;
         radian = Math.toRadians(0);
     }
 
@@ -178,6 +181,7 @@ public class Character {
     public void moveNE() {
         x += speed;
         y -= speed;
+        isRight = true;
         radian = Math.toRadians(315);
     }
 
@@ -191,12 +195,14 @@ public class Character {
     public void moveNW() {
         x -= speed;
         y -= speed;
+        isRight = false;
         radian = Math.toRadians(225);
     }
 
     //서
     public void moveW() {
         x -= speed;
+        isRight = false;
         radian = Math.toRadians(180);
     }
 
@@ -204,6 +210,7 @@ public class Character {
     public void moveSW() {
         x -= speed;
         y += speed;
+        isRight = false;
         radian = Math.toRadians(135);
     }
 
@@ -217,6 +224,7 @@ public class Character {
     public void moveSE() {
         x += speed;
         y += speed;
+        isRight = true;
         radian = Math.toRadians(45);
     }
 
@@ -275,7 +283,7 @@ public class Character {
     public void setDirection(double direction) {
         radian = Math.toRadians(direction);
     }
-    public double getDirection(){
-        return radian;
+    public boolean getIsRight(){
+        return isRight;
     }
 }
