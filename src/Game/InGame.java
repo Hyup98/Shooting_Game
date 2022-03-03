@@ -3,11 +3,7 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 import Network.IO.Client_IO;
-<<<<<<< HEAD
-=======
 import Network.IO.Server_IO;
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class InGame extends JPanel implements Runnable{
+    private Server_IO server_io;
     //UI
     private ImageIcon gameImage[] = {
                 new ImageIcon(new ImageIcon(("Image\\CharacterImage\\character_left.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
@@ -38,35 +35,47 @@ public class InGame extends JPanel implements Runnable{
     Character character2;
     KeyInput keyInput;
 
-<<<<<<< HEAD
-    public InGame(JFrame jFrame, Client_IO client){
-        client.gameMode();
-=======
     Client_IO client_io;
-    Server_IO server_io;
     boolean isServer;
+
+    /*
+    0번 캐릭터는 항상 클라이언트 캐릭터
+    1번 캐릭터는 항상 서버 캐릭터
+     */
+
+    /*
+    입력이 발생하면
+    자신의 인덱스에 해당하는 번호를 보낼 String의 첫번째에 삽입하고 바로 뒤에 입력된 정보를 합쳐서 보낸다
+     */
     public InGame(JFrame jFrame, Client_IO client_io, Server_IO server_io, boolean isServer){
         if(isServer) {
             this.server_io = server_io;
-            character1 = new Character();
+            character2 = new Character();
             server_io.SetPosition((int)character1.getX(), (int)character1.getY());
-            character2 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
-        }else{
+            character1 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
+            this.isServer = isServer;
+            characters = new ArrayList<>();
+
+            characters.add(character1);
+            characters.add(character2);
+
+            keyInput=new KeyInput(character1);
+            jFrame.addKeyListener(keyInput);
+        }
+        else{
             this.client_io = client_io;
             character1 = new Character();
             this.client_io.SetPosition((int)character1.getX(), (int)character1.getY());
             character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
+            this.isServer = isServer;
+            characters = new ArrayList<>();
+
+            characters.add(character1);
+            characters.add(character2);
+
+            keyInput=new KeyInput(character2);
+            jFrame.addKeyListener(keyInput);
         }
-        this.isServer = isServer;
-
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
-        characters = new ArrayList<>();
-
-        characters.add(character1);
-        characters.add(character2);
-
-        keyInput=new KeyInput(character1);
-        jFrame.addKeyListener(keyInput);
 
         itemObjects = new ArrayList<>();
         bulletObjectPool = new BulletObjectPool();
@@ -99,14 +108,6 @@ public class InGame extends JPanel implements Runnable{
         shootingBullets = new ArrayList<>();
     }
 
-    /*
-    원래 로직
-    1.게임이 시작된다
-    2.서버가 해당 방에 있는 유저를 대상으로 캐릭터 배열, 아이템 배열을 만들어 각각 뿌려준다
-    3.각 데이터를 받고 유저들이 공통된 맵을 만들고 게임을 시작한다.
-    -----------------------------------------------------------------------------
-
-     */
     public void run() {
         while (!isGameOver) {
             try {
@@ -115,8 +116,6 @@ public class InGame extends JPanel implements Runnable{
                 if(keyInput.getIsShot()){
                     Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
                 }
-
-
 
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
@@ -135,27 +134,6 @@ public class InGame extends JPanel implements Runnable{
         }
     }
 
-    /*
-    public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
-        int characterX = (int)characters.get(tempCharacter).getX();
-        int characterY = (int)characters.get(tempCharacter).getY();
-        int objectX;
-        int objectY;
-        if(index){
-            objectX = (int)shootingBullets.get(tempCharacter).getX();
-            objectY = (int)shootingBullets.get(tempCharacter).getY();
-        } else{
-            objectX = (int)itemObjects.get(tempCharacter).getX();
-            objectY = (int)itemObjects.get(tempCharacter).getY();
-        }
-        Rectangle r1 = new Rectangle(characterX,characterY,50,50);
-        Rectangle r2 = new Rectangle(objectX,objectY,shootingBullets.get(tempObject).getSize(),shootingBullets.get(tempObject).getSize());
-        if(r1.intersects(r2)){
-            System.out.println("OnTriggerEnter");
-        }
-    }
-
-     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -228,7 +206,6 @@ public class InGame extends JPanel implements Runnable{
                     }
                     itemObjects.remove(j);
                     j--;
-
                 }
             }
         }
