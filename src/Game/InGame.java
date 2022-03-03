@@ -15,7 +15,8 @@ import java.util.ArrayList;
 public class InGame extends JPanel implements Runnable{
     //UI
     private ImageIcon gameImage[] = {
-                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\character_left.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\character_right.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
                 new ImageIcon(new ImageIcon(("Image\\ItemImage\\gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
                 new ImageIcon(new ImageIcon(("Image\\ItemImage\\power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
                 new ImageIcon(new ImageIcon(("Image\\ItemImage\\speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
@@ -98,9 +99,9 @@ public class InGame extends JPanel implements Runnable{
                         i--;
                     }
                 }
-                
-                isGetItem();
 
+                isGetItem();
+                //isGotShot();
                 repaint();
             } catch (InterruptedException e) {
                 return;
@@ -108,6 +109,7 @@ public class InGame extends JPanel implements Runnable{
         }
     }
 
+    /*
     public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
         int characterX = (int)characters.get(tempCharacter).getX();
         int characterY = (int)characters.get(tempCharacter).getY();
@@ -126,30 +128,31 @@ public class InGame extends JPanel implements Runnable{
             System.out.println("OnTriggerEnter");
         }
     }
+
+     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
 
-
         for(var i = 0; i < characters.size(); i++){
-            g.drawImage(gameImage[0].getImage(),(int) characters.get(i).getX(),(int) characters.get(i).getY(),this);
+            g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(),(int) characters.get(i).getX(),(int) characters.get(i).getY(),this);
         }
 
         for(var i = 0; i < itemObjects.size(); i++){
-            g.drawImage(gameImage[itemObjects.get(i).getItem().ordinal() + 1].getImage(),(int)itemObjects.get(i).getX(),(int)itemObjects.get(i).getY(),this);
+            g.drawImage(gameImage[itemObjects.get(i).getItem().ordinal() + 2].getImage(),(int)itemObjects.get(i).getX(),(int)itemObjects.get(i).getY(),this);
         }
 
         for (var i = 0; i < shootingBullets.size(); i++){
             g.drawOval((int)shootingBullets.get(i).getX(),(int)shootingBullets.get(i).getY(),10,10);
             shootingBullets.get(i).move();
         }
-        System.out.println(itemObjects.size());
+        //System.out.println(itemObjects.size());
     }
 
     public void isGetItem() {
         for(int i = 0; i < characters.size(); i++) {
-           System.out.println("(" + characters.get(i).getX() +", " + characters.get(i).getY()+")");
+           //System.out.println("(" + characters.get(i).getX() +", " + characters.get(i).getY()+")");
             for(int j = 0; j < itemObjects.size(); j++) {
                 if(characters.get(i).getX() == itemObjects.get(j).getX() && characters.get(i).getY() == itemObjects.get(j).getY()
                 || characters.get(i).getX() + 5 == itemObjects.get(j).getX() && characters.get(i).getY() + 5 == itemObjects.get(j).getY()
