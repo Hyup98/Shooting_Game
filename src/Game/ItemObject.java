@@ -140,7 +140,6 @@ public class ItemObject {
             }
             generationItem.add(new ItemObject(temX,temY, Item.BULLET));
         }
-
         return generationItem;
     }
 }

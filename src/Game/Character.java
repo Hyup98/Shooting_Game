@@ -74,9 +74,9 @@ public class Character {
         radian = 0;
         //bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
         //bgm.start();
-        hittingSound = new Audio("src\\Bgm\\Gun Fire.wav", false);
-        getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
-        reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
+        hittingSound = new Audio("src/Bgm/Gun Fire.wav", false);
+        getItemSound = new Audio("src/Bgm/Get_Item.wav", false);
+        reloadSound = new Audio("src/Bgm/Shotgun Reload Old.wav", false);
     }
     //키 입력
     public void update() {

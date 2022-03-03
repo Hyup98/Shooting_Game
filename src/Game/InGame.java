@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class InGame extends JPanel implements Runnable{
     //UI
     private ImageIcon gameImage[] = {
-                new ImageIcon(new ImageIcon(("Image\\CharacterImage\\Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image\\ItemImage\\gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image\\ItemImage\\power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image\\ItemImage\\speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image\\ItemImage\\health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
-                new ImageIcon(new ImageIcon(("Image\\ItemImage\\bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
+                new ImageIcon(new ImageIcon(("Image/CharacterImage/Characters1.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image/ItemImage/gun.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image/ItemImage/power.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image/ItemImage/speed.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image/ItemImage/health.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH)),
+                new ImageIcon(new ImageIcon(("Image/ItemImage/bullet.png")).getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH))
     };
     //
     private boolean isGameOver;
@@ -44,11 +44,11 @@ public class InGame extends JPanel implements Runnable{
         bulletObjectPool = new BulletObjectPool();
         shootingBullets = new ArrayList<>();
 
-        itemObjects.add(new ItemObject(100,100,Item.POWER));
-        itemObjects.add(new ItemObject(200,100,Item.POWER));
-        itemObjects.add(new ItemObject(300,100,Item.SPEED));
-        itemObjects.add(new ItemObject(400,100,Item.HEALTH));
-        itemObjects.add(new ItemObject(500,100,Item.BULLET));
+        itemObjects.add(new ItemObject(100,100,Item.GUN));
+        itemObjects.add(new ItemObject(200,200,Item.GUN));
+        itemObjects.add(new ItemObject(300,300,Item.GUN));
+        itemObjects.add(new ItemObject(400,400,Item.GUN));
+        itemObjects.add(new ItemObject(500,500,Item.GUN));
     }
 
     public InGame(ArrayList<Character> input, ArrayList<ItemObject> itemObjects) {
@@ -146,8 +146,11 @@ public class InGame extends JPanel implements Runnable{
 
     public void isGetItem() {
         for(int i = 0; i < characters.size(); i++) {
-            for(int j = 0; j < itemObjects.size();j++) {
-                if(characters.get(i).getX() == itemObjects.get(j).getX() && characters.get(i).getY() == itemObjects.get(j).getY()) {
+           System.out.println("(" + characters.get(i).getX() +", " + characters.get(i).getY()+")");
+            for(int j = 0; j < itemObjects.size(); j++) {
+                if(characters.get(i).getX() == itemObjects.get(j).getX() && characters.get(i).getY() == itemObjects.get(j).getY()
+                || characters.get(i).getX() + 5 == itemObjects.get(j).getX() && characters.get(i).getY() + 5 == itemObjects.get(j).getY()
+                        || characters.get(i).getX() - 5 == itemObjects.get(j).getX() && characters.get(i).getY() - 5 == itemObjects.get(j).getY()) {
                     //해당 유저 능력치 업데이트
                     switch (itemObjects.get(i).getItem()) {
                         case HEALTH:
@@ -170,6 +173,7 @@ public class InGame extends JPanel implements Runnable{
                     }
                     itemObjects.remove(j);
                     j--;
+
                 }
             }
         }
@@ -189,5 +193,4 @@ public class InGame extends JPanel implements Runnable{
             }
         }
     }
-
 }
