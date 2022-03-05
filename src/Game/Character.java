@@ -109,7 +109,12 @@ public class Character {
     public void update() {
 
     }
-
+    public void Move(int x,int y){ //temp
+        this.x += x * speed;
+        this.y += y * speed;
+        radian = Math.atan2(y,x);
+        if(x != 0) isRight = (x > 0);
+    }
     //재장전 시 바로 총알 완충이 아닌 시간이 흐르면서 하나씩 추가되는 형태로 구현
     public void reload() {
         bulletCount = initialBulletAmount + bulletItemCount;

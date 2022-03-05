@@ -46,18 +46,19 @@ public class InGame extends JPanel implements Runnable{
     Server_IO server_io;
     boolean isServer;
     public InGame(JFrame jFrame, Client_IO client_io, Server_IO server_io, boolean isServer){
+        character1 = new Character();
+        this.isServer = isServer;
         if(isServer) {
             this.server_io = server_io;
-            character1 = new Character();
-            server_io.SetPosition((int)character1.getX(), (int)character1.getY());
+            this.server_io.playGame();
+            this.server_io.SetPosition((int)character1.getX(), (int)character1.getY());
             character2 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
         }else{
             this.client_io = client_io;
-            character1 = new Character();
+            this.client_io.playGame();
             this.client_io.SetPosition((int)character1.getX(), (int)character1.getY());
             character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
         }
-        this.isServer = isServer;
 
 >>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
         characters = new ArrayList<>();
@@ -110,14 +111,9 @@ public class InGame extends JPanel implements Runnable{
     public void run() {
         while (!isGameOver) {
             try {
-                Thread.sleep(10);
+                Thread.sleep(50);
 
-                if(keyInput.getIsShot()){
-                    Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
-                }
-
-
-
+                input();
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
                         bulletObjectPool.returnBullet(shootingBullets.get(i));
@@ -134,45 +130,32 @@ public class InGame extends JPanel implements Runnable{
             }
         }
     }
-
-    /*
-    public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
-        int characterX = (int)characters.get(tempCharacter).getX();
-        int characterY = (int)characters.get(tempCharacter).getY();
-        int objectX;
-        int objectY;
-        if(index){
-            objectX = (int)shootingBullets.get(tempCharacter).getX();
-            objectY = (int)shootingBullets.get(tempCharacter).getY();
-        } else{
-            objectX = (int)itemObjects.get(tempCharacter).getX();
-            objectY = (int)itemObjects.get(tempCharacter).getY();
+    public void input() {
+        if(keyInput.getXMove()!=0 || keyInput.getYMove()!=0){ //이동 WASD
+            character1.Move(keyInput.getXMove(),keyInput.getYMove());
         }
-        Rectangle r1 = new Rectangle(characterX,characterY,50,50);
-        Rectangle r2 = new Rectangle(objectX,objectY,shootingBullets.get(tempObject).getSize(),shootingBullets.get(tempObject).getSize());
-        if(r1.intersects(r2)){
-            System.out.println("OnTriggerEnter");
+        if(keyInput.getIsShot()){  //발사 Shift
+            Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
+        }
+        if(keyInput.getIsReload()){ //장전 Ctrl
+            character1.reload();
         }
     }
-
-     */
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
 
-
         for(var i = 0; i < characters.size(); i++){
+
             if(isServer){
                 if (i==0) {
                     g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int) characters.get(i).getX(), (int) characters.get(i).getY(), this);
                     server_io.SetPosition((int) character1.getX(), (int) character1.getY());
                 }
                 else{
-                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1: 0].getImage(), server_io.GetPositionX(),server_io.GetPositionY(),this);
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), server_io.GetPositionX(),server_io.GetPositionY(),this);
                 }
-                //System.out.println("("+server_io.GetPositionX() + " , " + server_io.GetPositionY()+")");
-                //character2 = new Character(this.server_io.GetPositionX(),this.server_io.GetPositionY(),true);
             }
             else{
                 if (i==0) {
@@ -180,12 +163,9 @@ public class InGame extends JPanel implements Runnable{
                     client_io.SetPosition((int) character1.getX(), (int) character1.getY());
                 }
                 else{
-                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1: 0].getImage(), client_io.GetPositionX(),client_io.GetPositionY(),this);
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), client_io.GetPositionX(),client_io.GetPositionY(),this);
                 }
-                //System.out.println("("+client_io.GetPositionX() + " , " + client_io.GetPositionY()+")");
-                //character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
             }
-
         }
 
         for(var i = 0; i < itemObjects.size(); i++){
