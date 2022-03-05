@@ -3,10 +3,7 @@ package Game;
 import Game.Object.Bullet;
 import Game.Object.Item;
 import Network.IO.Client_IO;
-<<<<<<< HEAD
-=======
 import Network.IO.Server_IO;
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,10 +35,6 @@ public class InGame extends JPanel implements Runnable{
     Character character2;
     KeyInput keyInput;
 
-<<<<<<< HEAD
-    public InGame(JFrame jFrame, Client_IO client){
-        client.gameMode();
-=======
     Client_IO client_io;
     Server_IO server_io;
     boolean isServer;
@@ -60,7 +53,6 @@ public class InGame extends JPanel implements Runnable{
             character2 = new Character(this.client_io.GetPositionX(),this.client_io.GetPositionY(),true);
         }
 
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
         characters = new ArrayList<>();
 
         characters.add(character1);
@@ -121,7 +113,6 @@ public class InGame extends JPanel implements Runnable{
                         i--;
                     }
                 }
-
                 isGetItem();
                 //isGotShot();
                 repaint();
@@ -146,7 +137,7 @@ public class InGame extends JPanel implements Runnable{
         super.paintComponent(g);
         g.clearRect(0,0,WIDTH,HEIGHT);
 
-        for(var i = 0; i < characters.size(); i++){
+        for(var i = 0; i < characters.size(); i++){ //for문 같은게 너무 많아!(그리기,아이템 충돌, 총 충돌)
 
             if(isServer){
                 if (i==0) {
@@ -154,7 +145,8 @@ public class InGame extends JPanel implements Runnable{
                     server_io.SetPosition((int) character1.getX(), (int) character1.getY());
                 }
                 else{
-                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), server_io.GetPositionX(),server_io.GetPositionY(),this);
+                    characters.get(i).setXY(server_io.GetPositionX(), server_io.GetPositionY());
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int)characters.get(i).getX(),(int)characters.get(i).getY(),this);
                 }
             }
             else{
@@ -163,7 +155,8 @@ public class InGame extends JPanel implements Runnable{
                     client_io.SetPosition((int) character1.getX(), (int) character1.getY());
                 }
                 else{
-                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), client_io.GetPositionX(),client_io.GetPositionY(),this);
+                    characters.get(i).setXY(client_io.GetPositionX(), client_io.GetPositionY());
+                    g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int)characters.get(i).getX(),(int)characters.get(i).getY(),this);
                 }
             }
         }

@@ -101,9 +101,9 @@ public class Character {
         radian = 0;
         //bgm = new MusicPlayer("src\\Bgm\\Gun Fire.mp3");
         //bgm.start();
-        //hittingSound = new Audio("src\\Bgm\\Gun Fire.wav", false);
-        //getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
-        //reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
+        hittingSound = new Audio("src\\Bgm\\Gun Fire.wav", false);
+        getItemSound = new Audio("src\\Bgm\\Get_Item.wav", false);
+        reloadSound = new Audio("src\\Bgm\\Shotgun Reload Old.wav", false);
     }
     //키 입력
     public void update() {
@@ -200,64 +200,6 @@ public class Character {
         }
     }
 
-    //동
-    public void moveE() {
-        x += speed;
-        isRight = true;
-        radian = Math.toRadians(0);
-    }
-
-    //북동
-    public void moveNE() {
-        x += speed;
-        y -= speed;
-        isRight = true;
-        radian = Math.toRadians(315);
-    }
-
-    //북
-    public void moveN() {
-        y -= speed;
-        radian = Math.toRadians(270);
-    }
-
-    //북서
-    public void moveNW() {
-        x -= speed;
-        y -= speed;
-        isRight = false;
-        radian = Math.toRadians(225);
-    }
-
-    //서
-    public void moveW() {
-        x -= speed;
-        isRight = false;
-        radian = Math.toRadians(180);
-    }
-
-    //남서
-    public void moveSW() {
-        x -= speed;
-        y += speed;
-        isRight = false;
-        radian = Math.toRadians(135);
-    }
-
-    //남
-    public void moveS() {
-        y += speed;
-        radian = Math.toRadians(90);
-    }
-
-    //남동
-    public void moveSE() {
-        x += speed;
-        y += speed;
-        isRight = true;
-        radian = Math.toRadians(45);
-    }
-
     void getItem(Item item) {
         switch (item) {
             case POWER:
@@ -301,7 +243,12 @@ public class Character {
         }
         healthPoint = 0;
     }
-
+    public void setXY(double x,double y){
+        this.x = x;
+        this.y = y;
+        radian = Math.atan2(y,x);
+        if(x != 0) isRight = (x > 0);
+    }
     public double getX() {
         return x;
     }

@@ -2,15 +2,7 @@ package Network.IO;
 
 import Network.DTO.ChatDTO;
 
-<<<<<<< HEAD
-import java.awt.event.KeyAdapter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
-=======
 import java.io.*;
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
 import java.net.Socket;
 
 public class Sender extends Thread {
@@ -24,23 +16,7 @@ public class Sender extends Thread {
     private PrintWriter pw;
     private int outputKeyEvent;
     private BufferedReader br;
-<<<<<<< HEAD
-    private KeyAdapter keyAdapter;
-
-    public Sender(Socket socket, ChatDTO chatDTO, KeyAdapter keyAdapter) throws IOException {
-        this.socket = socket;
-        this.chatDTO = chatDTO;
-        isSendMessage = false;
-        isPlayingGame = false;
-        this.keyAdapter = keyAdapter;
-        System.out.println("sender생성완료");
-    }
-
-
-    /*
-=======
     private int x,y;
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
     public Sender(Socket socket, ChatDTO chatDTO) throws IOException {
         this.socket = socket;
         this.chatDTO = chatDTO;
@@ -48,7 +24,6 @@ public class Sender extends Thread {
         isPlayingGame = false;
         System.out.println("sender생성완료");
     }
-
 
     protected void finalize() {
         try {
@@ -63,11 +38,7 @@ public class Sender extends Thread {
         try {
             writer = new ObjectOutputStream(socket.getOutputStream());
             pw = new PrintWriter(socket.getOutputStream(), true);
-<<<<<<< HEAD
-            //br = new BufferedReader(new InputStreamReader);
-=======
             br = new BufferedReader(new InputStreamReader(System.in));
->>>>>>> 2fb0f5247a8ae75830c43d5a8f333c913c8d4fd6
             while (true) {
                 if (!isPlayingGame) {
                     if (isSendMessage) {

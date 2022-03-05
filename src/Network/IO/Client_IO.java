@@ -39,12 +39,12 @@ public class Client_IO {
         sender.SetMessage(message);
     }
 
-    public void gameMode() {
+    public void playGame() {
         receiver.setPlayingGame(true);
         sender.setPlayingGame(true);
     }
 
-    public void chatMode() {
+    public void exitGame() {
         receiver.setPlayingGame(false);
         sender.setPlayingGame(false);
     }
