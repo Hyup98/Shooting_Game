@@ -105,10 +105,7 @@ public class InGame extends JPanel implements Runnable{
             try {
                 Thread.sleep(50);
 
-                if(keyInput.getIsShot()){
-                    Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
-                }
-
+                input();
                 for (int i = 0 ; i < shootingBullets.size(); i++) {
                     if(shootingBullets.get(i).getLifeTime() == 0) {
                         bulletObjectPool.returnBullet(shootingBullets.get(i));
@@ -125,27 +122,17 @@ public class InGame extends JPanel implements Runnable{
             }
         }
     }
-
-    /*
-    public void OnTriggerEnter(int tempCharacter, int tempObject,boolean index){ //templete 사용
-        int characterX = (int)characters.get(tempCharacter).getX();
-        int characterY = (int)characters.get(tempCharacter).getY();
-        int objectX;
-        int objectY;
-        if(index){
-            objectX = (int)shootingBullets.get(tempCharacter).getX();
-            objectY = (int)shootingBullets.get(tempCharacter).getY();
-        } else{
-            objectX = (int)itemObjects.get(tempCharacter).getX();
-            objectY = (int)itemObjects.get(tempCharacter).getY();
+    public void input() {
+        if(keyInput.getXMove()!=0 || keyInput.getYMove()!=0){ //이동 WASD
+            character1.Move(keyInput.getXMove(),keyInput.getYMove());
         }
-        Rectangle r1 = new Rectangle(characterX,characterY,50,50);
-        Rectangle r2 = new Rectangle(objectX,objectY,shootingBullets.get(tempObject).getSize(),shootingBullets.get(tempObject).getSize());
-        if(r1.intersects(r2)){
-            System.out.println("OnTriggerEnter");
+        if(keyInput.getIsShot()){  //발사 Shift
+            Character.shoot(character1, bulletObjectPool, shootingBullets, character1.getX(), character1.getY(), 10,3);
+        }
+        if(keyInput.getIsReload()){ //장전 Ctrl
+            character1.reload();
         }
     }
-*/
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);

@@ -55,7 +55,6 @@ public class Sender extends Thread {
                     if (isSendPosition) {
                         isSendPosition = false;
                         chatDTO.setPosition(x, y);
-                        //System.out.println("보낸 데이터 : ("+x+" : "+y+")");
                         writer.writeObject(new ChatDTO(chatDTO.retrunX(), chatDTO.returnY()));
                         writer.flush();
                         //outputKeyEvent = br.read();
