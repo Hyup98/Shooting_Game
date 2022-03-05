@@ -51,29 +51,6 @@ public class Receiver extends Thread {
                 System.out.println("받은 데이터 : ("+chatDTO.retrunX()+" : "+chatDTO.returnY()+")");
                 this.x = chatDTO.retrunX();
                 this.y = chatDTO.returnY();
-                //채팅 중일때
-                /*
-                if(!isPlayingGame) {
-                    chatDTO = (ChatDTO) readerChat.readObject();
-                    if (chatDTO.getLanguage() != lag) {
-                        //번역
-                        System.out.println(chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
-                        chatTextArea.setText(chatTextArea.getText() + "\n" + chatDTO.getName() + ": " + translator.translate(chatDTO.getData(), chatDTO.getLanguage()));
-                    } else {
-                        System.out.println(chatDTO.getName() + ": " + chatDTO.getData());
-                        chatTextArea.setText(chatTextArea.getText() + "\n" + chatDTO.getName() + ": " + chatDTO.getData());
-                    }
-                }
-                else {
-                    //inputKeyEvent = readerGame.read();
-                    //System.out.println(inputKeyEvent);
-                    chatDTO = (ChatDTO) readerChat.readObject();
-                    System.out.println("받은 데이터 : ("+chatDTO.retrunX()+" : "+chatDTO.returnY()+")");
-                    this.x = chatDTO.retrunX();
-                    this.y = chatDTO.returnY();
-                }
-
-                 */
             }
         } catch (Exception e) {
             System.out.println("reciver에러");

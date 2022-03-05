@@ -7,10 +7,11 @@ import javax.swing.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server_IO {
-    private ChatDTO chatDTO_reciver;
     private ChatDTO chatDTO_sender;
+    private ArrayList<>
     Receiver receiver;
     Sender sender;
     public Server_IO(int port) {
