@@ -142,7 +142,9 @@ public class InGame extends JPanel implements Runnable{
             if(isServer){
                 if (i==0) {
                     g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int) characters.get(i).getX(), (int) characters.get(i).getY(), this);
-                    server_io.SetPosition((int) character1.getX(), (int) character1.getY());
+                    if(keyInput.getXMove()!=0 || keyInput.getYMove()!=0) {
+                        server_io.SetPosition((int) character1.getX(), (int) character1.getY());
+                    }
                 }
                 else{
                     characters.get(i).setXY(server_io.GetPositionX(), server_io.GetPositionY());
@@ -152,7 +154,9 @@ public class InGame extends JPanel implements Runnable{
             else{
                 if (i==0) {
                     g.drawImage(gameImage[characters.get(i).getIsRight() ? 1 : 0].getImage(), (int) characters.get(i).getX(), (int) characters.get(i).getY(), this);
-                    client_io.SetPosition((int) character1.getX(), (int) character1.getY());
+                    if(keyInput.getXMove()!=0 || keyInput.getYMove()!=0) {
+                        client_io.SetPosition((int)character1.getX(), (int)character1.getY());
+                    }
                 }
                 else{
                     characters.get(i).setXY(client_io.GetPositionX(), client_io.GetPositionY());
@@ -180,7 +184,7 @@ public class InGame extends JPanel implements Runnable{
                 || characters.get(i).getX() + 5 == itemObjects.get(j).getX() && characters.get(i).getY() + 5 == itemObjects.get(j).getY()
                         || characters.get(i).getX() - 5 == itemObjects.get(j).getX() && characters.get(i).getY() - 5 == itemObjects.get(j).getY()) {
                     //해당 유저 능력치 업데이트
-                    switch (itemObjects.get(i).getItem()) {
+                    switch (itemObjects.get(j).getItem()) {
                         case HEALTH:
                             characters.get(i).getItem(Item.HEALTH);
                             break;

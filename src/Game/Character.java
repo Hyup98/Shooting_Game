@@ -5,6 +5,7 @@ import Bgm.MusicPlayer;
 import Game.Object.Bullet;
 import Game.Object.Item;
 
+import java.security.PrivateKey;
 import java.util.ArrayList;
 
 /*
@@ -39,6 +40,8 @@ public class Character {
     private int speed;
     private int power;
     private int gun;
+    private int tempX;
+    private int tempY;
     private double x;
     private double y;
     private double radian;
@@ -243,11 +246,20 @@ public class Character {
         }
         healthPoint = 0;
     }
-    public void setXY(double x,double y){
+    public void setXY(int x,int y){ //깔끔하게 해야댐
+        tempX = x - (int)this.x;
+        tempY = y - (int)this.y;
+        if(tempX != 0) tempX /= Math.abs(tempX);
+        if(tempY != 0) tempY /= Math.abs(tempY);
+
+        if(x != this.x) isRight = (x > this.x);
+        if(tempX != 0 || tempY != 0){
+            radian = Math.atan2(tempY,tempX);
+            System.out.println(radian);
+        }
+        System.out.println(radian);
         this.x = x;
         this.y = y;
-        radian = Math.atan2(y,x);
-        if(x != 0) isRight = (x > 0);
     }
     public double getX() {
         return x;
