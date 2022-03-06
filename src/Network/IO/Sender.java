@@ -13,9 +13,6 @@ public class Sender extends Thread {
     private boolean isSendMessage;
     private boolean isSendPosition;
     private boolean isPlayingGame;
-    private PrintWriter pw;
-    private int outputKeyEvent;
-    private BufferedReader br;
     private int x,y;
     public Sender(Socket socket, ChatDTO chatDTO) throws IOException {
         this.socket = socket;
@@ -37,8 +34,6 @@ public class Sender extends Thread {
     public void run() {
         try {
             writer = new ObjectOutputStream(socket.getOutputStream());
-            pw = new PrintWriter(socket.getOutputStream(), true);
-            br = new BufferedReader(new InputStreamReader(System.in));
             while (true) {
                 if (!isPlayingGame) {
                     if (isSendMessage) {

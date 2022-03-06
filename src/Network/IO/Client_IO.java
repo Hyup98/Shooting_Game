@@ -19,7 +19,6 @@ public class Client_IO {
         chatDTO_sender = chatDTO;
         try {
             Socket socket = new Socket(ip, port);
-
             System.out.println("receiver 생성");
             receiver = new Receiver(socket, chatDTO.getLanguage());
             System.out.println("sender생성");
@@ -32,23 +31,21 @@ public class Client_IO {
             System.out.println(e.toString());
         }
     }
+
     public void SetChat(JTextArea chaTextArea){
         receiver.SetChat(chaTextArea);
     }
     public void SetMessage(String message){
         sender.SetMessage(message);
     }
-
     public void playGame() {
         receiver.setPlayingGame(true);
         sender.setPlayingGame(true);
     }
-
     public void exitGame() {
         receiver.setPlayingGame(false);
         sender.setPlayingGame(false);
     }
-
     public int GetPositionX() { return receiver.getPlayerPositionX(); }
     public int GetPositionY() { return receiver.getPlayerPositionY(); }
     public void SetPosition(int x,int y) { sender.SetPlayerPosition(x, y); }
